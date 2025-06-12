@@ -6,5 +6,8 @@ root = true
 # 改行設定
 end_of_line = lf
 
+# 行末の空白の削除
+trim_trailing_whitespace = true
+
 # UTF-8に変換
 charset = utf-8-bom
