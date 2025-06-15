@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
-    public GameObject[] Player = new GameObject[playerLenge];
+    public PlayerData[] Player = new PlayerData[playerLenge];
 
     private PartyGame inputAction;
     private const int playerLenge = 2;
@@ -18,33 +18,37 @@ public class PlayerInputManager : MonoBehaviour
         inputAction.Enable();
     }
 
-    // “ü—ÍƒCƒxƒ“ƒg
+    // å…¥åŠ›ã‚¤ãƒ™ãƒ³ãƒˆ
 
     public void OnTestInput(InputAction.CallbackContext context)
     {
-        // CallbackContext‚©‚çControl‚ğæ“¾
+        // CallbackContextã‹ã‚‰Controlã‚’å–å¾—
         var control = context.control;
 
-        // Control‚©‚çƒfƒoƒCƒX‚ğæ“¾
+        // Controlã‹ã‚‰ãƒ‡ãƒã‚¤ã‚¹ã‚’å–å¾—
         var device = control.device;
 
-        // ƒƒOo—Í
+        // ãƒ­ã‚°å‡ºåŠ›
         print($"Control Path: {control.path}, Device: {device}, Control: {control}");
 
-        // ƒvƒŒƒCƒ„[‚ğ“o˜^
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç™»éŒ²
         for (int i = 0; i < Player.Length; i++) {
 
             if (Player[i] == null) {
 
-                Player[i] = Instantiate(playerPrefab);
-                Player[i].GetComponent<TestPlayer>().SetUserNumber(i);
+                Player[i] = new PlayerData(i + 1, device);
 
                 int user = i + 1;
-                Debug.Log("“üº‚µ‚Ü‚µ‚½ player:" + user);
+                Debug.Log("å…¥å®¤ã—ã¾ã—ãŸ player:" + user);
                 return;
             }
 
-            Debug.Log("player‚Ì”‚ªÅ‘å’l‚Å‚·");
+            Debug.Log("playerã®æ•°ãŒæœ€å¤§å€¤ã§ã™");
         }
+    }
+
+    private void Update()
+    {
+        
     }
 }
