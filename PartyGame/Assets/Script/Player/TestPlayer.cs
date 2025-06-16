@@ -1,0 +1,38 @@
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class TestPlayer : PlayerParent
+{
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    protected override void MoveUpdata(Vector2 vec){ 
+        
+    }
+
+    protected override void LookUpdata(Vector2 vec)
+    {
+        
+    }
+
+    protected override void OnButtonA() {
+
+        Debug.Log("user"+ playerData.ToString() +"OnButtonA");
+    }
+
+    protected override void UpButtonA() { }
+
+    protected override void OnButtonB() { }
+
+    protected override void UpButtonB() { }
+
+    protected override void OnButtonX() { }
+
+    protected override void UpButtonX() { }
+
+    protected override void OnButtonY() { }
+
+    protected override void UpButtonY() { }
+}

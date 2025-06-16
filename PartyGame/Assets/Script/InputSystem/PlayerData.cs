@@ -54,7 +54,7 @@ public class PlayerData
         return data;
     }
 
-    public bool JudgeInputControl(InputControl input){
+    public bool JudgeInputControl(InputDevice input){
 
         if (device == input)
         {

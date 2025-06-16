@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerDataContllore : MonoBehaviour
 {
 
-    public PlayerDataContllore PlayerDataContllore_instance;
+    public static PlayerDataContllore PlayerDataContllore_instance;
     public int PlayerLengh;
 
     private List<PlayerData> playerDatas;
@@ -44,20 +44,8 @@ public class PlayerDataContllore : MonoBehaviour
         playerDatas = datas;
     }
 
-    public PlayerData GetPlayerDate(int playerNumber)
+    public List<PlayerData> GetPlayerDate()
     {
-
-        PlayerData playerData;
-
-        if (playerNumber < playerDatas.Count)
-        {
-            playerData = null;
-        }
-        else
-        {
-            playerData = playerDatas[playerNumber];
-        }
-
-        return playerData;
+        return playerDatas;
     }
 }
