@@ -60,7 +60,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
             return;
         }
@@ -80,7 +80,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
             return;
         }
@@ -99,7 +99,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device)) {
+        if (playerData.JudgeInputControl(device) == false) {
 
             return;
         }
@@ -116,7 +116,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
 
             return;
@@ -135,7 +135,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
             return;
         }
@@ -152,7 +152,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
 
             return;
@@ -170,7 +170,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
             return;
         }
@@ -187,7 +187,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
 
             return;
@@ -205,7 +205,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
             return;
         }
@@ -222,7 +222,7 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (!playerData.JudgeInputControl(device))
+        if (playerData.JudgeInputControl(device) == false)
         {
 
             return;
@@ -234,5 +234,12 @@ public abstract class PlayerParent : MonoBehaviour
     public void SetPlayerData(PlayerData p_)
     {
         playerData = p_;
+    }
+    public static GameObject CreatePlayer(GameObject prefab,PlayerData pd) {
+
+        GameObject pp = Instantiate(prefab);
+        PlayerParent p = pp.GetComponent<PlayerParent>();
+        p.playerData = pd;
+        return pp;
     }
 }

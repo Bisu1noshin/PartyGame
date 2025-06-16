@@ -8,7 +8,6 @@ public class PlayerInputManager : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
     public PlayerData[] Player = new PlayerData[playerLenge];
-    private List<PlayerData> playerDatas;
 
     private PartyGame inputAction;
     private const int playerLenge = 2;
@@ -44,7 +43,7 @@ public class PlayerInputManager : MonoBehaviour
             if (Player[i] == null) {
 
                 int user = i + 1;
-                playerDatas.Add(new PlayerData(user, device));
+                Player[i] = new PlayerData(user, device);
 
                 Debug.Log("入室しました player:" + user);
                 return;
@@ -79,8 +78,17 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (OnScene) {
 
+            var playerDatas = new List<PlayerData>();
+
+            for (int i = 0; i < Player.Length; i++)
+            {
+                if (Player == null) { continue; }
+
+                playerDatas.Add(Player[i]);
+            }
 
             PlayerDataContllore.PlayerDataContllore_instance.InitializePlayerDatas(playerDatas);
+            inputAction.Disable();
             SceneManager.LoadScene("TestGame");
         }
     }

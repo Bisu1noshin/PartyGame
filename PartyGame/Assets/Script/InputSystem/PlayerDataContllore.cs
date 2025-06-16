@@ -17,6 +17,7 @@ public class PlayerDataContllore : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+        playerDatas = new List<PlayerData>();
     }
 
     private void CheckInstance()
@@ -33,9 +34,11 @@ public class PlayerDataContllore : MonoBehaviour
 
     public void InitializePlayerDatas(List<PlayerData> datas)
     {
+        if (playerDatas.Count != 0) {
 
-        // データの全削除
-        playerDatas.Clear();
+            // データの全削除
+            playerDatas.Clear();
+        }
 
         // プレイヤーの人数
         PlayerLengh = datas.Count;

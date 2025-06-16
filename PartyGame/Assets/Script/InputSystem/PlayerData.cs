@@ -56,6 +56,8 @@ public class PlayerData
 
     public bool JudgeInputControl(InputDevice input){
 
+        if (this == null) { return false; }
+
         if (device == input)
         {
             return true;

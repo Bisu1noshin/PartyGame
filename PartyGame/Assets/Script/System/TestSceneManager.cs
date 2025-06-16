@@ -14,30 +14,29 @@ public class TestSceneManager : MonoBehaviour
     {
         playerDatas = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
         player = new GameObject[playerDatas.Count];
-    }
 
-    private void Update()
-    {
-        if (Input.anyKeyDown) {
+        for (int i = 0; i < player.Length; i++)
+        {
 
-            for (int i = 0; i < player.Length; i++) {
+            if (player[i] == null)
+            {
 
-                if (player[i] == null) {
-
-                    player[i] = CreatePlayer();
-                    break;
-                }
+                player[i] = CreatePlayer(playerDatas[i]);
             }
         }
     }
 
-    private GameObject CreatePlayer() {
+    private void Update()
+    {
+       
+    }
 
-        if (player == null) { }
+    private GameObject CreatePlayer(PlayerData pd) {
 
         GameObject go = playerprefab;
-        go.AddComponent<TestPlayer>();
-
-        return Instantiate(go);
+        if (!go.GetComponent<TestPlayer>()) {
+            go.AddComponent<TestPlayer>();
+        }
+        return PlayerParent.CreatePlayer(go, pd);
     }
 }
