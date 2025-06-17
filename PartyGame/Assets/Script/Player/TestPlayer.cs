@@ -19,7 +19,7 @@ public class TestPlayer : PlayerParent
 
     protected override void OnButtonA() {
 
-        Debug.Log("user"+ playerData.ToString() +"OnButtonA");
+        Debug.Log("user"+ playerData.GetUserValue() +"OnButtonA");
     }
 
     protected override void UpButtonA() { }

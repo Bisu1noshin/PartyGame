@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 public class PlayerData
 {
@@ -19,11 +21,11 @@ public class PlayerData
     /// </summary>
     /// <param name="num"></param>
     /// <param name="Id"></param>
-    public PlayerData(int num, InputDevice d_)
+    public PlayerData(int num, InputDevice d_, int FBXId = 0)
     {
 
         playerNumber = num;
-        playerFBXId = 0;
+        playerFBXId = FBXId;
         playerScore = 0;
         device = d_;
     }
@@ -64,5 +66,25 @@ public class PlayerData
         }
 
         return false;
+    }
+
+    public int GetUserValue() {
+
+        return this.playerNumber;
+    }
+
+    public static List<PlayerData> DebugData(int playerLengh) {
+
+        List<PlayerData> datas = new List<PlayerData>();
+
+        if (playerLengh > 3) { return datas; }
+
+        for (int i = 0; i < playerLengh; i++) {
+
+            //Input.GetJoystickNames();
+            //datas.Add(new PlayerData());
+        }
+
+        return datas;
     }
 }
