@@ -5,3 +5,5 @@ https://nekojara.city/unity-input-system-local-multiplayer
 https://nekojara.city/unity-input-system-device
 
 https://nekojara.city/unity-input-system-current-devices
+
+https://docs.unity3d.com/ja/Packages/com.unity.inputsystem@1.4/manual/Devices.html#monitoring-devices
