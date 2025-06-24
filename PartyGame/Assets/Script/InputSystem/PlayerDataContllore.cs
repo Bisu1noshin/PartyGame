@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerDataContllore : MonoBehaviour
 {
-
     public static PlayerDataContllore PlayerDataContllore_instance;
     public int PlayerLengh;
 

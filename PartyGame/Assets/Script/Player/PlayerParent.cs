@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public abstract class PlayerParent : MonoBehaviour
@@ -235,9 +236,10 @@ public abstract class PlayerParent : MonoBehaviour
     {
         playerData = p_;
     }
-    public static GameObject CreatePlayer(GameObject prefab,PlayerData pd) {
+    public static GameObject CreatePlayer(GameObject prefab,PlayerData pd,Type type) {
 
         GameObject pp = Instantiate(prefab);
+        pp.AddComponent(type);
         PlayerParent p = pp.GetComponent<PlayerParent>();
         p.playerData = pd;
         return pp;
