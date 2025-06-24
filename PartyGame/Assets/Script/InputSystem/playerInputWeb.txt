@@ -7,3 +7,5 @@ https://nekojara.city/unity-input-system-device
 https://nekojara.city/unity-input-system-current-devices
 
 https://docs.unity3d.com/ja/Packages/com.unity.inputsystem@1.4/manual/Devices.html#monitoring-devices
+
+https://baba-s.hatenablog.com/entry/2022/01/21/180000
