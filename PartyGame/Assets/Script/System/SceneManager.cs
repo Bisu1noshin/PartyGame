@@ -147,6 +147,14 @@ public abstract class SceneManagerParent : MonoBehaviour
         // プレイヤーを登録
         for (int i = 0; i < pd.Length; i++)
         {
+            if (pd[i] != null) {
+
+                if (pd[i].JudgeInputControl(device)) {
+
+                    return;
+                }
+            }
+
             if (pd[i] == null)
             {
 
