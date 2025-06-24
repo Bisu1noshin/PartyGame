@@ -9,7 +9,7 @@ public class PlayerData
     private int playerNumber;
     private int playerFBXId;
     private int playerScore;
-    private InputControl device;
+    private InputDevice device;
 
     private static class PlayerDateConstNum {
 
@@ -68,23 +68,18 @@ public class PlayerData
         return false;
     }
 
+    public InputDevice GetDevice() {
+
+        return device;
+    }
+
     public int GetUserValue() {
 
         return this.playerNumber;
     }
 
-    public static List<PlayerData> DebugData(int playerLengh) {
+    public int GetFbxId() {
 
-        List<PlayerData> datas = new List<PlayerData>();
-
-        if (playerLengh > 3) { return datas; }
-
-        for (int i = 0; i < playerLengh; i++) {
-
-            //Input.GetJoystickNames();
-            //datas.Add(new PlayerData());
-        }
-
-        return datas;
+        return this.playerFBXId;
     }
 }

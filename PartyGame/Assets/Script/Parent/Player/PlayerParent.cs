@@ -37,6 +37,11 @@ public abstract class PlayerParent : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        inputAction.Disable();
+    }
+
     // 抽象メソッド
 
     abstract protected void OnButtonA();
@@ -232,16 +237,18 @@ public abstract class PlayerParent : MonoBehaviour
         UpButtonY();
     }
 
+    // 参照可能メソッド
+
     public void SetPlayerData(PlayerData p_)
     {
         playerData = p_;
     }
-    public static GameObject CreatePlayer(GameObject prefab,PlayerData pd,Type type) {
+    public static PlayerParent CreatePlayer(GameObject prefab,PlayerData pd,Type type,Vector3 position,Quaternion roatation) {
 
-        GameObject pp = Instantiate(prefab);
+        GameObject pp = Instantiate(prefab, position, roatation);
         pp.AddComponent(type);
         PlayerParent p = pp.GetComponent<PlayerParent>();
         p.playerData = pd;
-        return pp;
+        return p;
     }
 }

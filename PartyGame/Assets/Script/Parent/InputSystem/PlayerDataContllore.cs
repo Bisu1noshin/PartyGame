@@ -32,18 +32,12 @@ public class PlayerDataContllore : MonoBehaviour
     }
 
     public void InitializePlayerDatas(List<PlayerData> datas)
-    {
-        if (playerDatas.Count != 0) {
-
-            // データの全削除
-            playerDatas.Clear();
-        }
+    {   
+        // データの登録
+        playerDatas = datas;
 
         // プレイヤーの人数
         PlayerLengh = datas.Count;
-        
-        // データの登録
-        playerDatas = datas;
     }
 
     public List<PlayerData> GetPlayerDate()
