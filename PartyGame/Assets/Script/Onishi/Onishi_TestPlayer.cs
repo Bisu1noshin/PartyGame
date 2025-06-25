@@ -3,26 +3,37 @@ using UnityEngine.InputSystem;
 
 public class Onishi_TestPlayer : PlayerParent
 {
+    Vector3 moveVec;
+    float plSpeed = 10.0f;
+
+    int bombCnt = 0; //手榴弾
+
     protected override void Start()
     {
         base.Start();
     }
 
-    protected override void MoveUpdata(Vector2 vec)
+    private void Update()
     {
-        Vector3 pos = this.transform.position;
-        pos += new Vector3(vec.x, 0, vec.y);
-        transform.position = pos;
-        Debug.Log(vec);
+        transform.position += moveVec * plSpeed * Time.deltaTime;
     }
 
-    protected override void LookUpdata(Vector2 vec)
+    protected override void MoveUpdate(Vector2 vec)
+    {
+        moveVec = new Vector3(vec.x, 0, vec.y);
+    }
+
+    protected override void LookUpdate(Vector2 vec)
     {
         
     }
 
-    protected override void OnButtonA() {
+    protected override void OnButtonA()
+    {
+        if (bombCnt >= 1)
+        {
 
+        }
         Debug.Log("user"+ playerData.GetUserValue() +"OnButtonA");
     }
 
@@ -39,4 +50,10 @@ public class Onishi_TestPlayer : PlayerParent
     protected override void OnButtonY() { }
 
     protected override void UpButtonY() { }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        bombCnt++;
+        Destroy(other.gameObject);
+    }
 }
