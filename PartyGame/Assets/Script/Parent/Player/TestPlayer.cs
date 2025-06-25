@@ -3,12 +3,14 @@ using UnityEngine.InputSystem;
 
 public class TestPlayer : PlayerParent
 {
+    
+
     protected override void Start()
     {
         base.Start();
     }
 
-    protected override void MoveUpdate(Vector2 vec){ 
+    protected override void MoveUpdate(Vector2 vec){
         
     }
 
