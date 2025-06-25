@@ -15,27 +15,27 @@ public class Kameda_TestSceneManager : SceneManagerParent
     
     protected override Type PlayerType()
     {
-        return typeof(Kameda_TestSceneManager);
+        return typeof(Player_Instant);
     }
     protected override void UnityUpdate()
     {
         switch (gameState)
         {
             case GameState.Title:
-                if(PlayersNotExist)
-                {
-                    List<PlayerData> pds = new List<PlayerData>();
-                    pds = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
-                    int index = 0;
-                    Vector3 originpos = new Vector3(-3, 0, 4);
-                    foreach (PlayerData playerData in pds)
-                    {
-                        player[index] = CreatePlayer(playerData, originpos, Quaternion.Euler(0, -90, 0));
-                        index++;
-                        originpos.x += 2.0f;
-                    }
-                    PlayersNotExist = false;
-                }
+                //if(PlayersNotExist)
+                //{
+                //    List<PlayerDate> pds = new List<PlayerDate>();
+                //    pds = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
+                //    int index = 0;
+                //    Vector3 originpos = new (-3, 0, 4);
+                //    foreach (PlayerDate playerData in pds)
+                //    {
+                //        player[index] = CreatePlayer(playerData, originpos, Quaternion.Euler(0, -90, 0));
+                //        index++;
+                //        originpos.x += 2.0f;
+                //    }
+                //    PlayersNotExist = false;
+                //}
                 
                 break;
             case GameState.Introsuction:
@@ -54,7 +54,7 @@ public class Kameda_TestSceneManager : SceneManagerParent
     protected override string PlayerFilePath(int index)
     {
         string str =
-            "Player/Test/Cube_" + index.ToString();
+            "Player/Test_Kameda/Cube_" + index.ToString();
 
         return str;
     }
