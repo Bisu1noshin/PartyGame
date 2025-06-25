@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public abstract class SceneManagerParent : MonoBehaviour
 {
 
-    [SerializeField] private GameObject playerprefab;
+    [SerializeField] private GameObject playerPrefab;
 
     [Header("デバッグ用")]
 
@@ -14,17 +14,17 @@ public abstract class SceneManagerParent : MonoBehaviour
     [SerializeField] private int PlayerLength;
 
     private List<InputDevice> inputDevices;
-    private PlayerData[] pd;
+    private PlayerDate[] pd;
     private Type playerScript;
     private PartyGame inputAction;
-    private int joinPlayerflag;
+    private int joinPlayerFlag;
     protected PlayerParent[] player;
 
     private void Awake()
     {
         playerScript = PlayerType();
 
-        pd = new PlayerData[PlayerLength];
+        pd = new PlayerDate[PlayerLength];
 
         inputDevices = new List<InputDevice>();
 
@@ -37,11 +37,11 @@ public abstract class SceneManagerParent : MonoBehaviour
         }
         else {
 
-            List<PlayerData> pds = new List<PlayerData>();
+            List<PlayerDate> pds = new List<PlayerDate>();
             pds = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
             player = new PlayerParent[pds.Count];
             
-            foreach (PlayerData playerData in pds) {
+            foreach (PlayerDate playerData in pds) {
 
                 inputDevices.Add(playerData.GetDevice());
             }
@@ -98,7 +98,7 @@ public abstract class SceneManagerParent : MonoBehaviour
             inputAction.Enable();
         }
 
-        joinPlayerflag = 0;
+        joinPlayerFlag = 0;
     }
     private void Update()
     {
@@ -116,11 +116,11 @@ public abstract class SceneManagerParent : MonoBehaviour
         inputAction.Disable();
     }
 
-    protected PlayerParent CreatePlayer(PlayerData pd,Vector3 p,Quaternion q)
+    protected PlayerParent CreatePlayer(PlayerDate pd,Vector3 p,Quaternion q)
     {
-        GameObject go = playerprefab;
+        GameObject go = playerPrefab;
 
-        // prefabをResorceから読み込む
+        // prefabをResourcesから読み込む
         go = Resources.Load<GameObject>(PlayerFilePath(pd.GetFbxId()));
 
         return PlayerParent.CreatePlayer(go, pd, playerScript, p, q);
@@ -133,13 +133,13 @@ public abstract class SceneManagerParent : MonoBehaviour
             if (pd[i] == null) { return true; }
         }
 
-        List<PlayerData> playerDatas = new List<PlayerData>();
+        List<PlayerDate> playerDates = new List<PlayerDate>();
         
-        foreach (PlayerData pd in pd) {
-            playerDatas.Add(pd);
+        foreach (PlayerDate pd in pd) {
+            playerDates.Add(pd);
         }
 
-        PlayerDataContllore.PlayerDataContllore_instance.InitializePlayerDatas(playerDatas);
+        PlayerDataContllore.PlayerDataContllore_instance.InitializePlayerDates(playerDates);
 
         for (int i = 0; i < player.Length; i++) {
 
@@ -147,7 +147,7 @@ public abstract class SceneManagerParent : MonoBehaviour
 
                 Vector3 p = Vector3.zero;
                 Quaternion q = Quaternion.identity;
-                player[i] = CreatePlayer(playerDatas[i], p, q);
+                player[i] = CreatePlayer(playerDates[i], p, q);
             }
         }
 
@@ -163,7 +163,7 @@ public abstract class SceneManagerParent : MonoBehaviour
             if (pd[i].JudgeInputControl(device))
             {
                 pd[i] = null;
-                joinPlayerflag++;
+                joinPlayerFlag++;
                 break;
             }
         }
@@ -181,16 +181,16 @@ public abstract class SceneManagerParent : MonoBehaviour
 
     private void JoinDevice(int index,InputDevice device) {
 
-        List<PlayerData> playerDatas = new List<PlayerData>();
-        playerDatas = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
+        List<PlayerDate> playerDates = new List<PlayerDate>();
+        playerDates = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
 
         int user = index + 1;
         pd[index] = new(user, device);
         inputDevices.Add(device);
 
-        playerDatas[index] = pd[index];
+        playerDates[index] = pd[index];
 
-        PlayerDataContllore.PlayerDataContllore_instance.InitializePlayerDatas(playerDatas);
+        PlayerDataContllore.PlayerDataContllore_instance.InitializePlayerDates(playerDates);
     }
 
     // 抽象メソッド
@@ -216,7 +216,7 @@ public abstract class SceneManagerParent : MonoBehaviour
         }
 
         // プレイヤーを再登録
-        if (joinPlayerflag > 0)
+        if (joinPlayerFlag > 0)
         {
             for (int i = 0; i < pd.Length; i++) {
 
@@ -224,7 +224,7 @@ public abstract class SceneManagerParent : MonoBehaviour
 
                     JoinDevice(i, device);
                     player[i].SetPlayerData(pd[i]);
-                    joinPlayerflag --;
+                    joinPlayerFlag --;
                     return;
                 }
             }
@@ -238,7 +238,7 @@ public abstract class SceneManagerParent : MonoBehaviour
             {
 
                 int user = i + 1;
-                pd[i] = new PlayerData(user, device);
+                pd[i] = new PlayerDate(user, device);
                 inputDevices.Add(device);
 
                 Debug.Log("入室しました player:" + user);
