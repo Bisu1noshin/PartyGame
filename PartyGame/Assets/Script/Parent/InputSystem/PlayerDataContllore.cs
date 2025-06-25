@@ -4,9 +4,9 @@ using UnityEngine;
 public class PlayerDataContllore : MonoBehaviour
 {
     public static PlayerDataContllore PlayerDataContllore_instance;
-    public int PlayerLengh;
+    public int PlayerLength;
 
-    private List<PlayerData> playerDatas;
+    private List<PlayerDate> playerDates;
 
     private void Awake()
     {
@@ -16,7 +16,7 @@ public class PlayerDataContllore : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        playerDatas = new List<PlayerData>();
+        playerDates = new List<PlayerDate>();
     }
 
     private void CheckInstance()
@@ -31,17 +31,17 @@ public class PlayerDataContllore : MonoBehaviour
         }
     }
 
-    public void InitializePlayerDatas(List<PlayerData> datas)
+    public void InitializePlayerDates(List<PlayerDate> dates)
     {   
         // データの登録
-        playerDatas = datas;
+        playerDates = dates;
 
         // プレイヤーの人数
-        PlayerLengh = datas.Count;
+        PlayerLength = dates.Count;
     }
 
-    public List<PlayerData> GetPlayerDate()
+    public List<PlayerDate> GetPlayerDate()
     {
-        return playerDatas;
+        return playerDates;
     }
 }

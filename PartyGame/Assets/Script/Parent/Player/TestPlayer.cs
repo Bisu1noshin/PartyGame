@@ -8,11 +8,11 @@ public class TestPlayer : PlayerParent
         base.Start();
     }
 
-    protected override void MoveUpdata(Vector2 vec){ 
+    protected override void MoveUpdate(Vector2 vec){ 
         
     }
 
-    protected override void LookUpdata(Vector2 vec)
+    protected override void LookUpdate(Vector2 vec)
     {
         
     }

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public abstract class PlayerParent : MonoBehaviour
 {
     private PartyGame inputAction;
-    protected PlayerData playerData;
+    protected PlayerDate playerData;
 
     private void Awake()
     {
@@ -22,10 +22,12 @@ public abstract class PlayerParent : MonoBehaviour
             inputAction.Player.ButtonX.canceled += ExitButtonX;
             inputAction.Player.ButtonY.started += EnterButtonY;
             inputAction.Player.ButtonY.canceled += ExitButtonY;
-            inputAction.Player.LeftStick.started += OnLeftStic;
-            inputAction.Player.LeftStick.performed += OnLeftStic;
-            inputAction.Player.RightStick.started += OnRightStic;
-            inputAction.Player.RightStick.performed += OnRightStic;
+            inputAction.Player.LeftStick.started += OnLeftStick;
+            inputAction.Player.LeftStick.performed += OnLeftStick;
+            inputAction.Player.LeftStick.canceled += OnLeftStick;
+            inputAction.Player.RightStick.started += OnRightStick;
+            inputAction.Player.RightStick.performed += OnRightStick;
+            inputAction.Player.RightStick.canceled += OnRightStick;
         }
         
         // Actionを有効化
@@ -52,13 +54,13 @@ public abstract class PlayerParent : MonoBehaviour
     abstract protected void UpButtonX();
     abstract protected void OnButtonY();
     abstract protected void UpButtonY();
-    abstract protected void MoveUpdata(Vector2 vec);
-    abstract protected void LookUpdata(Vector2 vec);
+    abstract protected void MoveUpdate(Vector2 vec);
+    abstract protected void LookUpdate(Vector2 vec);
 
     // 入力イベント
 
     // 左スティックの入力時関数
-    protected virtual void OnLeftStic(InputAction.CallbackContext context) {
+    protected virtual void OnLeftStick(InputAction.CallbackContext context) {
 
         // CallbackContextからControlを取得
         var control = context.control;
@@ -73,11 +75,11 @@ public abstract class PlayerParent : MonoBehaviour
 
         Vector2 vec = context.ReadValue<Vector2>();
 
-        MoveUpdata(vec);
+        MoveUpdate(vec);
     }
 
     // 右スティックの入力時関数
-    protected virtual void OnRightStic(InputAction.CallbackContext context)
+    protected virtual void OnRightStick(InputAction.CallbackContext context)
     {
 
         // CallbackContextからControlを取得
@@ -93,7 +95,7 @@ public abstract class PlayerParent : MonoBehaviour
 
         Vector2 vec = context.ReadValue<Vector2>();
 
-        LookUpdata(vec);
+        LookUpdate(vec);
     }
 
     // Aボタンが押されたときに呼び出される関数
@@ -239,11 +241,11 @@ public abstract class PlayerParent : MonoBehaviour
 
     // 参照可能メソッド
 
-    public void SetPlayerData(PlayerData p_)
+    public void SetPlayerData(PlayerDate p_)
     {
         playerData = p_;
     }
-    public static PlayerParent CreatePlayer(GameObject prefab,PlayerData pd,Type type,Vector3 position,Quaternion roatation) {
+    public static PlayerParent CreatePlayer(GameObject prefab,PlayerDate pd,Type type,Vector3 position,Quaternion roatation) {
 
         GameObject pp = Instantiate(prefab, position, roatation);
         pp.AddComponent(type);

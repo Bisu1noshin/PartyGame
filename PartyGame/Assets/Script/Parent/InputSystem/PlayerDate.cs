@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public class PlayerData
+public class PlayerDate
 {
     //
     private int playerNumber;
@@ -13,15 +13,15 @@ public class PlayerData
 
     private static class PlayerDateConstNum {
 
-        public const int playerFBXLengh = 1;
+        public const int playerFBXLength = 1;
     }
 
     /// <summary>
-    /// Playreの情報を登録するときに呼び出す
+    /// Playerの情報を登録するときに呼び出す
     /// </summary>
     /// <param name="num"></param>
     /// <param name="Id"></param>
-    public PlayerData(int num, InputDevice d_, int FBXId = 0)
+    public PlayerDate(int num, InputDevice d_, int FBXId = 0)
     {
 
         playerNumber = num;
@@ -30,12 +30,12 @@ public class PlayerData
         device = d_;
     }
 
-    public PlayerData SetPlayerFBXId(int FBXId)
+    public PlayerDate SetPlayerFBXId(int FBXId)
     {
 
-        PlayerData data = this;
+        PlayerDate data = this;
 
-        if (FBXId > PlayerDateConstNum.playerFBXLengh || FBXId <= 0) {
+        if (FBXId > PlayerDateConstNum.playerFBXLength || FBXId <= 0) {
 
             Debug.Log("FbxIdが不正な値を指定しています");
             return data;
@@ -46,9 +46,9 @@ public class PlayerData
         return data;
     }
 
-    public PlayerData AddPlayerScore(int score) {
+    public PlayerDate AddPlayerScore(int score) {
 
-        PlayerData data = this;
+        PlayerDate data = this;
 
         data.playerScore += score;
         Debug.Log("PlayerNumber:" + data.playerNumber + ",Score->" + data.playerScore);
