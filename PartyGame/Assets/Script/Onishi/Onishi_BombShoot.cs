@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Onishi_BombShoot : MonoBehaviour
 {
@@ -14,5 +15,10 @@ public class Onishi_BombShoot : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ShootBomb(Vector3 vec)
+    {
+
     }
 }

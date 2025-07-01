@@ -16,6 +16,13 @@ public class Onishi_TestPlayer : PlayerParent
     private void Update()
     {
         transform.position += moveVec * plSpeed * Time.deltaTime;
+
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+#endif
     }
 
     protected override void MoveUpdate(Vector2 vec)
