@@ -24,3 +24,9 @@ public class Onishi_BombShoot : MonoBehaviour
         Destroy(gameObject);
     }
 }
+
+/*爆発の判定は、
+ * 1.爆発範囲のコライダーを作成し、最初は無効
+ * 2.爆発時、コライダーを有効化して判定する
+ * でできそう
+ */

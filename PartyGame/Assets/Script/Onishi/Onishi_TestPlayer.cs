@@ -49,6 +49,7 @@ public class Onishi_TestPlayer : PlayerParent
             Vector3 pos = transform.position;
             GameObject go = AtkBomb_Prefab;
             SetBomb = Instantiate(go, pos, Quaternion.identity);
+            bombCnt--;
         }
 
         else if (SetBomb != null)
