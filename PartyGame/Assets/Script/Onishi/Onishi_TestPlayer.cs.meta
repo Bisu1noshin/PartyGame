@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: f970bf94f5ee675459e5820b14762055
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - AtkBomb_Prefab: {fileID: 5739261080768890161, guid: 7d27e1aed70fcc94cbe64cb67da7c511, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
