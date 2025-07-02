@@ -13,8 +13,9 @@ GameObject:
   - component: {fileID: 7498508548056804227}
   - component: {fileID: 4928914210516244731}
   - component: {fileID: 5630686610590840343}
+  - component: {fileID: -48882915567237225}
   m_Layer: 0
-  m_Name: BombPrefab
+  m_Name: PopBombPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 9e82c18a733b7064aa39c955f6880104, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -136,3 +137,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-48882915567237225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5739261080768890161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21aa73ab61bcd8b4ea7472c360822520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

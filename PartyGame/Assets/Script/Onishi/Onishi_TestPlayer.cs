@@ -7,16 +7,21 @@ public class Onishi_TestPlayer : PlayerParent
     float plSpeed = 10.0f;
 
     int bombCnt = 0; //手榴弾
+    public GameObject AtkBomb_Prefab; //爆弾のプレファブ
+    private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる用
 
     protected override void Start()
     {
         base.Start();
+        AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
     }
 
     private void Update()
     {
+        //移動
         transform.position += moveVec * plSpeed * Time.deltaTime;
 
+        //Escapeでデバッグモードを抜けるだけ
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -27,6 +32,7 @@ public class Onishi_TestPlayer : PlayerParent
 
     protected override void MoveUpdate(Vector2 vec)
     {
+        //移動方向を決定
         moveVec = new Vector3(vec.x, 0, vec.y);
     }
 
@@ -37,11 +43,20 @@ public class Onishi_TestPlayer : PlayerParent
 
     protected override void OnButtonA()
     {
-        if (bombCnt >= 1)
+        if (bombCnt >= 1 && SetBomb == null) 
         {
-
+            //爆弾設置
+            Vector3 pos = transform.position;
+            GameObject go = AtkBomb_Prefab;
+            SetBomb = Instantiate(go, pos, Quaternion.identity);
         }
-        Debug.Log("user"+ playerData.GetUserValue() +"OnButtonA");
+
+        else if (SetBomb != null)
+        {
+            //起爆
+            SetBomb.GetComponent<Onishi_BombShoot>().Explosion();
+            SetBomb = null;
+        }
     }
 
     protected override void UpButtonA() { }
@@ -60,7 +75,11 @@ public class Onishi_TestPlayer : PlayerParent
 
     private void OnTriggerEnter(Collider other)
     {
-        bombCnt++;
-        Destroy(other.gameObject);
+        if (other.TryGetComponent<Onishi_PopBomb>(out Onishi_PopBomb val) == true) //爆弾の種類を指定
+        {
+            //回収
+            bombCnt++;
+            Destroy(other.gameObject);
+        }
     }
 }
