@@ -10,7 +10,7 @@ public class Player_Instant : PlayerParent
     protected override void Start()
     {
         base.Start();
-        transform.position = Vector3.zero + Vector3.up * -1.25f;
+        transform.position = new Vector3(-5, 0, -2) + Vector3.up * -1.25f;
         moveVec = Vector3.zero;
         transform.localScale = Vector3.one * 0.5f;
         gameObject.GetOrAddComponent<Rigidbody>();
