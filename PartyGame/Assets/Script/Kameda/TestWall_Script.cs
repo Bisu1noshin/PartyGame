@@ -13,28 +13,29 @@ public class TestWall_Script : MonoBehaviour
     int stopCnt;
     public GameObject wallPre;
     const float Top = 4.0f, Right = 6.0f;
+    [SerializeField] float randContext;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         list = new List<WallPosition>();
-        Set4Walls(new Vector2(-2, 1), 14, 6);
-        Set4Walls(new Vector2(3, 0), 24, 8);
-        Set4Walls(new Vector2(0, -2), 10, 4);
+        Set4Walls(new Vector2(-3, 2), 14, 4, 0.3f);
+        Set4Walls(new Vector2(2, 0), 10, 2, 0.3f);
+        Set4Walls(new Vector2(-1, -3), 10, 6, 0.2f);
     }
-    void Set4Walls(Vector2 pos, int max, int begin) //時計回りに4方向の壁を作る
+    void Set4Walls(Vector2 pos, int max, int begin, float makechildrenPer) //時計回りに4方向の壁を作る
     {
         Direction d_ = (Direction)(Random.Range(0, 4));
         for(int i = 0; i < 4; ++i)
         {
-            SetWalls(d_, new Vector3(pos.x, -0.875f, pos.y), max, begin);
+            SetWalls(d_, new Vector3(pos.x, -0.875f, pos.y), max, begin, makechildrenPer);
             SetRight(ref d_);
         }
     }
-    void SetWalls(Direction d_, Vector3 pos, int max, int begin)
+    void SetWalls(Direction d_, Vector3 pos, int max, int begin, float makechildrenPer)
     {
         stopCnt = begin;
         Vector3 position = pos;
-        while (CreateWall(position, d_, max)) //メインの壁を作って前に進む
+        while (CreateWall(position, d_, max, makechildrenPer)) //メインの壁を作って前に進む
         {
             position += Dir.GetFront(d_);
         }
@@ -49,29 +50,42 @@ public class TestWall_Script : MonoBehaviour
         }
         list.Clear();
     }
-    bool CreateWall(Vector3 wallPos, Direction d_, int max)
+    bool CreateWall(Vector3 wallPos, Direction d_, int max, float makechildrenPer)
     {
-        int rand = Random.Range(0, max);
+        float rand = (float)Random.Range(0, max + 1) / max; //0～1
+        randContext = rand;
         DirectCreateWall(wallPos);
-        switch (rand)
         {
-            case 0: //右分岐
-                list.Add(new WallPosition(wallPos, GetRightNum(d_)));
-                break;
-            case 1: //左分岐
-                list.Add(new WallPosition(wallPos, GetLeftNum(d_)));
-                break;
-            case 2: //左右分岐
-                list.Add(new WallPosition(wallPos, GetRightNum(d_)));
-                list.Add(new WallPosition(wallPos, GetLeftNum(d_)));
-                break;
-            default://直進 or 止まる
-                if(rand > max - stopCnt++) //止まる　満たさなければ直進
-                {
-                    return false;
-                }
-                break;
+            //switch (rand)
+            //{
+            //    case 0: //右分岐
+            //        list.Add(new WallPosition(wallPos, GetRightNum(d_)));
+            //        break;
+            //    case 1: //左分岐
+            //        list.Add(new WallPosition(wallPos, GetLeftNum(d_)));
+            //        break;
+            //    case 2: //左右分岐
+            //        list.Add(new WallPosition(wallPos, GetRightNum(d_)));
+            //        list.Add(new WallPosition(wallPos, GetLeftNum(d_)));
+            //        break;
+            //    default://直進 or 止まる
+            //        if(rand > max - stopCnt++) //止まる　満たさなければ直進
+            //        {
+            //            return false;
+            //        }
+            //        break;
+            //}
         }
+        if(rand < (float)stopCnt++ / max)
+        {
+            return false;
+        }
+        if(rand <= (float)stopCnt++ / max + makechildrenPer) //左右分岐
+        {
+            list.Add(new WallPosition(wallPos, GetRightNum(d_)));
+            list.Add(new WallPosition(wallPos, GetLeftNum(d_)));
+        }
+        
         if (TouchGreatWall(wallPos)) //外壁に接したら終了
         {
             return false;
