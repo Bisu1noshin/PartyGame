@@ -68,14 +68,12 @@ public abstract class PlayerParent : MonoBehaviour
         // Controlからデバイスを取得
         var device = control.device;
 
-        if (playerData.JudgeInputControl(device) == false)
+        if (playerData.JudgeInputControl(device))
         {
-            return;
+            Vector2 vec = context.ReadValue<Vector2>();
+
+            MoveUpdate(vec);
         }
-
-        Vector2 vec = context.ReadValue<Vector2>();
-
-        MoveUpdate(vec);
     }
 
     // 右スティックの入力時関数

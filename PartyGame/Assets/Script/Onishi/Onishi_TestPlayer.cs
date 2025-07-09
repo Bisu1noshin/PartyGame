@@ -8,7 +8,7 @@ public class Onishi_TestPlayer : PlayerParent
 
     int bombCnt = 0; //手榴弾
     public GameObject AtkBomb_Prefab; //爆弾のプレファブ
-    private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる用
+    private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
 
     protected override void Start()
     {
@@ -81,6 +81,15 @@ public class Onishi_TestPlayer : PlayerParent
             //回収
             bombCnt++;
             Destroy(other.gameObject);
+        }
+    }
+
+    public void Damage()
+    {
+        bombCnt -= 2;
+        if (bombCnt <= 0)
+        {
+            bombCnt = 0;
         }
     }
 }
