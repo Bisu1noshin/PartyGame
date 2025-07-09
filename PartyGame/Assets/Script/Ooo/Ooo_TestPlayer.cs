@@ -9,14 +9,15 @@ public class Ooo_TestPlayer : PlayerParent
     //プレイヤー関連設定
     float plSpeed = 10.0f;
     public GameObject waterbombPrefab;
+    public GameObject explodeEffectPrefab;
 
     //Waterbomb関連設定
     public float waterbombTime = 3f;    //基本爆発時間は3秒(囲まれたら3秒）
     public float escapeTimeUp = 0.3f;   //連打すれば0.3秒ずつ減少
-    public int maxEscapeClick = 10;     //最大連打可能回数（3秒内に10回押したら脱出可能）
+    public int maxEscapeClick = 20;     //最大連打可能回数（3秒内に10回押したら脱出可能）
 
-    private bool isTrapped = false;    //相手のWaterbombに囲まれたか
-    private float nowEscapeClick = 0;   //現在脱出ボタンを押した回数
+    public bool isTrapped = false;    //相手のWaterbombに囲まれたか
+    public float nowEscapeClick = 0;   //現在脱出ボタンを押した回数
     
 
    
@@ -25,6 +26,10 @@ public class Ooo_TestPlayer : PlayerParent
     protected override void Start()
     {
         base.Start();
+        waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb");
+        explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
+
+
     }
 
     private void Update()
@@ -51,12 +56,6 @@ public class Ooo_TestPlayer : PlayerParent
     protected override void OnButtonA()
     {
         Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
-
-
-        if(!isTrapped)     //囲まれてなかったら
-        {
-            ThrowBomb();    //Aボタン押したらWaterbombをプレイヤの現在位置に置く
-        }
     }
 
     protected override void UpButtonA() { }
@@ -76,7 +75,13 @@ public class Ooo_TestPlayer : PlayerParent
 
     protected override void UpButtonB() { }
 
-    protected override void OnButtonX() { }
+    protected override void OnButtonX()
+    {
+        if (!isTrapped)     //囲まれてなかったら
+        {
+            ThrowBomb();    //Aボタン押したらWaterbombをプレイヤの現在位置に置く
+        }
+    }
 
     protected override void UpButtonX() { }
 
@@ -92,7 +97,7 @@ public class Ooo_TestPlayer : PlayerParent
             //今のプレイヤの位置に水風船配置
             GameObject waterbomb = Instantiate(waterbombPrefab, transform.position, Quaternion.identity);
 
-            //誰がwaterbombを配置したのか
+            //誰がwaterbombを配置したのか(waterbombのIDを与える)
             Ooo_Waterbomb ooo_waterbomb = waterbomb.GetComponent<Ooo_Waterbomb>();  //Waterbombスクリプト
             if(ooo_waterbomb != null)
             {
@@ -106,5 +111,13 @@ public class Ooo_TestPlayer : PlayerParent
     {
         isTrapped = false;  //水風船から脱出
         nowEscapeClick = 0; //Bボタン押した回数初期化
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "explodeEffect")
+        {
+            isTrapped = true;
+        }
     }
 }
