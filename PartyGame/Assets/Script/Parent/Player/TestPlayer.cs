@@ -1,14 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TestPlayer : PlayerParent
+public class TestPlayer : PlayerParent2
 {
-    
-
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     protected override void MoveUpdate(Vector2 vec){
         
@@ -21,7 +15,7 @@ public class TestPlayer : PlayerParent
 
     protected override void OnButtonA() {
 
-        Debug.Log("user"+ playerData.GetUserValue() +"OnButtonA");
+        Debug.Log("OnButtonA");
     }
 
     protected override void UpButtonA() { }

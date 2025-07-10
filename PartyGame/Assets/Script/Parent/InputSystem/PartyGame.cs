@@ -109,7 +109,7 @@ public partial class @PartyGame: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""431231af-3457-4137-b97d-56456dffeb4b"",
                     ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ButtonA"",
