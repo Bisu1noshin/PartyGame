@@ -14,7 +14,7 @@ public class Ooo_ExplodeEffect : MonoBehaviour
     {
         //2秒間エフェクト出て消える
         yield return new WaitForSeconds(2.0f);
-        Destroy(GameObject);
+        Destroy(gameObject);
     }
 
 }
