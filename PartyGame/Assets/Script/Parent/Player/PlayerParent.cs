@@ -239,6 +239,7 @@ public abstract class PlayerParent : MonoBehaviour
 
     // 参照可能メソッド
 
+    public PlayerDate GetPlayerDate() { return playerData; }
     public void SetPlayerData(PlayerDate p_)
     {
         playerData = p_;
