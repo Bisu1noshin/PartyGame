@@ -5,6 +5,8 @@ public class Onishi_TestPlayer : PlayerParent
 {
     Vector3 moveVec;
     float plSpeed = 10.0f;
+    static int plCount = 0; //プレイヤーの名前をわかりやすくする
+    GameObject text_pt; //自分の現在の手榴弾入手数を表示するtext
 
     int bombCnt = 0; //手榴弾
     public GameObject AtkBomb_Prefab; //爆弾のプレファブ
@@ -14,6 +16,14 @@ public class Onishi_TestPlayer : PlayerParent
     {
         base.Start();
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
+
+        //自分の名前を設定
+        this.gameObject.name = "player" + plCount.ToString();
+        plCount++;
+
+        //自分の名前に応じたTextを探す
+        text_pt = GameObject.Find("text_" + this.gameObject.name);
+        text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
     }
 
     private void Update()
@@ -50,6 +60,7 @@ public class Onishi_TestPlayer : PlayerParent
             GameObject go = AtkBomb_Prefab;
             SetBomb = Instantiate(go, pos, Quaternion.identity);
             bombCnt--;
+            text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
         }
 
         else if (SetBomb != null)
@@ -74,22 +85,24 @@ public class Onishi_TestPlayer : PlayerParent
 
     protected override void UpButtonY() { }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //アイテム獲得処理
     {
         if (other.TryGetComponent<Onishi_PopBomb>(out Onishi_PopBomb val) == true) //爆弾の種類を指定
         {
             //回収
             bombCnt++;
             Destroy(other.gameObject);
+            text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
         }
     }
 
-    public void Damage()
+    public void Damage() //被弾時処理
     {
         bombCnt -= 2;
         if (bombCnt <= 0)
         {
             bombCnt = 0;
         }
+        text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
     }
 }
