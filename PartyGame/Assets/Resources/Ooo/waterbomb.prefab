@@ -124,4 +124,4 @@ MonoBehaviour:
   explodeTime: 3
   explodeRadius: 3
   waterbombPrefab: {fileID: 3470559815867096603}
-  expoldeEffectPrefab: {fileID: 1067417901578702780, guid: 31cae0dc2afcb394fa01949c07783fcd, type: 3}
+  explodeEffectPrefab: {fileID: 1067417901578702780, guid: 31cae0dc2afcb394fa01949c07783fcd, type: 3}

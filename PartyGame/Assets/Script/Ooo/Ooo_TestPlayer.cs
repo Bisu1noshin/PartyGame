@@ -7,17 +7,19 @@ public class Ooo_TestPlayer : PlayerParent
     Vector3 moveVec;
 
     //プレイヤー関連設定
+    [Header("Player Settings")]
     float plSpeed = 10.0f;
     public GameObject waterbombPrefab;
     public GameObject explodeEffectPrefab;
 
-    //Waterbomb関連設定
-    public float waterbombTime = 3f;    //基本爆発時間は3秒(囲まれたら3秒）
-    public float escapeTimeUp = 0.3f;   //連打すれば0.3秒ずつ減少
+    //囲まれたら時の設定
+    [Header("Trap Settings")]
+    public float trapTime = 3f;    //基本爆発時間は3秒(囲まれたら3秒）
+    public float escapeSpeedUp = 0.3f;   //連打すれば0.3秒ずつ減少
     public int maxEscapeClick = 20;     //最大連打可能回数（3秒内に10回押したら脱出可能）
 
     public bool isTrapped = false;    //相手のWaterbombに囲まれたか
-    public float nowEscapeClick = 0;   //現在脱出ボタンを押した回数
+    public int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
     
 
    
@@ -68,7 +70,7 @@ public class Ooo_TestPlayer : PlayerParent
 
             if(nowEscapeClick >= maxEscapeClick)    //3秒内に10回以上押したら
             {
-                Escape();   //水風船から脱出！
+                ForceEscape();   //水風船から脱出！
             }
         }
     }
@@ -107,17 +109,56 @@ public class Ooo_TestPlayer : PlayerParent
         }
     }
 
+    public void GetTrapped()
+    {
+        if (isTrapped) return;  //すでに囲まれたら何もしない
+        StartCoroutine(TrapSequence());
+    }
+
+    IEnumerator TrapSequence()
+    {
+        isTrapped = true;   //囲まれた状態で更新
+        moveVec = Vector3.zero; //動けない
+        nowEscapeClick = 0;     //escapeボタン初期化
+
+        while(trapTime > 0 && isTrapped)
+        {
+            trapTime -= Time.deltaTime;
+            trapTime -= nowEscapeClick * escapeSpeedUp;
+            yield return null;
+        }
+
+        if(isTrapped)
+        {
+            Escape();
+        }
+    }
+
+    void ForceEscape()
+    {
+        if(isTrapped)
+        {
+            StopAllCoroutines();
+            Escape();
+        }
+    }
+
     void Escape()
     {
         isTrapped = false;  //水風船から脱出
         nowEscapeClick = 0; //Bボタン押した回数初期化
     }
 
+    public bool IsTrapped()
+    {
+        return isTrapped;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "explodeEffect")
+        if (other.CompareTag("explodeEffect") && !isTrapped)
         {
-            isTrapped = true;
+            GetTrapped();
         }
     }
 }
