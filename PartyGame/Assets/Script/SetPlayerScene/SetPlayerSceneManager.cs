@@ -228,13 +228,13 @@ public class SetPlayerSceneManager : MonoBehaviour
 
     protected Type PlayerType() {
 
-        Type type = null;
+        Type type = typeof(SetPlayerScenePlayerContllore);
         return type;
     }
 
     protected string PlayerFilePath(int index) {
 
-        string str = "";
+        string str = "Player/Test/Cube_0";
         return str;
     }
 
