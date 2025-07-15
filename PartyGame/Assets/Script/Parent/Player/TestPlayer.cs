@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TestPlayer : PlayerParent
+public class TestPlayer : PlayerParent2
 {
-    
+    Vector3 moveVec;
+    float plSpeed = 10.0f;
 
-    protected override void Start()
+    private void Update()
     {
-        base.Start();
+        transform.position += moveVec * plSpeed * Time.deltaTime;
     }
 
     protected override void MoveUpdate(Vector2 vec){
-        
+
+        //移動方向を決定
+        moveVec = new Vector3(vec.x, 0, vec.y);
     }
 
     protected override void LookUpdate(Vector2 vec)
@@ -21,7 +24,7 @@ public class TestPlayer : PlayerParent
 
     protected override void OnButtonA() {
 
-        Debug.Log("user"+ playerData.GetUserValue() +"OnButtonA");
+        Debug.Log("OnButtonA");
     }
 
     protected override void UpButtonA() { }
