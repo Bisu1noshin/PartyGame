@@ -168,7 +168,7 @@ public abstract class InGameManeger : MonoBehaviour
         }
 
         playerInformation[currentPlayerCount] =
-            new PlayerInformation(context.control.device);
+            new PlayerInformation(context.control.device, currentPlayerCount);
 
         // Joinしたデバイス情報を保存
         joinedDevices[currentPlayerCount] = context.control.device;
@@ -212,6 +212,11 @@ public abstract class InGameManeger : MonoBehaviour
         );
 
         return pp;
+    }
+
+    protected void NextSceneJump() {
+
+
     }
 
     // 参照可能メソッド

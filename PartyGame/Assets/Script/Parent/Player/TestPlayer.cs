@@ -29,7 +29,8 @@ public class TestPlayer : PlayerParent2
 
     protected override void UpButtonA() { }
 
-    protected override void OnButtonB() { }
+    protected override void OnButtonB() {
+    }
 
     protected override void UpButtonB() { }
 
