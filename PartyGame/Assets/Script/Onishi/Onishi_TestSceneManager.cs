@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Onishi_TestSceneManager : SceneManagerParent
+public class Onishi_TestSceneManager : InGameManeger
 {
-    protected override Type PlayerType()
+    bool playable = false;
+    protected override Type SetPlayerScript()
     {
         return typeof(Onishi_TestPlayer);
     }
 
-    protected override void UnityUpdate()
+    protected override void Update()
     {
-        
+        base.Update();
     }
 
-    protected override string PlayerFilePath(int index)
+    protected override string SetPlayerPrefab(int index)
     {
         string str =
             "Player/Test/Cube_" + index.ToString();

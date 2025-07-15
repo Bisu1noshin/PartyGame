@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Onishi_TestPlayer : PlayerParent
+public class Onishi_TestPlayer : PlayerParent2
 {
     Vector3 moveVec;
     float plSpeed = 10.0f;
@@ -12,9 +12,8 @@ public class Onishi_TestPlayer : PlayerParent
     public GameObject AtkBomb_Prefab; //爆弾のプレファブ
     private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
 
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
 
         //自分の名前を設定
