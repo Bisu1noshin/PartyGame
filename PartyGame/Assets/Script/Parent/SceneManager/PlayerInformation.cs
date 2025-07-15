@@ -12,9 +12,9 @@ public class PlayerInformation
     public InputDevice PairWithDevice { get; private set; } = default;
     public CharacterType SelectedCharacter { get; private set; } = default;
 
-    public PlayerInformation(InputDevice pairWithDevice, CharacterType selectedCharacter)
+    public PlayerInformation(InputDevice pairWithDevice)
     {
         PairWithDevice = pairWithDevice;
-        SelectedCharacter = selectedCharacter;
+        //SelectedCharacter = selectedCharacter;
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 public abstract class InGameManeger : MonoBehaviour
 {
@@ -13,8 +15,8 @@ public abstract class InGameManeger : MonoBehaviour
     private     Type            playerScript;
     private     InputAction     playerJoinInputAction;
     private     InputDevice[]   joinedDevices = default;
+    private     List<int>       lostDeviceIndex;
     private     int             currentPlayerCount = 0;
-    private     bool            createPlayerFlag = false;
 
 
     // コントローラーが抜けたときの処理
@@ -23,6 +25,8 @@ public abstract class InGameManeger : MonoBehaviour
 
     protected virtual void Awake()
     {
+        lostDeviceIndex = new List<int>();
+
         // inputManager
         {
             playerJoinInputAction =
@@ -44,7 +48,7 @@ public abstract class InGameManeger : MonoBehaviour
                     // 切断された
                     case InputDeviceChange.Disconnected:
                         {
-                            ExitDeviceIndex(device);
+                            lostDeviceIndex.Add(ExitDeviceIndex(device));
                         }
                         break;
 
@@ -75,6 +79,10 @@ public abstract class InGameManeger : MonoBehaviour
         playerScript = SetPlayerScript();
         joinedDevices = new InputDevice[maxPlayerCount];
         player = new PlayerParent2[maxPlayerCount];
+#if UNITY_EDITOR
+        if (DebagMode)
+            playerInformation = new PlayerInformation[maxPlayerCount];
+#endif
     }
 
     protected virtual void OnDestroy()
@@ -93,9 +101,33 @@ public abstract class InGameManeger : MonoBehaviour
 
     protected virtual void Update() {
 #if UNITY_EDITOR
+
         if (DebagMode)
         {
-            DebagMode = false;
+            if (currentPlayerCount >= maxPlayerCount) {
+
+                for (int i = 0; i < maxPlayerCount; i++) {
+
+                    Vector3 vector3 = Vector3.zero;
+                    Quaternion quat = Quaternion.identity;
+                    GameObject prefab =
+                        Resources.Load<GameObject>(SetPlayerPrefab(0));
+
+                    // PlayerInputを所持した仮想のプレイヤーをインスタンス化
+                    // ※Join要求元のデバイス情報を紐づけてインスタンスを生成する
+                    player[i] = PlayerParent2.CreatePlayer(
+                        prefab,
+                        playerScript,
+                        playerInformation[i].PairWithDevice,
+                        i,
+                        vector3,
+                        quat
+                        );
+                }
+               
+                DebagMode = false;
+            }
+            return;
         }
 #endif
 
@@ -104,13 +136,22 @@ public abstract class InGameManeger : MonoBehaviour
 
     // 抽象メソッド
 
-    protected abstract string SetPlayerPrefab();
+    protected abstract string SetPlayerPrefab(int index);
     protected abstract Type SetPlayerScript();
 
     // メソッド
 
     private void OnJoin(InputAction.CallbackContext context)
     {
+        if (lostDeviceIndex.Count > 0)
+        {
+            PlayerInput pi = player[lostDeviceIndex[0]].gameObject.GetComponent<PlayerInput>();
+            InputUser.PerformPairingWithDevice(context.control.device, pi.user);
+            joinedDevices[lostDeviceIndex[0]] = context.control.device;
+            lostDeviceIndex.Remove(lostDeviceIndex[0]);
+            return;
+        }
+
         // プレイヤー数が最大数に達していたら、処理を終了
         if (currentPlayerCount >= maxPlayerCount)
         {
@@ -126,21 +167,8 @@ public abstract class InGameManeger : MonoBehaviour
             }
         }
 
-        Vector3 vector3 = Vector3.zero;
-        Quaternion quat = Quaternion.identity;
-        GameObject prefab =
-            Resources.Load<GameObject>(SetPlayerPrefab());
-
-        // PlayerInputを所持した仮想のプレイヤーをインスタンス化
-        // ※Join要求元のデバイス情報を紐づけてインスタンスを生成する
-        PlayerParent2.CreatePlayer(
-            prefab,
-            playerScript,
-            context.control.device,
-            currentPlayerCount,
-            vector3,
-            quat
-            );
+        playerInformation[currentPlayerCount] =
+            new PlayerInformation(context.control.device);
 
         // Joinしたデバイス情報を保存
         joinedDevices[currentPlayerCount] = context.control.device;
@@ -148,14 +176,22 @@ public abstract class InGameManeger : MonoBehaviour
         currentPlayerCount++;
     }
 
-    private void ExitDeviceIndex(InputDevice device) {
+    private int ExitDeviceIndex(InputDevice device) {
 
         int index = 0;
+
         foreach (var d_ in joinedDevices) {
 
-            if (d_ == device) return;
+            if (d_ == device) {
+
+                joinedDevices[index] = null;
+                return index;
+            }
+
             index++;
         }
+
+        return index;
     }
 
     // 継承先使用可能
@@ -163,7 +199,7 @@ public abstract class InGameManeger : MonoBehaviour
     protected PlayerParent2 CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q) {
 
         GameObject prefab =
-            Resources.Load<GameObject>(SetPlayerPrefab());
+            Resources.Load<GameObject>(SetPlayerPrefab(0));
 
         PlayerParent2 pp =
         PlayerParent2.CreatePlayer(

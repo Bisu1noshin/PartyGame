@@ -34,8 +34,10 @@ public abstract class PlayerParent2 : MonoBehaviour
         // デリゲート登録
         _LeftStick.started    += OnLeftStick;
         _LeftStick.performed  += OnLeftStick;
+        _LeftStick.canceled   += OnLeftStick;
         _RightStick.started   += OnRightStick;
         _RightStick.performed += OnRightStick;
+        _RightStick.canceled  += OnRightStick;
         _ButtonA.started      += EnterButtonA;
         _ButtonA.canceled     += ExitButtonA;
         _ButtonB.started      += EnterButtonB;
@@ -53,8 +55,10 @@ public abstract class PlayerParent2 : MonoBehaviour
         // デリゲート登録解除
         _LeftStick.started    -= OnLeftStick;
         _LeftStick.performed  -= OnLeftStick;
+        _LeftStick.canceled   -= OnLeftStick;
         _RightStick.started   -= OnRightStick;
         _RightStick.performed -= OnRightStick;
+        _RightStick.canceled  -= OnRightStick;
         _ButtonA.started      -= EnterButtonA;
         _ButtonA.canceled     -= ExitButtonA;
         _ButtonB.started      -= EnterButtonB;
@@ -144,17 +148,23 @@ public abstract class PlayerParent2 : MonoBehaviour
         Quaternion roatation
         )
     {
-        GameObject pp = PlayerInput.Instantiate(
+        if (!prefab.GetComponent<PlayerInput>()) {
+
+            Debug.Log("PlayerInputコンポーネントがアタッチされていません");
+            return null;    
+        }
+
+        PlayerInput pi = PlayerInput.Instantiate(
             prefab: prefab,
             playerIndex: playerIndex,
             pairWithDevice: device
-            ).gameObject;
+            );
 
-        pp.transform.localPosition = position;
-        pp.transform.rotation = roatation;
+        pi.gameObject.transform.localPosition = position;
+        pi.gameObject.transform.rotation = roatation;
 
-        pp.AddComponent(type);
-        PlayerParent2 p = pp.GetComponent<PlayerParent2>();
+        pi.gameObject.AddComponent(type);
+        PlayerParent2 p = pi.gameObject.GetComponent<PlayerParent2>();
         return p;
     }
 }
