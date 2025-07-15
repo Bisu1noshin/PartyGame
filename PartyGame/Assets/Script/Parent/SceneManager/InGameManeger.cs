@@ -1,18 +1,21 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.TextCore.Text;
 
 public abstract class InGameManeger : MonoBehaviour
 {
-    [SerializeField] private bool DebagMode = false;
+    [SerializeField] private bool DebagMode = default;
     [SerializeField] private int maxPlayerCount = default;
-    protected PlayerInformation[] playerInformation = default;
 
-    private Type playerScript;
-    private InputAction playerJoinInputAction;
-    private InputDevice[] joinedDevices = default;
-    private int currentPlayerCount = 0;
+    protected PlayerInformation[] playerInformation = default;
+    protected PlayerParent2[] player;
+
+    private     Type            playerScript;
+    private     InputAction     playerJoinInputAction;
+    private     InputDevice[]   joinedDevices = default;
+    private     int             currentPlayerCount = 0;
+    private     bool            createPlayerFlag = false;
+
 
     // コントローラーが抜けたときの処理
     // プレイヤーを呼び出す関数b
@@ -71,6 +74,7 @@ public abstract class InGameManeger : MonoBehaviour
 
         playerScript = SetPlayerScript();
         joinedDevices = new InputDevice[maxPlayerCount];
+        player = new PlayerParent2[maxPlayerCount];
     }
 
     protected virtual void OnDestroy()
@@ -87,10 +91,23 @@ public abstract class InGameManeger : MonoBehaviour
         playerJoinInputAction.Disable();
     }
 
+    protected virtual void Update() {
+#if UNITY_EDITOR
+        if (DebagMode)
+        {
+            DebagMode = false;
+        }
+#endif
+
+
+    }
+
     // 抽象メソッド
 
     protected abstract string SetPlayerPrefab();
     protected abstract Type SetPlayerScript();
+
+    // メソッド
 
     private void OnJoin(InputAction.CallbackContext context)
     {
@@ -133,7 +150,12 @@ public abstract class InGameManeger : MonoBehaviour
 
     private void ExitDeviceIndex(InputDevice device) {
 
+        int index = 0;
+        foreach (var d_ in joinedDevices) {
 
+            if (d_ == device) return;
+            index++;
+        }
     }
 
     // 継承先使用可能
