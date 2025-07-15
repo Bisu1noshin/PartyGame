@@ -5,8 +5,8 @@ public class Onishi_TestPlayer : PlayerParent
 {
     Vector3 moveVec;
     float plSpeed = 10.0f;
-    static int plCount = 0; //プレイヤーの名前をわかりやすくする
-    GameObject text_pt; //自分の現在の手榴弾入手数を表示するtext
+    static int plCount = 0; //プレイヤーの名前をわかりやすくする 0~3を想定
+    GameObject text_pt; //自分の現在の手榴弾入手数を表示するテキストボックスのオブジェクト
 
     int bombCnt = 0; //手榴弾
     public GameObject AtkBomb_Prefab; //爆弾のプレファブ
@@ -23,6 +23,8 @@ public class Onishi_TestPlayer : PlayerParent
 
         //自分の名前に応じたTextを探す
         text_pt = GameObject.Find("text_" + this.gameObject.name);
+
+        //UI表示 名前を出す目的
         text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
     }
 
@@ -60,7 +62,7 @@ public class Onishi_TestPlayer : PlayerParent
             GameObject go = AtkBomb_Prefab;
             SetBomb = Instantiate(go, pos, Quaternion.identity);
             bombCnt--;
-            text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
+            text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt); //UI更新
         }
 
         else if (SetBomb != null)
@@ -92,7 +94,7 @@ public class Onishi_TestPlayer : PlayerParent
             //回収
             bombCnt++;
             Destroy(other.gameObject);
-            text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
+            text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt); //UI更新
         }
     }
 
@@ -103,6 +105,6 @@ public class Onishi_TestPlayer : PlayerParent
         {
             bombCnt = 0;
         }
-        text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt);
+        text_pt.GetComponent<Onishi_UIManager>().textUpdate(this.gameObject.name, bombCnt); //UI更新
     }
 }
