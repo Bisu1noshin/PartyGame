@@ -15,20 +15,35 @@ public class PlayerInputManager : InGameManeger
     {
         return typeof(TestPlayer);
     }
-    public override string SceneName => "SceneName";
-    public override void OnLoaded(ISceneData data) {
 
-        //if (data is null || data is not BattleSceneData battleData)
-        //{
-        //    Debug.LogError("data is null");
-        //    return;
-        //}
+    protected override void Update()
+    {
+        base.Update();
 
-        //// presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        //var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        //presenter.Initialize(battleData);
+        if (Input.GetKeyDown(KeyCode.A)){
+
+            NextSceneJump();
+        }
+    }
+
+    public override string SceneName => "TitleScene";
+
+    public override void OnLoaded(PlayerInformation[] data) {
+
+        if (data is null || data is not PlayerInformation[] playerInformation)
+        {
+            Debug.LogError("data is null");
+            return;
+        }
+
+        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
+        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
+        presenter.SetPlayerInformation(playerInformation);
     }
     public override void OnUnLoaded() { }
 
+    protected override void NextSceneJump() {
 
+        SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
+    }
 }

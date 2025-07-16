@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -20,7 +22,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     private     int             currentPlayerCount = 0;
 
     public abstract string SceneName { get; }
-    public abstract void OnLoaded(ISceneData data);
+    public abstract void OnLoaded(PlayerInformation[] data);
     public abstract void OnUnLoaded();
 
     // コントローラーが抜けたときの処理
@@ -141,6 +143,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
     protected abstract string SetPlayerPrefab(int index);
     protected abstract Type SetPlayerScript();
+    protected abstract void NextSceneJump();
 
     // メソッド
 
@@ -215,14 +218,6 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         );
 
         return pp;
-    }
-
-    protected void NextSceneJump(int nextSceneIndex = 0) {
-
-        //// シーン遷移し、遷移先のコンポーネントを取得する
-        //SceneManager.LoadScene("InGameScene");
-        //// 遷移先のコンポーネントのプロパティにセット
-        //target.SetInformation(playerInfos);
     }
 
     // 参照可能メソッド

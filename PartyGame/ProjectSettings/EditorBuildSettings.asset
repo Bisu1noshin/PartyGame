@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame/TitleScene.unity
     guid: fd5328fd0333e9d429cd33370c57a444
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestScene/InputTest.unity
     guid: 40103085877efa245adfcde4ef694dc9
   - enabled: 1
