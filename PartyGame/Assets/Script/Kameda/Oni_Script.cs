@@ -7,12 +7,16 @@ public class Oni_Script : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField]public Transform[] playersPos = new Transform[4];
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         gameObject.name = "Oni";
         transform.position = new Vector3(-5, -0.75f, 4);
         agent = gameObject.GetOrAddComponent<NavMeshAgent>();
+    }
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -20,7 +24,7 @@ public class Oni_Script : MonoBehaviour
     {
         if (playersPos[0] == null) { return; }
         float[] ranges = new float[4];
-        for(int i = 0; i < playersPos.Length; i++)
+        for (int i = 0; i < playersPos.Length; i++)
         {
             if (playersPos[i] != null)
             {
@@ -32,7 +36,7 @@ public class Oni_Script : MonoBehaviour
             }
         }
         int selectnum = 0;
-        for(int i = 0;i < ranges.Length; i++)
+        for (int i = 0; i < ranges.Length; i++)
         {
             if (ranges[i] == -1.0f)
             {
@@ -44,6 +48,7 @@ public class Oni_Script : MonoBehaviour
             }
         }
         agent.SetDestination(playersPos[selectnum].position);
+
     }
     private void OnTriggerEnter(Collider collision)
     {
