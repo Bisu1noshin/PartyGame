@@ -111,7 +111,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
                 for (int i = 0; i < maxPlayerCount; i++) {
 
-                    Vector3 vector3 = Vector3.zero;
+                    Vector3 vector3 =  Vector3.zero;
                     Quaternion quat = Quaternion.identity;
                     GameObject prefab =
                         Resources.Load<GameObject>(SetPlayerPrefab(0));
