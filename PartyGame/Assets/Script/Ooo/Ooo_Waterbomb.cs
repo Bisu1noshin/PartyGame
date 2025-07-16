@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class Ooo_Waterbomb : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Ooo_Waterbomb : MonoBehaviour
 
     [Header("waterbomb Settings")]
     public float explodeTime = 3f;      //3秒経ったら爆発
-    public float explodeRange = 3f;    //爆発範囲
+    public float explodeRange = 2f;    //爆発範囲
 
     [Header("Visual Effects")]
     public GameObject waterbombPrefab;
@@ -36,7 +37,6 @@ public class Ooo_Waterbomb : MonoBehaviour
         explodeCollider.enabled = false;    //爆発する時のみOn
 
         meshRenderer = GetComponent<MeshRenderer>();
-
     }
 
     //設置時初期化
@@ -53,8 +53,8 @@ public class Ooo_Waterbomb : MonoBehaviour
 
         float blinkTime = 1.5f;
         float timeCnt = 0f;
-        float minBlinkTime = 0.1f;
-        float maxBlinkTime = 0.5f;
+        float minBlinkTime = 0.02f;
+        float maxBlinkTime = 0.2f;
 
         int colorIndex = 0;
 

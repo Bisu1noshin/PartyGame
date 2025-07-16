@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 3915453003653387920}
   - component: {fileID: -7733992645767227040}
   - component: {fileID: 274543703072500126}
-  - component: {fileID: -3947030968464108003}
   - component: {fileID: -2453616196013450003}
   m_Layer: 0
   m_Name: explodeEffect
@@ -68,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8baeb1a59e1f2394e812ef9377c5cef5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -127,18 +126,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12d88360c7fcf0b4db6c12c98ca68de9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-3947030968464108003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067417901578702780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 568054c2a78d0014c956a1b6f950bce7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!135 &-2453616196013450003

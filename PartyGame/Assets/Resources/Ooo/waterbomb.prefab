@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8baeb1a59e1f2394e812ef9377c5cef5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -122,6 +122,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explodeTime: 3
-  explodeRadius: 3
+  explodeRange: 1.8
   waterbombPrefab: {fileID: 3470559815867096603}
   explodeEffectPrefab: {fileID: 1067417901578702780, guid: 31cae0dc2afcb394fa01949c07783fcd, type: 3}
+  meshRenderer: {fileID: 0}
+  blinkColors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
