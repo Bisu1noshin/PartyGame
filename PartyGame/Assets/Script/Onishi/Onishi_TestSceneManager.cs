@@ -3,23 +3,91 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Onishi_TestSceneManager : SceneManagerParent
+public class Onishi_TestSceneManager : InGameManeger
 {
-    protected override Type PlayerType()
+    enum GameStatus
+    {
+        standby,    //スタンバイ 始まる前
+        play,       //インゲーム プレイ中
+        finish,     //フィニッシュ ゲーム終了
+        non         //それ以外 基本的に使われない
+    };
+
+    GameStatus status; //ゲームステータス管理
+    float timer = 0f; 
+    float endTime = 20f; //終了時間
+
+    bool playerFlag = false; //プレイヤーの存在フラグ
+
+    protected override Type SetPlayerScript()
     {
         return typeof(Onishi_TestPlayer);
     }
 
-    protected override void UnityUpdate()
+    private void Start()
     {
-        
+        playerInformation = new PlayerInformation[1];
+        status = GameStatus.standby;
     }
 
-    protected override string PlayerFilePath(int index)
+    protected override void Update()
+    {
+        base.Update();
+
+        for(int i=0; i<1; i++)
+        {
+            if (playerInformation[i] == null) {
+                return;
+            }
+        }
+
+        // 呼び出し
+        if (!playerFlag)
+        {
+
+            Vector3 vec = Vector3.zero;
+            Quaternion quat = Quaternion.identity;
+
+            for (int i = 0; i < 1; i++)
+            {
+                player[i] = CreatePlayer(
+                    playerInformation : playerInformation[i],
+                    p : vec,
+                    q : quat
+                    );
+            }
+
+            playerFlag = true;
+        }
+
+        if (status==GameStatus.standby)
+        {
+            Debug.Log("開始");
+            status = GameStatus.play;
+        }
+
+        if (status==GameStatus.play)
+        {
+            timer += Time.deltaTime;
+            if (timer >= endTime)
+            {
+                Debug.Log("終了");
+                status = GameStatus.finish;
+            }
+        }
+    }
+
+    protected override string SetPlayerPrefab(int index)
     {
         string str =
             "Player/Test/Cube_" + index.ToString();
 
         return str;
+    }
+
+    public bool isPlaying()
+    {
+        if (status == GameStatus.play) return true;
+        else return false;
     }
 }

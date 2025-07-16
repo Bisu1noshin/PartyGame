@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class Onishi_BombShoot : MonoBehaviour
 {
-    [SerializeField]float explosionTime = 5.0f; //爆発までの時間
+    [SerializeField]float explosionTime = 5.0f; //自動爆発までの時間
     float timer = 0.0f;
     bool isBomb = false;
     SphereCollider collider;
@@ -31,7 +31,7 @@ public class Onishi_BombShoot : MonoBehaviour
     public async void Explosion()
     {
         collider.enabled = true;
-        await Task.Delay(25);
+        await Task.Delay(25); //当たり判定を取るため一瞬待つ
         Destroy(gameObject);
     }
 
