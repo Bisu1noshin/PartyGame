@@ -905,8 +905,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf877b3f22036a4b86d002a546537f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebagMode: 1
-  maxPlayerCount: 2
+  DebagMode: 0
+  maxPlayerCount: 1
 --- !u!4 &1724073168
 Transform:
   m_ObjectHideFlags: 0
