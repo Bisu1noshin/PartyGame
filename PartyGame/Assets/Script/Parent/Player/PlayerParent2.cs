@@ -18,12 +18,12 @@ public abstract class PlayerParent2 : MonoBehaviour
 
         // アクションを取得
         {
-            _LeftStick = playerInput.actions["LeftStick"];
+            _LeftStick  = playerInput.actions["LeftStick"];
             _RightStick = playerInput.actions["RightStick"];
-            _ButtonA = playerInput.actions["ButtonA"];
-            _ButtonB = playerInput.actions["ButtonB"];
-            _ButtonX = playerInput.actions["ButtonX"];
-            _ButtonY = playerInput.actions["ButtonY"];
+            _ButtonA    = playerInput.actions["ButtonA"];
+            _ButtonB    = playerInput.actions["ButtonB"];
+            _ButtonX    = playerInput.actions["ButtonX"];
+            _ButtonY    = playerInput.actions["ButtonY"];
         }
     }
 

@@ -265,7 +265,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1658878750}
-  - component: {fileID: 1658878751}
   m_Layer: 0
   m_Name: TestSceneManager
   m_TagString: Untagged
@@ -288,45 +287,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1658878751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1658878748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da6cb15c6c122f54083127f1b747a623, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerJoinInputAction:
-    m_Name: Player Join Input
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: b0d8927f-5bf9-4acc-bbe8-605dc9e61e89
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: e5f09237-f09e-4b29-a4c3-51ec725673c4
-      m_Path: <Keyboard>/f
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Player Join Input
-      m_Flags: 0
-    - m_Name: 
-      m_Id: a5707981-6d0d-4764-be61-0edd4a8a5495
-      m_Path: <XInputController>/buttonSouth
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Player Join Input
-      m_Flags: 0
-    m_Flags: 0
-  playerPrefab: {fileID: 5940919299826853170, guid: c0d231d0c9bc8b049b4c88a7ee532581, type: 3}
-  maxPlayerCount: 1
 --- !u!1 &1661255072
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class PlayerInformation
     public      InputDevice     PairWithDevice      { get; private set; } = default;
     public      CharacterType   SelectedCharacter   { get; private set; } = default;
     public      int             PlayerScore         { get; private set; } = default;
+    public      string          playerFBXPath       { get; private set; } = default;
 
     public PlayerInformation(InputDevice pairWithDevice, int index)
     {

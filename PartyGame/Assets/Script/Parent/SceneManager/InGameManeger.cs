@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 
-public abstract class InGameManeger : MonoBehaviour
+public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 {
-    [SerializeField] private bool DebagMode = default;
-    [SerializeField] private int maxPlayerCount = default;
+    [SerializeField] private bool   DebagMode = default;
+    [SerializeField] protected int     maxPlayerCount = default;
 
-    protected PlayerInformation[] playerInformation = default;
-    protected PlayerParent2[] player;
+    protected       PlayerInformation[]     playerInformation = default;
+    protected       PlayerParent2[]         player;
 
     private     Type            playerScript;
     private     InputAction     playerJoinInputAction;
@@ -18,6 +19,9 @@ public abstract class InGameManeger : MonoBehaviour
     private     List<int>       lostDeviceIndex;
     private     int             currentPlayerCount = 0;
 
+    public abstract string SceneName { get; }
+    public abstract void OnLoaded(ISceneData data);
+    public abstract void OnUnLoaded();
 
     // コントローラーが抜けたときの処理
     // プレイヤーを呼び出す関数b
@@ -36,7 +40,6 @@ public abstract class InGameManeger : MonoBehaviour
 
             InputSystem.onDeviceChange += (device, change) =>
             {
-
                 switch (change)
                 {
                     // 新しいデバイスがシステムに追加された
@@ -214,9 +217,12 @@ public abstract class InGameManeger : MonoBehaviour
         return pp;
     }
 
-    protected void NextSceneJump() {
+    protected void NextSceneJump(int nextSceneIndex = 0) {
 
-
+        //// シーン遷移し、遷移先のコンポーネントを取得する
+        //SceneManager.LoadScene("InGameScene");
+        //// 遷移先のコンポーネントのプロパティにセット
+        //target.SetInformation(playerInfos);
     }
 
     // 参照可能メソッド

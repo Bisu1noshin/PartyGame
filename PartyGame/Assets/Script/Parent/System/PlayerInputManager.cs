@@ -15,5 +15,20 @@ public class PlayerInputManager : InGameManeger
     {
         return typeof(TestPlayer);
     }
+    public override string SceneName => "SceneName";
+    public override void OnLoaded(ISceneData data) {
+
+        //if (data is null || data is not BattleSceneData battleData)
+        //{
+        //    Debug.LogError("data is null");
+        //    return;
+        //}
+
+        //// presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
+        //var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
+        //presenter.Initialize(battleData);
+    }
+    public override void OnUnLoaded() { }
+
 
 }
