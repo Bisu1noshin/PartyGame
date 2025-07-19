@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
-public class GameInformation
-{ 
+public static class GameInformation
+{
+    public const int MAX_PLAYER_VALUE = 4;
 }

@@ -7,10 +7,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
+// インゲーム中のSceneを管理する
+// すべてのシーンにこいつを継承させたスクリプトをアタッチすること！
+
 public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 {
-    [SerializeField] private bool   DebagMode = default;
-    [SerializeField] protected int     maxPlayerCount = default;
+    [SerializeField] private    bool    DebagMode       = default;
+    [SerializeField] protected  int     maxPlayerCount  = default;
 
     protected       PlayerInformation[]     playerInformation = default;
     protected       PlayerParent2[]         player;
@@ -20,14 +23,6 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     private     InputDevice[]   joinedDevices = default;
     private     List<int>       lostDeviceIndex;
     private     int             currentPlayerCount = 0;
-
-    public abstract string SceneName { get; }
-    public abstract void OnLoaded(PlayerInformation[] data);
-    public abstract void OnUnLoaded();
-
-    // コントローラーが抜けたときの処理
-    // プレイヤーを呼び出す関数b
-    // データが無い時の例外処理、デバッグ用の処理
 
     protected virtual void Awake()
     {
@@ -140,6 +135,9 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     }
 
     // 抽象メソッド
+    public abstract string SceneName { get; }
+    public abstract void OnLoaded(PlayerInformation[] data);
+    public abstract void OnUnLoaded();
 
     protected abstract string SetPlayerPrefab(int index);
     protected abstract Type SetPlayerScript();
@@ -149,6 +147,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
     private void OnJoin(InputAction.CallbackContext context)
     {
+        // デバイスの再登録
         if (lostDeviceIndex.Count > 0)
         {
             PlayerInput pi = player[lostDeviceIndex[0]].gameObject.GetComponent<PlayerInput>();
@@ -202,6 +201,13 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
     // 継承先使用可能
 
+    /// <summary>
+    /// プレイヤーのインスタンス生成用メソッド
+    /// </summary>
+    /// <param name="playerInformation"></param>
+    /// <param name="p"></param>
+    /// <param name="q"></param>
+    /// <returns></returns>
     protected PlayerParent2 CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q) {
 
         GameObject prefab =

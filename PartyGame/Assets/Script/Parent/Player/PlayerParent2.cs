@@ -4,14 +4,14 @@ using System;
 
 public abstract class PlayerParent2 : MonoBehaviour
 {
-    private PlayerInput playerInput;
-    private InputAction _LeftStick;
-    private InputAction _RightStick;
-    private InputAction _ButtonA;
-    private InputAction _ButtonB;
-    private InputAction _ButtonX;
-    private InputAction _ButtonY;
-
+    private　    PlayerInput      playerInput;
+    private      InputAction      _LeftStick;
+    private      InputAction      _RightStick;
+    private      InputAction      _ButtonA;
+    private      InputAction      _ButtonB;
+    private      InputAction      _ButtonX;
+    private      InputAction      _ButtonY;
+        
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -139,6 +139,16 @@ public abstract class PlayerParent2 : MonoBehaviour
         UpButtonX();
     }
 
+    /// <summary>
+    /// プレイヤーのインスタンス生成
+    /// </summary>
+    /// <param name="prefab"></param>
+    /// <param name="type"></param>
+    /// <param name="device"></param>
+    /// <param name="playerIndex"></param>
+    /// <param name="position"></param>
+    /// <param name="roatation"></param>
+    /// <returns></returns>
     public static PlayerParent2 CreatePlayer(
         GameObject prefab,
         Type type,

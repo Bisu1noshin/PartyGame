@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+//---------------------------------------
+// プレイヤーの見本
+//---------------------------------------
+
 public class TestPlayer : PlayerParent2
 {
     Vector3 moveVec;
