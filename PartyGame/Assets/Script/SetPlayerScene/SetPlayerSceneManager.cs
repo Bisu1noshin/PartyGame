@@ -17,7 +17,7 @@ public class SetPlayerSceneManager : InGameManeger
 
     protected override Type SetPlayerScript()
     {
-        return typeof(TestPlayer);
+        return typeof(SetPlayerScenePlayerContllore);
     }
 
     private void Start()
@@ -43,12 +43,14 @@ public class SetPlayerSceneManager : InGameManeger
                 Vector3 v = Vector3.zero;
                 Quaternion q = Quaternion.identity;
                 player[i] = CreatePlayer(playerInformation[i], v, q);
+
+                Debug.Log("player" + (i + 1) + "が追加されました");
             }
         }
 
         for (int i = 0; i < GameInformation.MAX_PLAYER_VALUE; i++)
         {
-            if (!decideFlag[i] || playerInformation[i] == null)
+            if (!decideFlag[i] || playerInformation[i].playerFBXPath == null)
             {
                 return;
             }
@@ -82,7 +84,7 @@ public class SetPlayerSceneManager : InGameManeger
 
     public void SetPlayerInformation(PlayerInformation data ,int index) {
 
-        playerInformation[index] = data;
+        playerInformation[index] += data;
         decideFlag[index] = true;
     }
 }

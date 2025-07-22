@@ -27,7 +27,7 @@ public class LoadSceneManager : InGameManeger
         }
     }
 
-    public override string SceneName => "TitleScene";
+    public override string SceneName => NextRandGame();
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -48,5 +48,10 @@ public class LoadSceneManager : InGameManeger
     {
 
         SSceneManager.LoadScene<LoadSceneManager>(playerInformation).Forget();
+    }
+
+    private string NextRandGame() {
+
+        return "TestGame";
     }
 }

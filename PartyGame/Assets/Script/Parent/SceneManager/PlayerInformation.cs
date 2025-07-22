@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public enum CharacterType
@@ -67,7 +68,7 @@ public class PlayerInformation
         PlayerScore         = 0;
     }
 
-    public PlayerInformation(InputDevice pairWithDevice, int index,string path) {
+    public PlayerInformation(int index,string path) {
 
         if (index > 3)
         {
@@ -77,10 +78,20 @@ public class PlayerInformation
                 );
         }
 
-        PairWithDevice = pairWithDevice;
+        PairWithDevice = null;
         SelectedCharacter = (CharacterType)index;
         playerFBXPath = path;
         PlayerScore = 0;
+    }
+
+    public static PlayerInformation operator +(PlayerInformation left, PlayerInformation right) {
+
+        PlayerInformation pi = left;
+
+        pi.SelectedCharacter = right.SelectedCharacter;
+        pi.playerFBXPath = right.playerFBXPath;
+
+        return pi;
     }
 
     public void AddPlayerScore(int score) {

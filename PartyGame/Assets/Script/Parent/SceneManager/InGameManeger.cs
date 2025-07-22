@@ -76,13 +76,18 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
             };
         }
 
+        if (DebagMode)
+            playerInformation = new PlayerInformation[maxPlayerCount];
+        else
+        {
+            maxPlayerCount = GameInformation.MAX_PLAYER_VALUE;
+            playerInformation = new PlayerInformation[maxPlayerCount];
+            for (int i = 0; i < maxPlayerCount; i++) playerInformation[i] = null;
+        }
+
         playerScript = SetPlayerScript();
         joinedDevices = new InputDevice[maxPlayerCount];
         player = new PlayerParent2[maxPlayerCount];
-#if UNITY_EDITOR
-        if (DebagMode)
-            playerInformation = new PlayerInformation[maxPlayerCount];
-#endif
     }
 
     protected virtual void OnDestroy()

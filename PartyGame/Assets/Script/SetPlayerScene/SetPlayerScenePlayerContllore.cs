@@ -6,7 +6,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent2
     bool onButtonA;
     int UIContllore;
 
-    private string FBXpath;
+    private string FBXpath = " ";
     private PlayerInformation information = default;
 
     private enum StateType {
@@ -93,8 +93,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent2
     }
     private void UpDateUserNum() {
 
-
-
         if (onButtonA) {
 
             SetUserNum = true;
@@ -105,22 +103,44 @@ public class SetPlayerScenePlayerContllore : PlayerParent2
             st.ExecuteTrigger(TriggerType.ChoseFBX);
         }
     }
-    private void ExitUserNum() { }
+    private void ExitUserNum() {
+
+        Debug.Log("ExitUserNum");
+    }
 
     private void EnterChoseFBX() { }
-    private void UpDateChoseFBX() { }
-    private void ExitChoseFBX() { }
+    private void UpDateChoseFBX() {
+
+        st.ExecuteTrigger(TriggerType.End);
+    }
+    private void ExitChoseFBX() {
+
+        Debug.Log("ExitChoseFBX");
+    }
 
     private void EnterEnd() {
-        //information = new PlayerInformation(playerInput.devices, playerInput.playerIndex,FBXpath);
+
+        information = new PlayerInformation(playerInput.playerIndex,FBXpath);
     }
-    private void UpDateEnd() { }
-    private void ExitEnd() { }
+    private void UpDateEnd() {
+
+        if(onButtonA) {
+
+            SetPlayerInformation();
+            onButtonA = false;
+        }
+    }
+    private void ExitEnd() {
+
+        information = new PlayerInformation(playerInput.playerIndex, null);
+    }
 
     private void SetPlayerInformation() {
 
         GameObject sm = GameObject.Find("SceneManager");
         sm.GetComponent<SetPlayerSceneManager>().
             SetPlayerInformation(information, playerInput.playerIndex);
+
+        Debug.Log("player" + playerInput.playerIndex + "のデータを追記しました。");
     }
 }
