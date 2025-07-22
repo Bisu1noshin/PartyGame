@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using TMPro;
 
 public class Onishi_TestSceneManager : InGameManeger
 {
@@ -13,14 +14,15 @@ public class Onishi_TestSceneManager : InGameManeger
         non         //それ以外 基本的に使われない
     };
 
-    GameStatus status; //ゲームステータス管理
-    float timer = 0f; 
-    float endTime = 20f; //終了時間
+    private GameStatus status; //ゲームステータス管理
+    float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
 
     bool playerFlag = false; //プレイヤーの存在フラグ
 
-    [SerializeField]GameObject StartText;
-    [SerializeField] GameObject Canvas;
+    [SerializeField] GameObject StartText; //Startの文字のPrefab
+    [SerializeField] GameObject FinishText; //Finishの文字のPrefab
+    [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
+    [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
 
     protected override Type SetPlayerScript()
     {
@@ -47,7 +49,6 @@ public class Onishi_TestSceneManager : InGameManeger
         // 呼び出し
         if (!playerFlag)
         {
-
             Vector3 vec = Vector3.zero;
             Quaternion quat = Quaternion.identity;
 
@@ -63,24 +64,49 @@ public class Onishi_TestSceneManager : InGameManeger
             playerFlag = true;
         }
 
-        if (status==GameStatus.standby)
+        //ここまでくると開始可能となる
+        //ゲーム開始時処理
+        if (status == GameStatus.standby) 
         {
-            Debug.Log("開始");
+            //「Start」の文字を召喚
             GameObject go = Instantiate(StartText);
             go.transform.SetParent(Canvas.transform);
+            go.transform.position = new Vector3(600, 400, 0);
+
+            //Statusを変更
             status = GameStatus.play;
         }
 
-        if (status==GameStatus.play)
+        //インゲーム処理
+        if (status == GameStatus.play) 
         {
-            timer += Time.deltaTime;
-            if (timer >= endTime)
+            timer -= Time.deltaTime;
+            text_Timer.text = timer.ToString("F0");
+
+            //ゲーム終了時処理
+            if (timer <= 0f)
             {
-                Debug.Log("終了");
+                timer = 0;
+
+                //「Finish」の文字を召喚
+                GameObject go = Instantiate(FinishText);
+                go.transform.SetParent(Canvas.transform);
+                go.transform.position = new Vector3(600, 400, 0);
+
+                //Statusを変更
                 status = GameStatus.finish;
             }
         }
     }
+
+    //プレイ中かを返す関数
+    public bool isPlaying()
+    {
+        if (status == GameStatus.play) return true;
+        else return false;
+    }
+
+    //以下、必要がなければ触らない----------------------------------------------
 
     protected override string SetPlayerPrefab(int index)
     {
@@ -88,12 +114,6 @@ public class Onishi_TestSceneManager : InGameManeger
             "Player/Test/Cube_" + index.ToString();
 
         return str;
-    }
-
-    public bool isPlaying()
-    {
-        if (status == GameStatus.play) return true;
-        else return false;
     }
 
     public override string SceneName => "TitleScene";

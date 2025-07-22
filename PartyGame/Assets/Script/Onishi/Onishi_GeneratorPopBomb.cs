@@ -8,11 +8,13 @@ public class Onishi_GeneratorPopBomb : MonoBehaviour
     const float zRange = 9.0f; //xとzの範囲
     const float zOffset = 7.0f; //zのオフセット
 
-    float timer = 0.0f;
     float spawnRate = 5.0f;//スポーン間隔
+    float timer;
+    
 
     private void Start()
     {
+        timer = spawnRate;
         sceneManager = GameObject.Find("TestSceneManager").GetComponent<Onishi_TestSceneManager>();
     }
 

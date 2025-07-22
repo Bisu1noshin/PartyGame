@@ -38,6 +38,7 @@ public class Onishi_TestPlayer : PlayerParent2
             //移動
             transform.position += moveVec * plSpeed * Time.deltaTime;
         }
+
         //Escapeでデバッグモードを抜けるだけ
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape))
