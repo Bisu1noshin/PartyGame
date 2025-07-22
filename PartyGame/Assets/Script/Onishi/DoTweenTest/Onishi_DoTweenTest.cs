@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using DG.Tweening;
 
 public class Onishi_DoTweenTest : MonoBehaviour
 {
@@ -8,17 +9,18 @@ public class Onishi_DoTweenTest : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Simple());
+        //テキストを透明に
+        Color color = text.color;
+        color.a = 0f;
+        text.color = color;
+
+        var seqText = DOTween.Sequence();
+        seqText.Append(text.DOFade(1f, 2f).SetEase(Ease.OutQuart));
+        seqText.Append(text.DOFade(0f, 1f).SetEase(Ease.OutQuart).OnComplete(Complete));
     }
 
-    private IEnumerator Simple()
+    void Complete()
     {
-        text.maxVisibleCharacters = 0;
-
-        for(var i = 0; i < text.text.Length; ++i)
-        {
-            yield return new WaitForSeconds(0.2f);
-            text.maxVisibleCharacters = i + 1;
-        }
+        Destroy(this.gameObject);
     }
 }

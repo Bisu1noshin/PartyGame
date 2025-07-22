@@ -19,6 +19,9 @@ public class Onishi_TestSceneManager : InGameManeger
 
     bool playerFlag = false; //プレイヤーの存在フラグ
 
+    [SerializeField]GameObject StartText;
+    [SerializeField] GameObject Canvas;
+
     protected override Type SetPlayerScript()
     {
         return typeof(Onishi_TestPlayer);
@@ -63,6 +66,8 @@ public class Onishi_TestSceneManager : InGameManeger
         if (status==GameStatus.standby)
         {
             Debug.Log("開始");
+            GameObject go = Instantiate(StartText);
+            go.transform.SetParent(Canvas.transform);
             status = GameStatus.play;
         }
 
