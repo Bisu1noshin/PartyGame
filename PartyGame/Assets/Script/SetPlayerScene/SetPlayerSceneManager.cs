@@ -74,7 +74,10 @@ public class SetPlayerSceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() { }
+    public override void OnUnLoaded() {
+
+        GameInformation.RandomGameScene();
+    }
 
     protected override void NextSceneJump()
     {
