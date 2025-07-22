@@ -130,8 +130,6 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
             return;
         }
 #endif
-
-
     }
 
     // 抽象メソッド

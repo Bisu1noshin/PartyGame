@@ -67,6 +67,22 @@ public class PlayerInformation
         PlayerScore         = 0;
     }
 
+    public PlayerInformation(InputDevice pairWithDevice, int index,string path) {
+
+        if (index > 3)
+        {
+
+            throw new ArgumentOutOfRangeException(
+                "playerの最大人数を越えています。"
+                );
+        }
+
+        PairWithDevice = pairWithDevice;
+        SelectedCharacter = (CharacterType)index;
+        playerFBXPath = path;
+        PlayerScore = 0;
+    }
+
     public void AddPlayerScore(int score) {
 
         if (score <= 0) {

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class SetPlayerScenePlayerContllore : PlayerParent
+public class SetPlayerScenePlayerContllore : PlayerParent2
 {
-    //PlayerData
-
     bool SetUserNum;
-    bool ChoseFBX;
     bool onButtonA;
     int UIContllore;
+
+    private string FBXpath;
+    private PlayerInformation information = default;
 
     private enum StateType {
 
@@ -26,10 +26,8 @@ public class SetPlayerScenePlayerContllore : PlayerParent
 
     private StateMachine<StateType, TriggerType> st;
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-
         // StateMachine
         {
             // 初期化
@@ -64,7 +62,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     protected override void OnButtonA()
     {
         onButtonA = true;
-        Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
     }
 
     protected override void UpButtonA() {
@@ -114,7 +111,16 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     private void UpDateChoseFBX() { }
     private void ExitChoseFBX() { }
 
-    private void EnterEnd() { }
+    private void EnterEnd() {
+        //information = new PlayerInformation(playerInput.devices, playerInput.playerIndex,FBXpath);
+    }
     private void UpDateEnd() { }
     private void ExitEnd() { }
+
+    private void SetPlayerInformation() {
+
+        GameObject sm = GameObject.Find("SceneManager");
+        sm.GetComponent<SetPlayerSceneManager>().
+            SetPlayerInformation(information, playerInput.playerIndex);
+    }
 }

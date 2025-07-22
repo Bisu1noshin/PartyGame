@@ -3,7 +3,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputManager : InGameManeger
+public class LoadSceneManager : InGameManeger
 {
     protected override string SetPlayerPrefab(int index)
     {
@@ -20,12 +20,17 @@ public class PlayerInputManager : InGameManeger
     {
         base.Update();
 
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+
+            NextSceneJump();
+        }
     }
 
-    public override string SceneName => "LoadScene";
+    public override string SceneName => "TitleScene";
 
-    public override void OnLoaded(PlayerInformation[] data) {
+    public override void OnLoaded(PlayerInformation[] data)
+    {
 
         if (data is null || data is not PlayerInformation[] playerInformation)
         {
@@ -39,8 +44,9 @@ public class PlayerInputManager : InGameManeger
     }
     public override void OnUnLoaded() { }
 
-    protected override void NextSceneJump() {
+    protected override void NextSceneJump()
+    {
 
-        SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
+        SSceneManager.LoadScene<LoadSceneManager>(playerInformation).Forget();
     }
 }

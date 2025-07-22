@@ -4,7 +4,8 @@ using System;
 
 public abstract class PlayerParent2 : MonoBehaviour
 {
-    private　    PlayerInput      playerInput;
+    protected　  PlayerInput      playerInput;
+
     private      InputAction      _LeftStick;
     private      InputAction      _RightStick;
     private      InputAction      _ButtonA;

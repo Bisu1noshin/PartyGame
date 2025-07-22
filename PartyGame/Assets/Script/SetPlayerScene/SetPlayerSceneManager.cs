@@ -5,6 +5,10 @@ using UnityEngine.InputSystem;
 
 public class SetPlayerSceneManager : InGameManeger
 {
+    private bool[] instanceFlag = default;
+    private bool[] decideFlag = default;
+    private int decideCnt = default;
+
     protected override string SetPlayerPrefab(int index)
     {
         string playerPrefabPath = "Player/Test/Cube_" + index.ToString();
@@ -16,17 +20,44 @@ public class SetPlayerSceneManager : InGameManeger
         return typeof(TestPlayer);
     }
 
+    private void Start()
+    {
+        instanceFlag = new bool[GameInformation.MAX_PLAYER_VALUE];
+        decideFlag = new bool[GameInformation.MAX_PLAYER_VALUE];
+        for (int i = 0; i < instanceFlag.Length; i++) {
+            instanceFlag[i] = true;
+            decideFlag[i] = false;
+        }
+    }
+
     protected override void Update()
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.A))
+        for (int i = 0; i < GameInformation.MAX_PLAYER_VALUE; i++)
         {
-            NextSceneJump();
+            if (instanceFlag[i] && playerInformation[i] != null)
+            {
+                instanceFlag[i] = false;
+
+                Vector3 v = Vector3.zero;
+                Quaternion q = Quaternion.identity;
+                player[i] = CreatePlayer(playerInformation[i], v, q);
+            }
         }
+
+        for (int i = 0; i < GameInformation.MAX_PLAYER_VALUE; i++)
+        {
+            if (!decideFlag[i] || playerInformation[i] == null)
+            {
+                return;
+            }
+        }
+
+        NextSceneJump();
     }
 
-    public override string SceneName => "TitleScene";
+    public override string SceneName => "LoadScene";
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -47,5 +78,11 @@ public class SetPlayerSceneManager : InGameManeger
     {
 
         SSceneManager.LoadScene<SetPlayerSceneManager>(playerInformation).Forget();
+    }
+
+    public void SetPlayerInformation(PlayerInformation data ,int index) {
+
+        playerInformation[index] = data;
+        decideFlag[index] = true;
     }
 }
