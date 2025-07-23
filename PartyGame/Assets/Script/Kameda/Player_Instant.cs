@@ -3,23 +3,23 @@ using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-public class Player_Instant : PlayerParent
+public class Player_Instant : PlayerParent2
 {
     float PlayerSpeed = 4.0f;
     Vector3 moveVec;
     Rigidbody rb;
     Light_Script ls;
     GameObject oni;
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
         transform.position = new Vector3(-5, 0, -2) + Vector3.up * -1.25f;
         moveVec = Vector3.zero;
         transform.localScale = Vector3.one * 0.5f;
         gameObject.GetOrAddComponent<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         rb.AddForce(new Vector3(0, -100, 0));
-        ls = GameObject.Find("Light_Player" + GetPlayerNum()).GetComponent<Light_Script>();
+        ls = GameObject.Find("Light_Player").GetComponent<Light_Script>();
+        ls.gameObject.name = "Light_Player_Used";
         ls.player = this.gameObject;
         oni = GameObject.Find("Oni");
     }
@@ -42,8 +42,6 @@ public class Player_Instant : PlayerParent
 
     protected override void OnButtonA()
     {
-
-        Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
     }
 
     protected override void UpButtonA() { }
@@ -61,12 +59,6 @@ public class Player_Instant : PlayerParent
     protected override void UpButtonY() { }
     void UpdateTransformforOni()
     {
-        int playernum = GetPlayerNum() - 1;
-        GameObject.Find("Oni").GetComponent<Oni_Script>().playersPos[playernum] = transform;
-    }
-    int GetPlayerNum()
-    {
-        return GetPlayerDate().GetUserValue();
     }
     void SetLightColorInDenger()
     {

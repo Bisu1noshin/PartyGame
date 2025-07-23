@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 
-public abstract class InGameManeger : MonoBehaviour
+public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 {
-    [SerializeField] private bool DebagMode = default;
-    [SerializeField] private int maxPlayerCount = default;
+    [SerializeField] private bool   DebagMode = default;
+    [SerializeField] protected int     maxPlayerCount = default;
 
-    protected PlayerInformation[] playerInformation = default;
-    protected PlayerParent2[] player;
+    protected       PlayerInformation[]     playerInformation = default;
+    protected       PlayerParent2[]         player;
 
     private     Type            playerScript;
     private     InputAction     playerJoinInputAction;
@@ -18,6 +21,9 @@ public abstract class InGameManeger : MonoBehaviour
     private     List<int>       lostDeviceIndex;
     private     int             currentPlayerCount = 0;
 
+    public abstract string SceneName { get; }
+    public abstract void OnLoaded(PlayerInformation[] data);
+    public abstract void OnUnLoaded();
 
     // コントローラーが抜けたときの処理
     // プレイヤーを呼び出す関数b
@@ -36,7 +42,6 @@ public abstract class InGameManeger : MonoBehaviour
 
             InputSystem.onDeviceChange += (device, change) =>
             {
-
                 switch (change)
                 {
                     // 新しいデバイスがシステムに追加された
@@ -108,7 +113,7 @@ public abstract class InGameManeger : MonoBehaviour
 
                 for (int i = 0; i < maxPlayerCount; i++) {
 
-                    Vector3 vector3 = Vector3.zero;
+                    Vector3 vector3 =  Vector3.zero;
                     Quaternion quat = Quaternion.identity;
                     GameObject prefab =
                         Resources.Load<GameObject>(SetPlayerPrefab(0));
@@ -138,6 +143,7 @@ public abstract class InGameManeger : MonoBehaviour
 
     protected abstract string SetPlayerPrefab(int index);
     protected abstract Type SetPlayerScript();
+    protected abstract void NextSceneJump();
 
     // メソッド
 
@@ -168,7 +174,7 @@ public abstract class InGameManeger : MonoBehaviour
         }
 
         playerInformation[currentPlayerCount] =
-            new PlayerInformation(context.control.device);
+            new PlayerInformation(context.control.device, currentPlayerCount);
 
         // Joinしたデバイス情報を保存
         joinedDevices[currentPlayerCount] = context.control.device;

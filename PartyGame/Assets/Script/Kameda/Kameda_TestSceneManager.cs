@@ -2,60 +2,62 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kameda_TestSceneManager : SceneManagerParent
+public class Kameda_TestSceneManager : InGameManeger
 {
-    enum GameState { Title, Introsuction, GameMain, Finish, Result };
-    GameState gameState;
-    bool PlayersNotExist;
+    Oni_Script o_s;
+    [SerializeField] GameObject light;
     private void Start()
     {
-        gameState = GameState.Title;
-        PlayersNotExist = true;
+        o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
+        for(int i = 0; i < 4; ++i)
+        {
+            Instantiate(light);
+        }
     }
-    
-    protected override Type PlayerType()
+    protected override void Update()
+    {
+        base.Update();
+        int j = 0;
+        for(int i = 0; i < player.Length; i++)
+        {
+            if (player[i] != null)
+            {
+                o_s.playersPos[j] = player[i].transform;
+                j++;
+            }
+        }
+    }
+    protected override Type SetPlayerScript()
     {
         return typeof(Player_Instant);
     }
-    protected override void UnityUpdate()
-    {
-        switch (gameState)
-        {
-            case GameState.Title:
-                //if(PlayersNotExist)
-                //{
-                //    List<PlayerDate> pds = new List<PlayerDate>();
-                //    pds = PlayerDataContllore.PlayerDataContllore_instance.GetPlayerDate();
-                //    int index = 0;
-                //    Vector3 originpos = new (-3, 0, 4);
-                //    foreach (PlayerDate playerData in pds)
-                //    {
-                //        player[index] = CreatePlayer(playerData, originpos, Quaternion.Euler(0, -90, 0));
-                //        index++;
-                //        originpos.x += 2.0f;
-                //    }
-                //    PlayersNotExist = false;
-                //}
-                
-                break;
-            case GameState.Introsuction:
-                break;
-                case GameState.GameMain:
-                break;
-            case GameState.Finish:
-                break;
-            case GameState.Result:
-                break;
-            default:
-                break;
-        }
-    }
-
-    protected override string PlayerFilePath(int index)
+    protected override string SetPlayerPrefab(int index)
     {
         string str =
             "Player/Test_Kameda/Cube_" + index.ToString();
 
         return str;
+    }
+    public override string SceneName => "TitleScene";
+
+    public override void OnLoaded(PlayerInformation[] data)
+    {
+
+        if (data is null || data is not PlayerInformation[] playerInformation)
+        {
+            Debug.LogError("data is null");
+            return;
+        }
+
+        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
+        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
+        presenter.SetPlayerInformation(playerInformation);
+    }
+    public override void OnUnLoaded() { }
+
+    protected override void NextSceneJump()
+    {
+
+        SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
     }
 }
