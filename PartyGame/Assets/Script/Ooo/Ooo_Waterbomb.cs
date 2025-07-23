@@ -137,9 +137,7 @@ public class Ooo_Waterbomb : MonoBehaviour
 
         if(player != null && player.IsTrapped())
         {
-            player.GetTrapped();
-            
-            
+            player.GetTrapped(waterBombPlayerId);
         }
     }
 

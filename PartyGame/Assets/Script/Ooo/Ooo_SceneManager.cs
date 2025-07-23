@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
-
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Ooo_SceneManager : InGameManeger
 {
@@ -19,13 +19,13 @@ public class Ooo_SceneManager : InGameManeger
 
     private GameStatus status; //ゲームステータス管理
     float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
-    int EscapeButton;
+    
 
     [SerializeField] GameObject StartText; //Startの文字のPrefab
     [SerializeField] GameObject FinishText; //Finishの文字のPrefab
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
-    [SerializeField] TMP_Text text_EscapeButton; //タイマーを表示するText
+    
 
 
     protected override Type SetPlayerScript()
@@ -35,14 +35,16 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[1];
-        Ooo_TestPlayer.nowEscapeClick = EscapeButton;
+        playerInformation = new PlayerInformation[2];
+        status = GameStatus.standby;
+        
         
     }
 
     protected override void Update()
     {
-        for (int i = 0; i < 1; i++)
+        base.Update();
+        for (int i = 0; i < 2; i++)
         {
             if (playerInformation[i] == null)
             {
@@ -56,7 +58,7 @@ public class Ooo_SceneManager : InGameManeger
             Vector3 vec = Vector3.zero;
             Quaternion quat = Quaternion.identity;
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 2; i++)
             {
                 player[i] = CreatePlayer(
                     playerInformation: playerInformation[i],
@@ -85,7 +87,6 @@ public class Ooo_SceneManager : InGameManeger
             timer -= Time.deltaTime;
             text_Timer.text = timer.ToString("F0");
 
-            text_EscapeButton.text = "Escape Button(B): " + EscapeButton.ToString();
 
             //ゲーム終了時処理
             if (timer <= 0f)
@@ -101,14 +102,8 @@ public class Ooo_SceneManager : InGameManeger
                 status = GameStatus.finish;
             }
         }
-    }
-
-    void AddScore()
-    {
 
     }
-
-
 
     protected override string SetPlayerPrefab(int index)
     {
