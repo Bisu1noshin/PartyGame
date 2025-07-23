@@ -4,23 +4,25 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class Ooo_SceneManager : SceneManagerParent
+public class Ooo_SceneManager : InGameManeger
 {
-    protected override Type PlayerType()
+    protected override Type SetPlayerScript()
     {
         return typeof(Ooo_TestPlayer);
     }
 
-    protected override void UnityUpdate()
+    protected override void Update()
     {
 
     }
 
-    protected override string PlayerFilePath(int index)
+    protected override string SetPlayerPrefab(int index)
     {
         string str =
             "Player/Test/Cube_" + index.ToString();
 
         return str;
     }
+
+
 }
