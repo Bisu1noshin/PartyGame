@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UI;
 
-public class Ooo_TestPlayer : PlayerParent
+public class Ooo_TestPlayer : PlayerParent2
 {
     Vector3 moveVec;
 
@@ -16,22 +16,24 @@ public class Ooo_TestPlayer : PlayerParent
     //囲まれたら時の設定
     [Header("Trap Settings")]
     public float trapTime = 3f;    //基本爆発時間は3秒(囲まれたら3秒）
-    //public float escapeSpeedUp = 0.3f;   //連打すれば0.3秒ずつ減少
     public int maxEscapeClick = 10;     //最大連打可能回数（3秒内に10回押したら脱出可能）
 
     public bool isTrapped = false;    //相手のWaterbombに囲まれたか
-    public int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
+    public static int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
+    public int playerId;
+    public int score = 0;
 
-    
-    
 
-    protected override void Start()
+
+
+    protected void Start()
     {
-        base.Start();
         waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb");
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
-        
+        playerId = playerInput.playerIndex;
+
+
 
 
     }
@@ -59,18 +61,18 @@ public class Ooo_TestPlayer : PlayerParent
 
     protected override void OnButtonA()
     {
-        Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
+        //Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
     }
 
     protected override void UpButtonA() { }
 
     protected override void OnButtonB()
     {
-        if(isTrapped)  //囲まれたら
+        if (isTrapped)  //囲まれたら
         {
             nowEscapeClick++;   //Bボタン押すたびに +1
 
-            if(nowEscapeClick >= maxEscapeClick)    //3秒内に10回以上押したら
+            if (nowEscapeClick >= maxEscapeClick)    //3秒内に10回以上押したら
             {
                 ForceEscape();   //水風船から脱出！
             }
@@ -96,18 +98,18 @@ public class Ooo_TestPlayer : PlayerParent
 
     void ThrowBomb()    //Waterbombを置く関数
     {
-        if(waterbombPrefab != null)
+        if (waterbombPrefab != null)
         {
             //今のプレイヤの位置に水風船配置
             GameObject waterbomb = Instantiate(waterbombPrefab, transform.position, Quaternion.identity);
 
             //誰がwaterbombを配置したのか(waterbombのIDを与える)
             Ooo_Waterbomb ooo_waterbomb = waterbomb.GetComponent<Ooo_Waterbomb>();  //Waterbombスクリプト
-            if(ooo_waterbomb != null)
+            if (ooo_waterbomb != null)
             {
-                ooo_waterbomb.Initialize(playerData.GetUserValue());
+                ooo_waterbomb.Initialize(playerInput.playerIndex);
             }
-            
+
         }
     }
 
@@ -118,14 +120,14 @@ public class Ooo_TestPlayer : PlayerParent
         moveVec = Vector3.zero; //動けない
         nowEscapeClick = 0;     //escapeボタン初期化
 
-        while(trapTime > 0 && isTrapped)
+        while (trapTime > 0 && isTrapped)
         {
             trapTime -= Time.deltaTime;
-            
+
             yield return null;
         }
 
-        if(isTrapped)
+        if (isTrapped)
         {
             Escape();
         }
@@ -133,12 +135,12 @@ public class Ooo_TestPlayer : PlayerParent
 
     void ForceEscape()
     {
-        if(isTrapped)
+        if (isTrapped)
         {
             StopAllCoroutines();
             Escape();
         }
-        Debug.Log("Escapeできました");
+        //Debug.Log("Escapeできました");
     }
 
     void Escape()
@@ -152,20 +154,40 @@ public class Ooo_TestPlayer : PlayerParent
         return isTrapped;
     }
 
+    void AddScore()
+    {
+        score++;
+        Debug.Log(score.ToString());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("explodeEffect") && !isTrapped)
         {
-            GetTrapped();
+            GetTrapped(playerId);
         }
     }
 
-    public void GetTrapped()
+    public void GetTrapped(int ownerPlayerId)
     {
         if (isTrapped = true)
         {
             moveVec = Vector3.zero; //動けない
 
+            if (ownerPlayerId != playerId)  //自分のwaterBombじゃなかったら Score +1
+            {
+                //PlayerIdの中でownerPlayerIdを持ってるplayer
+                Ooo_TestPlayer[] players = FindObjectsOfType<Ooo_TestPlayer>();
+                foreach (var player in players)
+                {
+                    if (player.playerId == ownerPlayerId)
+                    {
+                        player.AddScore();
+                        break;
+                    }
+                }
+
+            }
         }
     }
 }
