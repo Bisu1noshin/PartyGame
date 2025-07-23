@@ -19,6 +19,9 @@ public class TestPlayer : PlayerParent
 
         //移動方向を決定
         moveVec = new Vector3(vec.x, 0, vec.y);
+
+        // 回転の補正
+        animationContllore.RotaitionContllore(vec);
     }
 
     protected override void LookUpdate(Vector2 vec)
