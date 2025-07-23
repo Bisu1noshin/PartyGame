@@ -47,6 +47,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent2
         }
 
         onButtonA = false;
+        UIContllore = 0;
     }
 
     protected override void MoveUpdate(Vector2 vec)
