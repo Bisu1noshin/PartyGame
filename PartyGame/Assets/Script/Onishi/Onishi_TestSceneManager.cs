@@ -135,7 +135,6 @@ public class Onishi_TestSceneManager : InGameManeger
 
     protected override void NextSceneJump()
     {
-
-        SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
+        SSceneManager.LoadScene<Onishi_TestSceneManager>(playerInformation).Forget();
     }
 }
