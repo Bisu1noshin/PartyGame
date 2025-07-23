@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4880352429146459508}
   - component: {fileID: 6554165124918752953}
   - component: {fileID: 3915453003653387920}
-  - component: {fileID: 8929445610998242883}
   - component: {fileID: -7733992645767227040}
-  - component: {fileID: 1084044187166333536}
+  - component: {fileID: 274543703072500126}
+  - component: {fileID: -2453616196013450003}
   m_Layer: 0
   m_Name: explodeEffect
   m_TagString: explodeEffect
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8baeb1a59e1f2394e812ef9377c5cef5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89,27 +89,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8929445610998242883
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1067417901578702780}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-7733992645767227040
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -137,7 +116,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1084044187166333536
+--- !u!114 &274543703072500126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,10 +125,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067417901578702780}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da906f5f6490724c9e70fc53891967a, type: 3}
+  m_Script: {fileID: 11500000, guid: 12d88360c7fcf0b4db6c12c98ca68de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explodeTime: 3
-  explodeRadius: 3
-  waterbombPrefab: {fileID: 3470559815867096603, guid: 5d95e66a4bce3724fac044c514a4813b, type: 3}
-  expoldeEffectPrefab: {fileID: 1067417901578702780}
+--- !u!135 &-2453616196013450003
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067417901578702780}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
