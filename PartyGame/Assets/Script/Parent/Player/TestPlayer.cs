@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 // プレイヤーの見本
 //---------------------------------------
 
-public class TestPlayer : PlayerParent2
+public class TestPlayer : PlayerParent
 {
     Vector3 moveVec;
     float plSpeed = 10.0f;

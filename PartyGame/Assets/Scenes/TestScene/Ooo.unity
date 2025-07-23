@@ -290,7 +290,6 @@ MonoBehaviour:
   FinishText: {fileID: 1406932386179043561, guid: 2818cb9e7319b144488a30a16e58e500, type: 3}
   Canvas: {fileID: 1982291522}
   text_Timer: {fileID: 537501923}
-  text_EscapeButton: {fileID: 2094522732}
 --- !u!4 &626434466
 Transform:
   m_ObjectHideFlags: 0

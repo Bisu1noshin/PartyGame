@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UI;
 
-public class Ooo_TestPlayer : PlayerParent2
+public class Ooo_TestPlayer : PlayerParent
 {
     Vector3 moveVec;
 
@@ -20,16 +20,20 @@ public class Ooo_TestPlayer : PlayerParent2
 
     public bool isTrapped = false;    //相手のWaterbombに囲まれたか
     public static int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
+    public int playerId;
+    public int score = 0;
 
-    
-    
 
-    protected  void Start()
+
+
+    protected void Start()
     {
         waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb");
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
-        
+        playerId = playerInput.playerIndex;
+
+
 
 
     }
@@ -64,11 +68,11 @@ public class Ooo_TestPlayer : PlayerParent2
 
     protected override void OnButtonB()
     {
-        if(isTrapped)  //囲まれたら
+        if (isTrapped)  //囲まれたら
         {
             nowEscapeClick++;   //Bボタン押すたびに +1
 
-            if(nowEscapeClick >= maxEscapeClick)    //3秒内に10回以上押したら
+            if (nowEscapeClick >= maxEscapeClick)    //3秒内に10回以上押したら
             {
                 ForceEscape();   //水風船から脱出！
             }
@@ -94,18 +98,18 @@ public class Ooo_TestPlayer : PlayerParent2
 
     void ThrowBomb()    //Waterbombを置く関数
     {
-        if(waterbombPrefab != null)
+        if (waterbombPrefab != null)
         {
             //今のプレイヤの位置に水風船配置
             GameObject waterbomb = Instantiate(waterbombPrefab, transform.position, Quaternion.identity);
 
             //誰がwaterbombを配置したのか(waterbombのIDを与える)
             Ooo_Waterbomb ooo_waterbomb = waterbomb.GetComponent<Ooo_Waterbomb>();  //Waterbombスクリプト
-            if(ooo_waterbomb != null)
+            if (ooo_waterbomb != null)
             {
                 ooo_waterbomb.Initialize(playerInput.playerIndex);
             }
-            
+
         }
     }
 
@@ -116,14 +120,14 @@ public class Ooo_TestPlayer : PlayerParent2
         moveVec = Vector3.zero; //動けない
         nowEscapeClick = 0;     //escapeボタン初期化
 
-        while(trapTime > 0 && isTrapped)
+        while (trapTime > 0 && isTrapped)
         {
             trapTime -= Time.deltaTime;
-            
+
             yield return null;
         }
 
-        if(isTrapped)
+        if (isTrapped)
         {
             Escape();
         }
@@ -131,7 +135,7 @@ public class Ooo_TestPlayer : PlayerParent2
 
     void ForceEscape()
     {
-        if(isTrapped)
+        if (isTrapped)
         {
             StopAllCoroutines();
             Escape();
@@ -150,20 +154,40 @@ public class Ooo_TestPlayer : PlayerParent2
         return isTrapped;
     }
 
+    void AddScore()
+    {
+        score++;
+        Debug.Log(score.ToString());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("explodeEffect") && !isTrapped)
         {
-            GetTrapped();
+            GetTrapped(playerId);
         }
     }
 
-    public void GetTrapped()
+    public void GetTrapped(int ownerPlayerId)
     {
         if (isTrapped = true)
         {
             moveVec = Vector3.zero; //動けない
 
+            if (ownerPlayerId != playerId)  //自分のwaterBombじゃなかったら Score +1
+            {
+                //PlayerIdの中でownerPlayerIdを持ってるplayer
+                Ooo_TestPlayer[] players = FindObjectsOfType<Ooo_TestPlayer>();
+                foreach (var player in players)
+                {
+                    if (player.playerId == ownerPlayerId)
+                    {
+                        player.AddScore();
+                        break;
+                    }
+                }
+
+            }
         }
     }
 }

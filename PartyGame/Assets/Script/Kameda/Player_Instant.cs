@@ -3,7 +3,7 @@ using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
 
-public class Player_Instant : PlayerParent2
+public class Player_Instant : PlayerParent
 {
     float PlayerSpeed = 4.0f;
     Vector3 moveVec;

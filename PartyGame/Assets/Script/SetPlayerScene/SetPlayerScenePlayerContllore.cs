@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class SetPlayerScenePlayerContllore : PlayerParent2
+public class SetPlayerScenePlayerContllore : PlayerParent
 {
     bool SetUserNum;
     bool onButtonA;
@@ -8,6 +9,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent2
 
     private string FBXpath = " ";
     private PlayerInformation information = default;
+    private GameObject[] prefabs;
 
     private enum StateType {
 
@@ -48,6 +50,15 @@ public class SetPlayerScenePlayerContllore : PlayerParent2
 
         onButtonA = false;
         UIContllore = 0;
+        prefabs = new GameObject[4];
+
+        // FBXのファイル
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                prefabs[i]= Resources.Load<GameObject>("Player/Test/Cube_" + i.ToString());
+            }
+        }
     }
 
     protected override void MoveUpdate(Vector2 vec)
