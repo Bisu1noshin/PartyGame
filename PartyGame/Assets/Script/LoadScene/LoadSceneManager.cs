@@ -22,11 +22,7 @@ public class LoadSceneManager : InGameManeger
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-
-            NextSceneJump();
-        }
+        NextSceneJump();
     }
 
     public override string SceneName => NextRandGame();

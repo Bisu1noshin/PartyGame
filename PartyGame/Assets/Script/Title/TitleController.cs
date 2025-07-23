@@ -33,7 +33,7 @@ public class TitleController : MonoBehaviour
 
         if (Input.anyKeyDown && isFinishTitleMove == true) 
         {
-            SceneManager.LoadScene("InputTest");
+            SceneManager.LoadScene("SetPlayerScene");
         }
     }
 }
