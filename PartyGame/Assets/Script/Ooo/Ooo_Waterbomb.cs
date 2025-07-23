@@ -92,7 +92,7 @@ public class Ooo_Waterbomb : MonoBehaviour
         {
             RaycastHit hit;
 
-            for(int i = 1; i <= explodeRange; i++)
+            for(int i = 1; i <= explodeRange; i++)  //爆発範囲
             {
                 Vector3 offset = dir * i;
                 Vector3 targetPos = new Vector3(
@@ -138,6 +138,8 @@ public class Ooo_Waterbomb : MonoBehaviour
         if(player != null && player.IsTrapped())
         {
             player.GetTrapped();
+            
+            
         }
     }
 

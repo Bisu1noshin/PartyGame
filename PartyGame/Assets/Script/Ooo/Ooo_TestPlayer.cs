@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UI;
 
-public class Ooo_TestPlayer : PlayerParent
+public class Ooo_TestPlayer : PlayerParent2
 {
     Vector3 moveVec;
 
@@ -16,18 +16,16 @@ public class Ooo_TestPlayer : PlayerParent
     //囲まれたら時の設定
     [Header("Trap Settings")]
     public float trapTime = 3f;    //基本爆発時間は3秒(囲まれたら3秒）
-    //public float escapeSpeedUp = 0.3f;   //連打すれば0.3秒ずつ減少
     public int maxEscapeClick = 10;     //最大連打可能回数（3秒内に10回押したら脱出可能）
 
     public bool isTrapped = false;    //相手のWaterbombに囲まれたか
-    public int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
+    public static int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
 
     
     
 
-    protected override void Start()
+    protected  void Start()
     {
-        base.Start();
         waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb");
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
@@ -59,7 +57,7 @@ public class Ooo_TestPlayer : PlayerParent
 
     protected override void OnButtonA()
     {
-        Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
+        //Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
     }
 
     protected override void UpButtonA() { }
@@ -105,7 +103,7 @@ public class Ooo_TestPlayer : PlayerParent
             Ooo_Waterbomb ooo_waterbomb = waterbomb.GetComponent<Ooo_Waterbomb>();  //Waterbombスクリプト
             if(ooo_waterbomb != null)
             {
-                ooo_waterbomb.Initialize(playerData.GetUserValue());
+                ooo_waterbomb.Initialize(playerInput.playerIndex);
             }
             
         }
@@ -138,7 +136,7 @@ public class Ooo_TestPlayer : PlayerParent
             StopAllCoroutines();
             Escape();
         }
-        Debug.Log("Escapeできました");
+        //Debug.Log("Escapeできました");
     }
 
     void Escape()
