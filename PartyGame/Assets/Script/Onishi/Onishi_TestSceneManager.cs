@@ -6,6 +6,8 @@ using TMPro;
 
 public class Onishi_TestSceneManager : InGameManeger
 {
+    const int PLAYER_CNT = 4; //最終的に4にする
+
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -14,8 +16,8 @@ public class Onishi_TestSceneManager : InGameManeger
         non         //それ以外 基本的に使われない
     };
 
-    private GameStatus status; //ゲームステータス管理
-    float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
+    GameStatus status; //ゲームステータス管理
+    float timer = 5f; //タイマー ゲーム時間で初期化する(秒)
 
     bool playerFlag = false; //プレイヤーの存在フラグ
 
@@ -24,6 +26,9 @@ public class Onishi_TestSceneManager : InGameManeger
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
 
+    private int[] bombCnt = new int[PLAYER_CNT];
+    private bool finishcnt=false;
+
     protected override Type SetPlayerScript()
     {
         return typeof(Onishi_TestPlayer);
@@ -31,7 +36,7 @@ public class Onishi_TestSceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[1];
+        playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
     }
 
@@ -39,7 +44,15 @@ public class Onishi_TestSceneManager : InGameManeger
     {
         base.Update();
 
-        for(int i=0; i<1; i++)
+        //Escapeでデバッグモードを抜けるだけ
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
+#endif
+
+        for (int i=0; i<PLAYER_CNT; i++)
         {
             if (playerInformation[i] == null) {
                 return;
@@ -52,7 +65,7 @@ public class Onishi_TestSceneManager : InGameManeger
             Vector3 vec = Vector3.zero;
             Quaternion quat = Quaternion.identity;
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < PLAYER_CNT; i++)
             {
                 player[i] = CreatePlayer(
                     playerInformation : playerInformation[i],
@@ -97,13 +110,49 @@ public class Onishi_TestSceneManager : InGameManeger
                 status = GameStatus.finish;
             }
         }
+
+        if (status == GameStatus.finish)
+        {
+            if (finishcnt) {
+                status = GameStatus.non;
+                return;
+            }
+            int[] val = bombCnt;
+            Array.Sort(val);
+            for (int i = 0; i < PLAYER_CNT; i++) 
+            {
+                for (int j = 3; j > 0; j--) 
+                {
+                    if (bombCnt[i] == val[j])
+                    {
+                        playerInformation[i].AddPlayerScore(4 - j);
+                        Debug.Log("player" + i.ToString() + "は順位" + (4 - j).ToString());
+                        break;
+                    }
+                }
+            }
+            finishcnt = true;
+        }
     }
 
-    //プレイ中かを返す関数
+    //プレイ中か返す関数
     public bool isPlaying()
     {
         if (status == GameStatus.play) return true;
         else return false;
+    }
+
+    //ゲーム終了したか返す関数
+    public bool isFinish()
+    {
+        if(status== GameStatus.finish) return true;
+        else return false;
+    }
+
+    //プレイヤーの爆弾個数を受け取る関数
+    public void getBombCnt(int pl_, int bombCnt_)
+    {
+        bombCnt[pl_] = bombCnt_;
     }
 
     //以下、必要がなければ触らない----------------------------------------------
