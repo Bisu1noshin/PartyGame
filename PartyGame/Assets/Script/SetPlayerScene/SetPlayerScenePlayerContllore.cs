@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
-public class SetPlayerScenePlayerContllore : PlayerParent
+public class SetPlayerScenePlayerContllore : PlayerParent2
 {
-    //PlayerData
-
     bool SetUserNum;
-    bool ChoseFBX;
     bool onButtonA;
     int UIContllore;
+
+    private string FBXpath = " ";
+    private PlayerInformation information = default;
 
     private enum StateType {
 
@@ -26,10 +26,8 @@ public class SetPlayerScenePlayerContllore : PlayerParent
 
     private StateMachine<StateType, TriggerType> st;
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-
         // StateMachine
         {
             // 初期化
@@ -49,6 +47,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent
         }
 
         onButtonA = false;
+        UIContllore = 0;
     }
 
     protected override void MoveUpdate(Vector2 vec)
@@ -64,7 +63,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     protected override void OnButtonA()
     {
         onButtonA = true;
-        Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
     }
 
     protected override void UpButtonA() {
@@ -96,8 +94,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     }
     private void UpDateUserNum() {
 
-
-
         if (onButtonA) {
 
             SetUserNum = true;
@@ -108,13 +104,44 @@ public class SetPlayerScenePlayerContllore : PlayerParent
             st.ExecuteTrigger(TriggerType.ChoseFBX);
         }
     }
-    private void ExitUserNum() { }
+    private void ExitUserNum() {
+
+        Debug.Log("ExitUserNum");
+    }
 
     private void EnterChoseFBX() { }
-    private void UpDateChoseFBX() { }
-    private void ExitChoseFBX() { }
+    private void UpDateChoseFBX() {
 
-    private void EnterEnd() { }
-    private void UpDateEnd() { }
-    private void ExitEnd() { }
+        st.ExecuteTrigger(TriggerType.End);
+    }
+    private void ExitChoseFBX() {
+
+        Debug.Log("ExitChoseFBX");
+    }
+
+    private void EnterEnd() {
+
+        information = new PlayerInformation(playerInput.playerIndex,FBXpath);
+    }
+    private void UpDateEnd() {
+
+        if(onButtonA) {
+
+            SetPlayerInformation();
+            onButtonA = false;
+        }
+    }
+    private void ExitEnd() {
+
+        information = new PlayerInformation(playerInput.playerIndex, null);
+    }
+
+    private void SetPlayerInformation() {
+
+        GameObject sm = GameObject.Find("SceneManager");
+        sm.GetComponent<SetPlayerSceneManager>().
+            SetPlayerInformation(information, playerInput.playerIndex);
+
+        Debug.Log("player" + playerInput.playerIndex + "のデータを追記しました。");
+    }
 }

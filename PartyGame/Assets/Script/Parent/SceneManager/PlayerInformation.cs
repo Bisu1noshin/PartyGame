@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public enum CharacterType
@@ -27,6 +28,32 @@ public class PlayerInformation
         PairWithDevice      = pairWithDevice;
         SelectedCharacter   = (CharacterType)index;
         PlayerScore         = 0;
+    }
+
+    public PlayerInformation(int index,string path) {
+
+        if (index > 3)
+        {
+
+            throw new ArgumentOutOfRangeException(
+                "playerの最大人数を越えています。"
+                );
+        }
+
+        PairWithDevice = null;
+        SelectedCharacter = (CharacterType)index;
+        playerFBXPath = path;
+        PlayerScore = 0;
+    }
+
+    public static PlayerInformation operator +(PlayerInformation left, PlayerInformation right) {
+
+        PlayerInformation pi = left;
+
+        pi.SelectedCharacter = right.SelectedCharacter;
+        pi.playerFBXPath = right.playerFBXPath;
+
+        return pi;
     }
 
     public void AddPlayerScore(int score) {
