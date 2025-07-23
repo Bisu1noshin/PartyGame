@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UI;
 
-public class Ooo_TestPlayer : PlayerParent2
+public class Ooo_TestPlayer : PlayerParent
 {
     Vector3 moveVec;
 

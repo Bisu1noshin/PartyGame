@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Onishi_TestPlayer : PlayerParent2
+public class Onishi_TestPlayer : PlayerParent
 {
     Vector3 moveVec;
     float plSpeed = 10.0f;

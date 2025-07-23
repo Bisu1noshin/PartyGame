@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 using System;
 
-public abstract class PlayerParent2 : MonoBehaviour
+public abstract class PlayerParent : MonoBehaviour
 {
     protected　  PlayerInput      playerInput;
 
@@ -150,7 +150,7 @@ public abstract class PlayerParent2 : MonoBehaviour
     /// <param name="position"></param>
     /// <param name="roatation"></param>
     /// <returns></returns>
-    public static PlayerParent2 CreatePlayer(
+    public static PlayerParent CreatePlayer(
         GameObject prefab,
         Type type,
         InputDevice device,
@@ -175,7 +175,7 @@ public abstract class PlayerParent2 : MonoBehaviour
         pi.gameObject.transform.rotation = roatation;
 
         pi.gameObject.AddComponent(type);
-        PlayerParent2 p = pi.gameObject.GetComponent<PlayerParent2>();
+        PlayerParent p = pi.gameObject.GetComponent<PlayerParent>();
         return p;
     }
 }

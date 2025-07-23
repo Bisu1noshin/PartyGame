@@ -16,7 +16,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     [SerializeField] protected  int     maxPlayerCount  = default;
 
     protected       PlayerInformation[]     playerInformation = default;
-    protected       PlayerParent2[]         player;
+    protected       PlayerParent[]         player;
 
     private     Type            playerScript;
     private     InputAction     playerJoinInputAction;
@@ -87,7 +87,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
         playerScript = SetPlayerScript();
         joinedDevices = new InputDevice[maxPlayerCount];
-        player = new PlayerParent2[maxPlayerCount];
+        player = new PlayerParent[maxPlayerCount];
     }
 
     protected virtual void OnDestroy()
@@ -120,7 +120,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
                     // PlayerInputを所持した仮想のプレイヤーをインスタンス化
                     // ※Join要求元のデバイス情報を紐づけてインスタンスを生成する
-                    player[i] = PlayerParent2.CreatePlayer(
+                    player[i] = PlayerParent.CreatePlayer(
                         prefab,
                         playerScript,
                         playerInformation[i].PairWithDevice,
@@ -211,13 +211,13 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     /// <param name="p"></param>
     /// <param name="q"></param>
     /// <returns></returns>
-    protected PlayerParent2 CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q) {
+    protected PlayerParent CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q) {
 
         GameObject prefab =
             Resources.Load<GameObject>(SetPlayerPrefab(0));
 
-        PlayerParent2 pp =
-        PlayerParent2.CreatePlayer(
+        PlayerParent pp =
+        PlayerParent.CreatePlayer(
             prefab: prefab,
             type: playerScript,
             playerIndex: (int)playerInformation.SelectedCharacter,

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SetPlayerScenePlayerContllore : PlayerParent2
+public class SetPlayerScenePlayerContllore : PlayerParent
 {
     bool SetUserNum;
     bool onButtonA;
