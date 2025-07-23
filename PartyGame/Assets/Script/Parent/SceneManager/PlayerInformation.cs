@@ -55,15 +55,30 @@ public class PlayerInformation
 
         return pi;
     }
+    /// <summary>
+    /// 1~4をいれてね！
+    /// </summary>
+    /// <param name="rank"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public void AddPlayerScore(int rank) {
 
-    public void AddPlayerScore(int score) {
+        rank--;
 
-        if (score <= 0) {
+        if (rank < 0 || rank > 4) {
+
             throw new ArgumentOutOfRangeException(
-                "追加する点数が0以下です。"
+                "playerの最大人数を越えています。"
                 );
         }
-        PlayerScore += score;
+
+        int[] addscores = new int[GameInformation.MAX_PLAYER_VALUE] {
+            100,    // 1
+            50,     // 2
+            30,     // 3
+            0       // 4
+        };
+
+        PlayerScore += addscores[rank];
     }
 
 }

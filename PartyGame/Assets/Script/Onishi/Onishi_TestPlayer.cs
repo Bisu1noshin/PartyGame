@@ -5,7 +5,6 @@ public class Onishi_TestPlayer : PlayerParent2
 {
     Vector3 moveVec;
     float plSpeed = 10.0f;
-    static int plCount = 0; //プレイヤーの名前をわかりやすくする 0~3を想定
     GameObject text_pt; //自分の現在の手榴弾入手数を表示するテキストボックスのオブジェクト
 
     int bombCnt = 0; //手榴弾
@@ -13,13 +12,16 @@ public class Onishi_TestPlayer : PlayerParent2
     private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
     Onishi_TestSceneManager sceneManager; //シーンマネージャー
 
+    const float xRange = 13.0f;
+    const float zRange = 9.0f; //xとzの範囲
+    const float zOffset = 7.0f; //zのオフセット
+
     protected void Start()
     {
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
 
         //自分の名前を設定
-        this.gameObject.name = "player" + plCount.ToString();
-        plCount++;
+        this.gameObject.name = "player" + playerInput.playerIndex.ToString();
 
         //自分の名前に応じたTextを探す
         text_pt = GameObject.Find("text_" + this.gameObject.name);
@@ -33,19 +35,27 @@ public class Onishi_TestPlayer : PlayerParent2
 
     private void Update()
     {
-        if (sceneManager.isPlaying() == true)
+        if (sceneManager.isPlaying() == true) 
         {
             //移動
-            transform.position += moveVec * plSpeed * Time.deltaTime;
+            Vector3 vec = transform.position;
+            vec += moveVec * plSpeed * Time.deltaTime;
+            if (vec.x > xRange || vec.x < -xRange)
+            {
+                vec.x = transform.position.x;
+            }
+            if(vec.z > zRange + zOffset || vec.z < -zRange + zOffset)
+            {
+                vec.z = transform.position.z;
+            }
+            transform.position = vec;
         }
 
-        //Escapeでデバッグモードを抜けるだけ
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (sceneManager.isFinish() == true) 
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //ゲーム終了後、獲得爆弾数をシーンに渡す
+            sceneManager.getBombCnt(playerInput.playerIndex, bombCnt);
         }
-#endif
     }
 
     protected override void MoveUpdate(Vector2 vec)

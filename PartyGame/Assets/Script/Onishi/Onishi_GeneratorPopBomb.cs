@@ -11,7 +11,6 @@ public class Onishi_GeneratorPopBomb : MonoBehaviour
     float spawnRate = 5.0f;//スポーン間隔
     float timer;
     
-
     private void Start()
     {
         timer = spawnRate;
