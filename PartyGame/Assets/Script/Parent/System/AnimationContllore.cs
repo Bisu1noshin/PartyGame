@@ -19,7 +19,7 @@ public class AnimationContllore
     private string[] AnimationName = new string[4] {
 
         "Idle",
-        "Walk",
+        "Run",
         "Happy",
         "Sad"
     };
@@ -27,8 +27,8 @@ public class AnimationContllore
     public AnimationContllore(GameObject obj)
     {
         parent = obj;
-        //child = parent.GetComponentInChildren<GameObject>();
-        //animator = child.GetComponent<Animator>();
+        child = parent.transform.GetChild(0).gameObject;
+        animator = child.GetComponent<Animator>();
     }
 
     public void SetAniamation(PlayerAniamtonState _state) {

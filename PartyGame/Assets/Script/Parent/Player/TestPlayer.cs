@@ -13,6 +13,16 @@ public class TestPlayer : PlayerParent
     private void Update()
     {
         transform.position += moveVec * plSpeed * Time.deltaTime;
+
+        if (moveVec.x == 0 && moveVec.y == 0)
+        {
+
+            animationContllore.SetAniamation(PlayerAniamtonState.Idle);
+        }
+        else {
+
+            animationContllore.SetAniamation(PlayerAniamtonState.Walk);
+        }
     }
 
     protected override void MoveUpdate(Vector2 vec){
