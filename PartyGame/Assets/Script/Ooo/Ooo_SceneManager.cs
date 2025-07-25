@@ -7,8 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    bool playerFlag = false;
-
+    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -19,7 +18,9 @@ public class Ooo_SceneManager : InGameManeger
 
     private GameStatus status; //ゲームステータス管理
     float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
-    
+    bool playerFlag = false;
+
+
 
     [SerializeField] GameObject StartText; //Startの文字のPrefab
     [SerializeField] GameObject FinishText; //Finishの文字のPrefab
@@ -35,7 +36,7 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[2];
+        playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
         
         
@@ -58,7 +59,7 @@ public class Ooo_SceneManager : InGameManeger
             Vector3 vec = Vector3.zero;
             Quaternion quat = Quaternion.identity;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < PLAYER_CNT; i++)
             {
                 player[i] = CreatePlayer(
                     playerInformation: playerInformation[i],
