@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
@@ -19,6 +21,7 @@ public class Ooo_SceneManager : InGameManeger
     private GameStatus status; //ゲームステータス管理
     float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
     bool playerFlag = false;
+    private int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
 
 
 
@@ -26,6 +29,7 @@ public class Ooo_SceneManager : InGameManeger
     [SerializeField] GameObject FinishText; //Finishの文字のPrefab
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
+    [SerializeField] TMP_Text[] scoreText = new TMP_Text[PLAYER_CNT]; //プレイヤースコアText
     
 
 
@@ -38,14 +42,18 @@ public class Ooo_SceneManager : InGameManeger
     {
         playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
-        
-        
+
+        //プレイヤースコア0で初期化
+        for(int i = 0; i < PLAYER_CNT; i++)
+        {
+            playerScore[i] = 0;
+        }
     }
 
     protected override void Update()
     {
         base.Update();
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < PLAYER_CNT; i++)
         {
             if (playerInformation[i] == null)
             {
@@ -88,6 +96,13 @@ public class Ooo_SceneManager : InGameManeger
             timer -= Time.deltaTime;
             text_Timer.text = timer.ToString("F0");
 
+            for (int i = 0; i < PLAYER_CNT; i++)
+            {
+                if (scoreText[i] != null)
+                {
+                    scoreText[i].text = "P" + (i + 1) + "\nscore: " + playerScore[i];
+                }
+            }
 
             //ゲーム終了時処理
             if (timer <= 0f)
@@ -105,6 +120,25 @@ public class Ooo_SceneManager : InGameManeger
         }
 
     }
+
+    //Score管理関数
+    public void AddScore(int playerIndex)
+    {
+        if(playerIndex >= 0 && playerIndex < PLAYER_CNT)
+        {
+            playerScore[playerIndex]++;
+        }
+    }
+
+    
+
+
+
+
+
+
+
+
 
     protected override string SetPlayerPrefab(int index)
     {
