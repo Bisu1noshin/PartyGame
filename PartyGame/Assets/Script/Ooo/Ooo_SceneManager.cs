@@ -53,19 +53,20 @@ public class Ooo_SceneManager : InGameManeger
     protected override void Update()
     {
         base.Update();
-        for (int i = 0; i < PLAYER_CNT; i++)
+        /*for (int i = 0; i < PLAYER_CNT; i++)
         {
             if (playerInformation[i] == null)
             {
                 return;
             }
-        }
+        }*/
 
         // 呼び出し
         if (!playerFlag)
         {
             Vector3 vec = Vector3.zero;
             Quaternion quat = Quaternion.identity;
+
 
             for (int i = 0; i < PLAYER_CNT; i++)
             {

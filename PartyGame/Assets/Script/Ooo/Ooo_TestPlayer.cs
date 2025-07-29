@@ -28,7 +28,7 @@ public class Ooo_TestPlayer : PlayerParent
 
     protected void Start()
     {
-        waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb");
+        waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb_Prefab");
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
         playerId = playerInput.playerIndex;
