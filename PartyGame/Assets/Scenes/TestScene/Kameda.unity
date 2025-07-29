@@ -495,6 +495,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1958591391967621389, guid: d6fe7f45da84c6246ac78237befe842c, type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 1139009309}
     - target: {fileID: 8241812251903370469, guid: d6fe7f45da84c6246ac78237befe842c, type: 3}
       propertyPath: m_Name
       value: Oni
@@ -533,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d2ab0f881477e4bb768032141bd568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebagMode: 1
+  DebagMode: 0
   maxPlayerCount: 4
   light: {fileID: 1151994384062621565, guid: 6ba6ff58e2b3fe543bf0c3b1352a0e48, type: 3}
   Caughts: []

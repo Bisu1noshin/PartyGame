@@ -3,7 +3,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputManager : InGameManeger
+public class GameInformationScene :InGameManeger
 {
     protected override string SetPlayerPrefab(int index)
     {
@@ -13,39 +13,39 @@ public class PlayerInputManager : InGameManeger
 
     protected override Type SetPlayerScript()
     {
-        return typeof(TestPlayer);
+        return typeof(GameInformationPlayer);
     }
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[GameInformation.MAX_PLAYER_VALUE];
+        if (playerInformation == null)
+        {
+            Debug.LogError("playerの情報がnullです。");
+            return;
+        }
+
+        // playerの召喚
+        {
+            int length = playerInformation.Length;
+
+            for (int i = 0; i < length; i++)
+            {
+
+                Vector3 pos = new Vector3(-10000, 0, 0);// 画面外に飛ばす
+                player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.identity);
+            }
+        }
     }
     protected override void Update()
     {
         base.Update();
 
-        if (playerInformation == null) {
-            return;
-        }
-
-        PlayerInformation p = playerInformation[0]; 
-
-        for (int i = 0; i < GameInformation.MAX_PLAYER_VALUE; i++) {
-
-            playerInformation[i] = p;
-        }
-
-        if (Input.anyKey) {
-
-            GameInformation.RandomGameScene();
-            NextSceneJump();
-        }
-
     }
 
     public override string SceneName => "LoadScene";
 
-    public override void OnLoaded(PlayerInformation[] data) {
+    public override void OnLoaded(PlayerInformation[] data)
+    {
 
         if (data is null || data is not PlayerInformation[] playerInformation)
         {

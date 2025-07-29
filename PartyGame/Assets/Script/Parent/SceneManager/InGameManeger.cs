@@ -16,7 +16,8 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     [SerializeField] protected  int     maxPlayerCount  = default;
 
     protected       PlayerInformation[]     playerInformation = default;
-    protected       PlayerParent[]         player;
+    protected       PlayerParent[]          player;
+    protected       SceneLeftimeManager     SceneLeftimeManager = default;
 
     private     Type            playerScript;
     private     InputAction     playerJoinInputAction;
@@ -81,13 +82,14 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         else
         {
             maxPlayerCount = GameInformation.MAX_PLAYER_VALUE;
-            playerInformation = new PlayerInformation[maxPlayerCount];
-            for (int i = 0; i < maxPlayerCount; i++) playerInformation[i] = null;
+            //playerInformation = new PlayerInformation[maxPlayerCount];
+            //for (int i = 0; i < maxPlayerCount; i++) playerInformation[i] = null;
         }
 
         playerScript = SetPlayerScript();
         joinedDevices = new InputDevice[maxPlayerCount];
         player = new PlayerParent[maxPlayerCount];
+        SceneLeftimeManager = new SceneLeftimeManager(SceneName, OnLoaded, OnUnLoaded);
     }
 
     protected virtual void OnDestroy()
@@ -144,7 +146,10 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
     protected abstract string SetPlayerPrefab(int index);
     protected abstract Type SetPlayerScript();
-    protected abstract void NextSceneJump();
+    protected void NextSceneJump() {
+
+        SSceneManager.LoadScene(playerInformation,SceneLeftimeManager).Forget();
+    }
 
     // メソッド
 

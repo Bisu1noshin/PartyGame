@@ -97,13 +97,8 @@ public class SetPlayerSceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() {
-    }
-
-    protected override void NextSceneJump()
+    public override void OnUnLoaded()
     {
-
-        SSceneManager.LoadScene<SetPlayerSceneManager>(playerInformation).Forget();
     }
 
     public void SetPlayerInformation(PlayerInformation data ,int index) {

@@ -31,7 +31,8 @@ public class LoadSceneManager : InGameManeger
         
     }
 
-    public override string SceneName => NextRandGame();
+    //public override string SceneName => NextRandGame();
+    public override string SceneName => GameInformation.KAMEDA_GAME;
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -43,17 +44,12 @@ public class LoadSceneManager : InGameManeger
         }
 
         // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
+        var presenter = FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() {
-        Debug.Log("Exit_load");
-    }
-
-    protected override void NextSceneJump()
+    public override void OnUnLoaded()
     {
-
-        SSceneManager.LoadScene<LoadSceneManager>(playerInformation).Forget();
+        Debug.Log("Exit_load");
     }
 
     private string NextRandGame() {

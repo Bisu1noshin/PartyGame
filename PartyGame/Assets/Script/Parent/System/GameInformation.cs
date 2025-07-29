@@ -7,6 +7,9 @@ public static class GameInformation
     public const int MAX_PLAYER_VALUE = 4;
 
     public const string LoadScene      =   "LoadScene";
+    public const string KAMEDA_INFO    =    "";
+    public const string OOO_INFO       =    "";
+    public const string ONISHI_INFO    =    "";
     public const string KAMEDA_GAME    =   "Kameda";
     public const string OOO_GAME       =   "Ooo";
     public const string ONISHI_GAME    =   "OnishiTestScene";

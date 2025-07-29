@@ -174,13 +174,8 @@ public class Ooo_SceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() {
-        Debug.Log("Exit_Ooo");
-    }
-
-    protected override void NextSceneJump()
+    public override void OnUnLoaded()
     {
-
-        SSceneManager.LoadScene<Ooo_SceneManager>(playerInformation).Forget();
+        Debug.Log("Exit_Ooo");
     }
 }

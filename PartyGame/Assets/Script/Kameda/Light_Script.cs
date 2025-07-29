@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.LightTransport;
 public class Light_Script : MonoBehaviour
 {
     public GameObject player;

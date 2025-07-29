@@ -18,7 +18,7 @@ public class Onishi_TestSceneManager : InGameManeger
         result,     //リザルト 爆弾個数の受け渡しが終わった後
         non         //それ以外 基本的に使われない
     };
-
+  
     GameStatus status; //ゲームステータス管理
     float timer = 10f; //タイマー ゲーム時間で初期化する(秒)
 
@@ -42,7 +42,9 @@ public class Onishi_TestSceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[PLAYER_CNT];
+        // 追記
+        // playerInformationがnullになってた
+        // playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
     }
 
@@ -210,12 +212,8 @@ public class Onishi_TestSceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() {
-        Debug.Log("Exit_Onishi");
-    }
-
-    protected override void NextSceneJump()
+    public override void OnUnLoaded()
     {
-        SSceneManager.LoadScene<Onishi_TestSceneManager>(playerInformation).Forget();
+        Debug.Log("Exit_Onishi");
     }
 }

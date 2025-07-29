@@ -7,8 +7,8 @@ using UnityEngine.UIElements;
 public class Oni_Script : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
-    [SerializeField]public Transform[] playersPos = new Transform[4];
-    Kameda_TestSceneManager parent;
+    [SerializeField] public Transform[] playersPos = new Transform[4];
+    [SerializeField] Kameda_TestSceneManager parent;// 追記
     public static Oni_Script instance;
     int catchCnt;
     private void Awake()
@@ -71,8 +71,10 @@ public class Oni_Script : MonoBehaviour
         }
         return selectnum;
     }
-    public void SetParentManager(Kameda_TestSceneManager kt)
-    {
-        parent = kt;
-    }
+    // 追記
+
+    //public void SetParentManager(Kameda_TestSceneManager kt)
+    //{
+    //    parent = kt;
+    //}
 }
