@@ -20,6 +20,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame/SetPlayerScene.unity
     guid: b1408ca777a221a4dbb9e515193fdac6
+  - enabled: 1
+    path: Assets/Scenes/TestScene/OnishiTestScene.unity
+    guid: 143cde4bdd331ed479dbf38d251ae898
+  - enabled: 1
+    path: Assets/Scenes/TestScene/Kameda.unity
+    guid: 40dd035f3fa55604790193edd01a7410
+  - enabled: 1
+    path: Assets/Scenes/TestScene/Ooo.unity
+    guid: 601c87cf41836c34e93c1c41848c14d5
+  - enabled: 1
+    path: Assets/Scenes/MainGame/ResultScene.unity
+    guid: 033a9db487bc79a4f99777fb1689b960
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 1f9decc136d21b84a8cc589fff297429, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: bc8595c0932b82740b6ef3728b366f73, type: 3}

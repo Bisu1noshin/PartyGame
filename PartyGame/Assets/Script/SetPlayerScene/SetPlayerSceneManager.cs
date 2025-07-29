@@ -16,10 +16,10 @@ public class SetPlayerSceneManager : InGameManeger
     private int decideCnt = default;
     private Vector3[] playerPos = new Vector3[GameInformation.MAX_PLAYER_VALUE] {
 
-        new Vector3(0,0,0),
-        new Vector3(0,0,0),
-        new Vector3(0,0,0),
-        new Vector3(0,0,0)
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0)
     };
 
     protected override string SetPlayerPrefab(int index)
@@ -80,7 +80,7 @@ public class SetPlayerSceneManager : InGameManeger
         NextSceneJump();
     }
 
-    public override string SceneName => "LoadScene";
+    public override string SceneName => GameInformation.LoadScene;
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -91,13 +91,13 @@ public class SetPlayerSceneManager : InGameManeger
             return;
         }
 
+        GameInformation.RandomGameScene();
+
         // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
     public override void OnUnLoaded() {
-
-        GameInformation.RandomGameScene();
     }
 
     protected override void NextSceneJump()

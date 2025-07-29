@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,11 +18,17 @@ public class LoadSceneManager : InGameManeger
         return typeof(TestPlayer);
     }
 
+    private void Start()
+    {
+        GameSceneAdd();
+        NextSceneJump();
+    }
+
     protected override void Update()
     {
         base.Update();
 
-        NextSceneJump();
+        
     }
 
     public override string SceneName => NextRandGame();
@@ -41,13 +47,7 @@ public class LoadSceneManager : InGameManeger
         presenter.SetPlayerInformation(playerInformation);
     }
     public override void OnUnLoaded() {
-
-        if (GameSceneIndex>=3) {
-            GameSceneIndex = 0;
-            return;
-        }
-
-        GameSceneIndex++;
+        Debug.Log("Exit_load");
     }
 
     protected override void NextSceneJump()
@@ -59,7 +59,17 @@ public class LoadSceneManager : InGameManeger
     private string NextRandGame() {
 
         string sceneName = GameInformation.GameScenes[GameSceneIndex];
+        return sceneName;
+    }
 
-        return "TestGame";
+    private void GameSceneAdd() {
+
+        if (GameSceneIndex >= 3)
+        {
+            GameSceneIndex = 0;
+            return;
+        }
+
+        GameSceneIndex++;
     }
 }

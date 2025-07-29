@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -57,7 +58,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
 
         return str;
     }
-    public override string SceneName => "TitleScene";
+    public override string SceneName => GameInformation.LoadScene;
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -72,12 +73,14 @@ public partial class Kameda_TestSceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() { }
+    public override void OnUnLoaded() {
+        Debug.Log("Exit_Kameda");
+    }
 
     protected override void NextSceneJump()
     {
 
-        SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
+        SSceneManager.LoadScene<Kameda_TestSceneManager>(playerInformation).Forget();
     }
     public GameState GetGameState() => state;
     void UpdatePlayersTransform()

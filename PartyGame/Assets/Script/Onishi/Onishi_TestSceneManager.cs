@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 using System.Linq;
@@ -194,7 +195,7 @@ public class Onishi_TestSceneManager : InGameManeger
         return str;
     }
 
-    public override string SceneName => "TitleScene";
+    public override string SceneName => GameInformation.LoadScene;
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -209,7 +210,9 @@ public class Onishi_TestSceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() { }
+    public override void OnUnLoaded() {
+        Debug.Log("Exit_Onishi");
+    }
 
     protected override void NextSceneJump()
     {
