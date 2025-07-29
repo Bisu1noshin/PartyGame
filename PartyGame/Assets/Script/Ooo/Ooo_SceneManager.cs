@@ -9,7 +9,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -53,13 +53,13 @@ public class Ooo_SceneManager : InGameManeger
     protected override void Update()
     {
         base.Update();
-        /*for (int i = 0; i < PLAYER_CNT; i++)
+        for (int i = 0; i < PLAYER_CNT; i++)
         {
             if (playerInformation[i] == null)
             {
                 return;
             }
-        }*/
+        }
 
         // 呼び出し
         if (!playerFlag)
