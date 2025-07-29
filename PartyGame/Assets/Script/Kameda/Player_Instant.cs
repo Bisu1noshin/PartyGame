@@ -12,7 +12,6 @@ public class Player_Instant : PlayerParent
     GameObject oni;
     protected void Start()
     {
-        transform.position = new Vector3(-5, 0, -2) + Vector3.up * -1.25f;
         moveVec = Vector3.zero;
         transform.localScale = Vector3.one * 0.5f;
         gameObject.GetOrAddComponent<Rigidbody>();
@@ -71,5 +70,10 @@ public class Player_Instant : PlayerParent
         {
             ls.lightColor = 1;
         }
+    }
+    public void OnCaught()
+    {
+        ls.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 }
