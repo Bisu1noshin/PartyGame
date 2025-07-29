@@ -3,7 +3,7 @@ using TMPro;
 using System.Collections;
 using DG.Tweening;
 
-public class Onishi_TextMovement : MonoBehaviour
+public class Onishi_TextMovement_Start : MonoBehaviour
 {
     private TMP_Text text;
 
@@ -24,65 +24,65 @@ public class Onishi_TextMovement : MonoBehaviour
         //3
         {
             //文字表示
-            seqText.Append(text.DOFade(1f, 2f)
+            seqText.Append(text.DOFade(1f, 0.5f)
                                .SetEase(Ease.OutQuart));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1f, 2f)
+            seqText.Join(text.transform.DOScale(1f, 0.5f)
                                        .SetEase(Ease.OutQuart));
             //文字を消す 終了時に関数呼び出し
-            seqText.Append(text.DOFade(0f, 1f)
+            seqText.Append(text.DOFade(0f, 0.5f)
                                .SetEase(Ease.OutQuart)
                                .OnComplete(() => text.text = "2"));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1.5f, 1f)
+            seqText.Join(text.transform.DOScale(1.5f, 0.5f)
                                        .SetEase(Ease.OutQuart));
         }
         //2
         {
             //文字表示
-            seqText.Append(text.DOFade(1f, 2f)
+            seqText.Append(text.DOFade(1f, 0.5f)
                                .SetEase(Ease.OutQuart));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1f, 2f)
+            seqText.Join(text.transform.DOScale(1f, 0.5f)
                                        .SetEase(Ease.OutQuart));
             //文字を消す 終了時に関数呼び出し
-            seqText.Append(text.DOFade(0f, 1f)
+            seqText.Append(text.DOFade(0f, 0.5f)
                                .SetEase(Ease.OutQuart)
                                .OnComplete(() => text.text = "1"));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1.5f, 1f)
+            seqText.Join(text.transform.DOScale(1.5f, 0.5f)
                                        .SetEase(Ease.OutQuart));
         }
         //1
         {
             //文字表示
-            seqText.Append(text.DOFade(1f, 2f)
+            seqText.Append(text.DOFade(1f, 0.5f)
                                .SetEase(Ease.OutQuart));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1f, 2f)
+            seqText.Join(text.transform.DOScale(1f, 0.5f)
                                        .SetEase(Ease.OutQuart));
             //文字を消す 終了時に関数呼び出し
-            seqText.Append(text.DOFade(0f, 1f)
+            seqText.Append(text.DOFade(0f, 0.5f)
                                .SetEase(Ease.OutQuart)
                                .OnComplete(() => text.text = "Start!!"));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1.5f, 1f)
+            seqText.Join(text.transform.DOScale(1.5f, 0.5f)
                                        .SetEase(Ease.OutQuart));
         }
         //Start
         {
             //文字表示
-            seqText.Append(text.DOFade(1f, 2f)
+            seqText.Append(text.DOFade(1f, 0.5f)
                                .SetEase(Ease.OutQuart));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1f, 2f)
+            seqText.Join(text.transform.DOScale(1f, 0.5f)
                                        .SetEase(Ease.OutQuart));
             //文字を消す 終了時に関数呼び出し
-            seqText.Append(text.DOFade(0f, 1f)
+            seqText.Append(text.DOFade(0f, 0.5f)
                                .SetEase(Ease.OutQuart)
                                .OnComplete(Complete));
             //文字拡大(上と同時)
-            seqText.Join(text.transform.DOScale(1.5f, 1f)
+            seqText.Join(text.transform.DOScale(1.5f, 0.5f)
                                        .SetEase(Ease.OutQuart));
         }
     }

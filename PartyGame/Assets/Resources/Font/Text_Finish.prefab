@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7743152554232505145}
   - component: {fileID: 4387930060306265801}
   - component: {fileID: 9026931047976373068}
-  - component: {fileID: 764270073782415985}
+  - component: {fileID: 3748914480013716690}
   m_Layer: 5
   m_Name: Text_Finish
   m_TagString: Untagged
@@ -93,8 +93,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 120
-  m_fontSizeBase: 120
+  m_fontSize: 150
+  m_fontSizeBase: 150
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &764270073782415985
+--- !u!114 &3748914480013716690
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,7 +146,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1406932386179043561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 710c153eb2cab2f4685161ce9c062bab, type: 3}
+  m_Script: {fileID: 11500000, guid: 9cec7beaaa7853847ae43a3e07b560bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
