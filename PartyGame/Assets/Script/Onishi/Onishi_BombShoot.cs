@@ -9,11 +9,14 @@ public class Onishi_BombShoot : MonoBehaviour
     float timer = 0.0f;
     bool isBomb = false;
     SphereCollider collider;
+    private GameObject Ef_Bomb; //爆発時のエフェクト
 
     private void Start()
     {
         collider = GetComponent<SphereCollider>();
         collider.enabled = false;
+
+        Ef_Bomb = Resources.Load<GameObject>("Onishi/Ef_Bomb");
     }
 
     void Update()
@@ -32,6 +35,11 @@ public class Onishi_BombShoot : MonoBehaviour
     {
         collider.enabled = true;
         await Task.Delay(25); //当たり判定を取るため一瞬待つ
+        //爆発エフェクト
+        GameObject go = Ef_Bomb;
+        Vector3 pos = this.transform.position;
+        Instantiate(go, pos, Quaternion.identity);
+
         Destroy(gameObject);
     }
 

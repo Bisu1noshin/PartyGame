@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class Onishi_TestSceneManager : InGameManeger
 {
@@ -13,11 +14,12 @@ public class Onishi_TestSceneManager : InGameManeger
         standby,    //スタンバイ 始まる前
         play,       //インゲーム プレイ中
         finish,     //フィニッシュ ゲーム終了
+        result,     //リザルト 爆弾個数の受け渡しが終わった後
         non         //それ以外 基本的に使われない
     };
 
     GameStatus status; //ゲームステータス管理
-    float timer = 5f; //タイマー ゲーム時間で初期化する(秒)
+    float timer = 10f; //タイマー ゲーム時間で初期化する(秒)
 
     bool playerFlag = false; //プレイヤーの存在フラグ
 
@@ -27,7 +29,10 @@ public class Onishi_TestSceneManager : InGameManeger
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
 
     private int[] bombCnt = new int[PLAYER_CNT];
-    private bool finishcnt=false;
+    private bool start = false;
+    private bool finishcnt = false;
+    private GameObject go_start = null;
+    private GameObject go_finish = null;
 
     protected override Type SetPlayerScript()
     {
@@ -62,14 +67,19 @@ public class Onishi_TestSceneManager : InGameManeger
         // 呼び出し
         if (!playerFlag)
         {
-            Vector3 vec = Vector3.zero;
+            Vector3[] vec = new Vector3[4] {
+                new Vector3(-10, 0, 10),
+                new Vector3(10, 0, 10),
+                new Vector3(-10, 0, 0),
+                new Vector3(10, 0, 0)
+            }; //プレイヤーごとの初期位置
             Quaternion quat = Quaternion.identity;
 
             for (int i = 0; i < PLAYER_CNT; i++)
             {
                 player[i] = CreatePlayer(
                     playerInformation : playerInformation[i],
-                    p : vec,
+                    p : vec[i],
                     q : quat
                     );
             }
@@ -81,13 +91,19 @@ public class Onishi_TestSceneManager : InGameManeger
         //ゲーム開始時処理
         if (status == GameStatus.standby) 
         {
-            //「Start」の文字を召喚
-            GameObject go = Instantiate(StartText);
-            go.transform.SetParent(Canvas.transform);
-            go.transform.position = new Vector3(600, 400, 0);
+            if (!start) 
+            {
+                //「Start」の文字を召喚
+                go_start = Instantiate(StartText);
+                go_start.transform.SetParent(Canvas.transform);
+                go_start.transform.position = new Vector3(600, 320, 0);
+                start = true;
+            }
 
-            //Statusを変更
-            status = GameStatus.play;
+            else if (start == true && go_start == null)
+            {
+                status = GameStatus.play;
+            }
         }
 
         //インゲーム処理
@@ -102,9 +118,9 @@ public class Onishi_TestSceneManager : InGameManeger
                 timer = 0;
 
                 //「Finish」の文字を召喚
-                GameObject go = Instantiate(FinishText);
-                go.transform.SetParent(Canvas.transform);
-                go.transform.position = new Vector3(600, 400, 0);
+                go_finish = Instantiate(FinishText);
+                go_finish.transform.SetParent(Canvas.transform);
+                go_finish.transform.position = new Vector3(600, 400, 0);
 
                 //Statusを変更
                 status = GameStatus.finish;
@@ -113,23 +129,36 @@ public class Onishi_TestSceneManager : InGameManeger
 
         if (status == GameStatus.finish)
         {
+            if (go_finish == null)
+            {
+                status = GameStatus.result;
+            }
+        }
+
+        if (status == GameStatus.result)
+        {
             if (finishcnt) {
                 status = GameStatus.non;
                 return;
             }
-            int[] val = bombCnt;
-            Array.Sort(val);
-            for (int i = 0; i < PLAYER_CNT; i++) 
+
+            int[] val = new int[4] { -1, -1, -1, -1 };
+            for(int i = 0; i < PLAYER_CNT; ++i)
             {
-                for (int j = 3; j > 0; j--) 
+                int maxCnt = bombCnt.Max(); //最大の点数を取得
+                int maxPl = Array.IndexOf(bombCnt, maxCnt); //最大点を取ったPlayerの番号を取得
+                int rank = i + 1; //被りなしの場合の順位
+                for (int j = 0; j < i; ++j) 
                 {
-                    if (bombCnt[i] == val[j])
+                    if (val[j] == maxCnt) //過去の点数と同じなら
                     {
-                        playerInformation[i].AddPlayerScore(4 - j);
-                        Debug.Log("player" + i.ToString() + "は順位" + (4 - j).ToString());
+                        rank = j + 1; //同順位に更新
                         break;
                     }
                 }
+                playerInformation[maxPl].AddPlayerScore(rank);
+                bombCnt[maxPl] = -1; //該当者の得点をリセット
+                val[i] = maxCnt; //同順位判定用のものをセット
             }
             finishcnt = true;
         }

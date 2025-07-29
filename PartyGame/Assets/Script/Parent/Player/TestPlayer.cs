@@ -13,12 +13,25 @@ public class TestPlayer : PlayerParent
     private void Update()
     {
         transform.position += moveVec * plSpeed * Time.deltaTime;
+
+        if (moveVec.x == 0 && moveVec.y == 0)
+        {
+
+            animationContllore.SetAniamation(PlayerAniamtonState.Idle);
+        }
+        else {
+
+            animationContllore.SetAniamation(PlayerAniamtonState.Walk);
+        }
     }
 
     protected override void MoveUpdate(Vector2 vec){
 
         //移動方向を決定
         moveVec = new Vector3(vec.x, 0, vec.y);
+
+        // 回転の補正
+        animationContllore.RotaitionContllore(vec);
     }
 
     protected override void LookUpdate(Vector2 vec)

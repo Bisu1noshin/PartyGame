@@ -8,8 +8,9 @@ public class Onishi_TestPlayer : PlayerParent
     GameObject text_pt; //自分の現在の手榴弾入手数を表示するテキストボックスのオブジェクト
 
     int bombCnt = 0; //手榴弾
-    public GameObject AtkBomb_Prefab; //爆弾のプレファブ
+    private GameObject AtkBomb_Prefab; //爆弾のプレファブ
     private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
+    
     Onishi_TestSceneManager sceneManager; //シーンマネージャー
 
     const float xRange = 13.0f;
@@ -18,6 +19,7 @@ public class Onishi_TestPlayer : PlayerParent
 
     protected void Start()
     {
+        //リソースの設定
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
 
         //自分の名前を設定
