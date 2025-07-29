@@ -10,7 +10,7 @@ public class Onishi_TestPlayer : PlayerParent
     int bombCnt = 0; //手榴弾
     private GameObject AtkBomb_Prefab; //爆弾のプレファブ
     private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
-    private GameObject Ef_Bomb; //爆発時のエフェクト
+    
     Onishi_TestSceneManager sceneManager; //シーンマネージャー
 
     const float xRange = 13.0f;
@@ -21,7 +21,6 @@ public class Onishi_TestPlayer : PlayerParent
     {
         //リソースの設定
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
-        Ef_Bomb = Resources.Load<GameObject>("Onishi/Ef_Bomb");
 
         //自分の名前を設定
         this.gameObject.name = "player" + playerInput.playerIndex.ToString();
@@ -90,9 +89,6 @@ public class Onishi_TestPlayer : PlayerParent
             {
                 //起爆
                 SetBomb.GetComponent<Onishi_BombShoot>().Explosion();
-                GameObject go = Ef_Bomb;
-                Vector3 pos = SetBomb.transform.position;
-                Instantiate(go, pos, Quaternion.identity);
                 SetBomb = null;
             }
         }
