@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Kameda_TestSceneManager : InGameManeger
+public partial class Kameda_TestSceneManager : InGameManeger
 {
     Oni_Script o_s;
     [SerializeField] GameObject light;
+    GameState state;
+    float timer;
     private void Start()
     {
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
@@ -17,15 +19,16 @@ public class Kameda_TestSceneManager : InGameManeger
     protected override void Update()
     {
         base.Update();
-        int j = 0;
-        for(int i = 0; i < player.Length; i++)
+        StateUpdate(state);
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if (player[i] != null)
-            {
-                o_s.playersPos[j] = player[i].transform;
-                j++;
-            }
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
+        timer += Time.deltaTime;
     }
     protected override Type SetPlayerScript()
     {
@@ -59,5 +62,36 @@ public class Kameda_TestSceneManager : InGameManeger
     {
 
         SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
+    }
+    public GameState GetGameState() => state;
+    void UpdatePlayersTransform()
+    {
+        int j = 0;
+        for (int i = 0; i < player.Length; i++)
+        {
+            if (player[i] != null)
+            {
+                o_s.playersPos[j++] = player[i].transform;
+            }
+        }
+    }
+    void SetPlayers()
+    {
+        Vector3 pos = new Vector3(5, -1.25f, -4);
+        for(int i = GetNullPlayerNum(); i < playerInformation.Length; i++)
+        {
+            pos.x = 5 - i;
+            CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0));
+        }
+    }
+    int GetNullPlayerNum()
+    {
+
+        int i;
+        for(i = 0; i < player.Length; ++i)
+        {
+            if (player[i] == null) { return i; }
+        }
+        return 4;
     }
 }
