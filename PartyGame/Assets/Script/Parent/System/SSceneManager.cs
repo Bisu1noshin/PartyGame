@@ -7,7 +7,7 @@ public static class SSceneManager
 {
     private static ISceneLifetimeManager _currentSceneLifetimeManager;
 
-    public static async UniTaskVoid LoadScene<T>(PlayerInformation[] data) where T : ISceneLifetimeManager, new()
+    public static async UniTaskVoid LoadScene<T>(PlayerInformation[] data) where T : ISceneLifetimeManager,new()
     {
         _currentSceneLifetimeManager?.OnUnLoaded();
         _currentSceneLifetimeManager = new T();

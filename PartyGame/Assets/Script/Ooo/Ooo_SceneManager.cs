@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class Ooo_SceneManager : InGameManeger
@@ -40,7 +41,7 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[PLAYER_CNT];
+        //playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
 
         //プレイヤースコア0で初期化
@@ -120,6 +121,15 @@ public class Ooo_SceneManager : InGameManeger
             }
         }
 
+        // 追記
+        {
+
+            if (status == GameStatus.finish) {
+
+                NextSceneJump();
+            }
+        }
+
     }
 
     //Score管理関数
@@ -149,7 +159,7 @@ public class Ooo_SceneManager : InGameManeger
         return str;
     }
 
-    public override string SceneName => "TitleScene";
+    public override string SceneName => GameInformation.LoadScene;
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -164,7 +174,9 @@ public class Ooo_SceneManager : InGameManeger
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
-    public override void OnUnLoaded() { }
+    public override void OnUnLoaded() {
+        Debug.Log("Exit_Ooo");
+    }
 
     protected override void NextSceneJump()
     {

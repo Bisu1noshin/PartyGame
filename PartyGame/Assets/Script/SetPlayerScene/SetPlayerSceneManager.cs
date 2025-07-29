@@ -80,7 +80,7 @@ public class SetPlayerSceneManager : InGameManeger
         NextSceneJump();
     }
 
-    public override string SceneName => "LoadScene";
+    public override string SceneName => GameInformation.LoadScene;
 
     public override void OnLoaded(PlayerInformation[] data)
     {
@@ -91,13 +91,13 @@ public class SetPlayerSceneManager : InGameManeger
             return;
         }
 
+        GameInformation.RandomGameScene();
+
         // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
         var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
         presenter.SetPlayerInformation(playerInformation);
     }
     public override void OnUnLoaded() {
-
-        GameInformation.RandomGameScene();
     }
 
     protected override void NextSceneJump()
