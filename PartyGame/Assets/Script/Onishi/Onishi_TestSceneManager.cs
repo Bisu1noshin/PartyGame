@@ -6,7 +6,7 @@ using TMPro;
 
 public class Onishi_TestSceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 4; //最終的に4にする
+    const int PLAYER_CNT = 1; //最終的に4にする
 
     enum GameStatus
     {
@@ -17,7 +17,7 @@ public class Onishi_TestSceneManager : InGameManeger
     };
 
     GameStatus status; //ゲームステータス管理
-    float timer = 5f; //タイマー ゲーム時間で初期化する(秒)
+    float timer = 40f; //タイマー ゲーム時間で初期化する(秒)
 
     bool playerFlag = false; //プレイヤーの存在フラグ
 
@@ -27,7 +27,9 @@ public class Onishi_TestSceneManager : InGameManeger
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
 
     private int[] bombCnt = new int[PLAYER_CNT];
+    private bool start = false;
     private bool finishcnt=false;
+    private GameObject go1 = null;
 
     protected override Type SetPlayerScript()
     {
@@ -62,14 +64,19 @@ public class Onishi_TestSceneManager : InGameManeger
         // 呼び出し
         if (!playerFlag)
         {
-            Vector3 vec = Vector3.zero;
+            Vector3[] vec = new Vector3[4] {
+                new Vector3(-10, 0, 10),
+                new Vector3(10, 0, 10),
+                new Vector3(-10, 0, 0),
+                new Vector3(10, 0, 0)
+            }; //プレイヤーごとの初期位置
             Quaternion quat = Quaternion.identity;
 
             for (int i = 0; i < PLAYER_CNT; i++)
             {
                 player[i] = CreatePlayer(
                     playerInformation : playerInformation[i],
-                    p : vec,
+                    p : vec[i],
                     q : quat
                     );
             }
@@ -81,13 +88,19 @@ public class Onishi_TestSceneManager : InGameManeger
         //ゲーム開始時処理
         if (status == GameStatus.standby) 
         {
-            //「Start」の文字を召喚
-            GameObject go = Instantiate(StartText);
-            go.transform.SetParent(Canvas.transform);
-            go.transform.position = new Vector3(600, 400, 0);
+            if (!start) 
+            {
+                //「Start」の文字を召喚
+                go1 = Instantiate(StartText);
+                go1.transform.SetParent(Canvas.transform);
+                go1.transform.position = new Vector3(600, 400, 0);
+                start = true;
+            }
 
-            //Statusを変更
-            status = GameStatus.play;
+            else if (start == true && go1 == null)
+            {
+                status = GameStatus.play;
+            }
         }
 
         //インゲーム処理
