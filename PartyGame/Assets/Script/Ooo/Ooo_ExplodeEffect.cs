@@ -3,18 +3,12 @@ using System.Collections;
 
 public class Ooo_ExplodeEffect : MonoBehaviour
 {
-    GameObject explodeEffectPrefab;
+    public float lifeTime = 1f;
+    public int ownerId;  // 이펙트를 생성한 플레이어 ID
 
-    public void Initialize()
+    public void Initialize(int playerId)
     {
-        StartCoroutine(ExplodeEffectRoutine());   //爆発課程スタート
+        ownerId = playerId;
+        Destroy(gameObject, lifeTime);
     }
-
-    IEnumerator ExplodeEffectRoutine()
-    {
-        //2秒間エフェクト出て消える
-        yield return new WaitForSeconds(2.0f);
-        Destroy(gameObject);
-    }
-
 }

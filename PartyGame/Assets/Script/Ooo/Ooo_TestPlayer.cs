@@ -2,6 +2,7 @@
 using UnityEngine.InputSystem;
 using System.Collections;
 using UnityEngine.UI;
+using System.Runtime.CompilerServices;
 
 public class Ooo_TestPlayer : PlayerParent
 {
@@ -19,11 +20,11 @@ public class Ooo_TestPlayer : PlayerParent
 
     //---------------Trap関連関連設定------------------
     public float trapTime = 3f;             //基本爆発時間は3秒(囲まれたら3秒間動けない）
-    public int maxEscapeClick = 10;         //最大連打可能回数（3秒内に10回押したら脱出可能）
+    private int maxEscapeClick = 10;         //最大連打可能回数（3秒内に10回押したら脱出可能）
     public static int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
 
     public bool isTrapped = false;    //相手のWaterbombに囲まれたか
-   //------------------------------------------------
+                                      //------------------------------------------------
 
 
     protected void Start()
@@ -32,6 +33,7 @@ public class Ooo_TestPlayer : PlayerParent
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
         playerId = playerInput.playerIndex;
+        Rigidbody rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -58,7 +60,7 @@ public class Ooo_TestPlayer : PlayerParent
     protected override void OnButtonA()
     {
         //Debug.Log("user" + playerData.GetUserValue() + "OnButtonA");
-        
+
     }
 
     protected override void UpButtonA() { }
@@ -103,25 +105,18 @@ public class Ooo_TestPlayer : PlayerParent
             GameObject waterbomb = Instantiate(waterbombPrefab, transform.position, Quaternion.identity);
 
             //誰がwaterbombを配置したのか(waterbombのIDを保存)
-            Ooo_Waterbomb waterbomb_ = waterbomb.GetComponent<Ooo_Waterbomb>();
-            if (waterbomb_ != null)
+            Ooo_Waterbomb ooo_waterbomb = waterbomb.GetComponent<Ooo_Waterbomb>();
+            if (ooo_waterbomb != null)
             {
-                waterbomb_.Initialize(playerInput.playerIndex);
+                ooo_waterbomb.Initialize(playerInput.playerIndex);
             }
 
         }
     }
     //--------------------------------------------------------
 
-
     //---------------Trap処理---------------------------------
-    public void GetTrapped(int ownerPlayerId)
-    {
-        if (isTrapped == true)
-        {
-            moveVec = Vector3.zero; //Trap状況→動けない
-        }
-    }
+
 
     IEnumerator TrapSequence()
     {
@@ -164,10 +159,29 @@ public class Ooo_TestPlayer : PlayerParent
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("explodeEffect") && !isTrapped)
+        if (other.CompareTag("explodeEffect"))
         {
-            GetTrapped(playerId);
+            Ooo_ExplodeEffect effect = other.GetComponent<Ooo_ExplodeEffect>();
+            if (effect != null)
+            {
+                GetTrapped(effect.ownerId);
+            }
+        }
+    }
+
+    public void GetTrapped(int ownerplayerId)
+    {
+        if (!isTrapped)
+        {
+            Debug.Log($"Player {playerId} trapped by {ownerplayerId}");
+            StartCoroutine(TrapSequence());
+
+            if (ownerplayerId != playerId)
+            {
+                Ooo_SceneManager.AddScore(ownerplayerId);
+            }
         }
     }
 }
+
  //--------------------------------------------------------

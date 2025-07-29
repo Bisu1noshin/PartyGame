@@ -21,7 +21,7 @@ public class Ooo_SceneManager : InGameManeger
     private GameStatus status; //ゲームステータス管理
     float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
     bool playerFlag = false;
-    private int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
+    public static int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
 
 
 
@@ -123,7 +123,7 @@ public class Ooo_SceneManager : InGameManeger
     }
 
     //Score管理関数
-    public void AddScore(int playerIndex)
+    public static void AddScore(int playerIndex)
     {
         if(playerIndex >= 0 && playerIndex < PLAYER_CNT)
         {
