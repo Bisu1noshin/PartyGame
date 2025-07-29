@@ -27,8 +27,8 @@ public class AnimationContllore
     public AnimationContllore(GameObject obj)
     {
         parent = obj;
-        child = parent.transform.GetChild(0).gameObject;
-        animator = child.GetComponent<Animator>();
+        //child = parent.transform.GetChild(0).gameObject;
+        //animator = child.GetComponent<Animator>();
     }
 
     public void SetAniamation(PlayerAniamtonState _state) {

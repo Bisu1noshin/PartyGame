@@ -16,10 +16,10 @@ public class SetPlayerSceneManager : InGameManeger
     private int decideCnt = default;
     private Vector3[] playerPos = new Vector3[GameInformation.MAX_PLAYER_VALUE] {
 
-        new Vector3(0,0,0),
-        new Vector3(0,0,0),
-        new Vector3(0,0,0),
-        new Vector3(0,0,0)
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0)
     };
 
     protected override string SetPlayerPrefab(int index)
