@@ -32,4 +32,16 @@ public abstract class RotationFixer : MonoBehaviour
     }
     protected abstract void IdleRotate();
     protected abstract void RunningRotate();
+    protected void Rotate(Vector3 delta)
+    {
+        Vector3 angle = transform.localEulerAngles;
+        angle += delta;
+        transform.localEulerAngles = angle;
+    }
+    protected void Rotate(float x, float y, float z)
+    {
+        Vector3 angle = transform.localEulerAngles;
+        angle += new Vector3(x, y, z);
+        transform.localEulerAngles = angle;
+    }
 }

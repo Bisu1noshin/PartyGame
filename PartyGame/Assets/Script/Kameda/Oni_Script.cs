@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class Oni_Script : MonoBehaviour
 {
@@ -9,12 +10,14 @@ public class Oni_Script : MonoBehaviour
     [SerializeField]public Transform[] playersPos = new Transform[4];
     Kameda_TestSceneManager parent;
     public static Oni_Script instance;
+    int catchCnt;
     private void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
         gameObject.name = "Oni";
+        catchCnt = 0;
         transform.position = new Vector3(-5, -0.75f, 4);
         agent = gameObject.GetOrAddComponent<NavMeshAgent>();
     }
@@ -36,6 +39,8 @@ public class Oni_Script : MonoBehaviour
         if (collision.TryGetComponent<Player_Instant>(out var p))
         {
             p.OnCaught();
+            parent.Caughts.Add(p);
+            parent.points[parent.PlayerNum[p]] = 4 - catchCnt;
         }
     }
     int SelectTargetPlayer()
