@@ -34,7 +34,7 @@ public class Ooo_Waterbomb : MonoBehaviour
         explodeCollider.radius = explodeRange;
         explodeCollider.enabled = false;    //爆発する時のみOn
 
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     //設置時初期化
