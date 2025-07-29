@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Threading.Tasks;
 
 public class LoadSceneManager : InGameManeger
 {
@@ -18,47 +19,26 @@ public class LoadSceneManager : InGameManeger
         return typeof(TestPlayer);
     }
 
-    private void Start()
+    protected override void Awake()
     {
-        GameSceneAdd();
-        NextSceneJump();
+        base.Awake();
     }
 
-    protected override void Update()
+    private async void Start()
     {
-        base.Update();
-
-        
+        await NextScene();
     }
 
-    //public override string SceneName => NextRandGame();
-    public override string SceneName => GameInformation.KAMEDA_GAME;
+    public override string SceneName => GameInformation.GameScenes[GameSceneIndex];
 
-    public override void OnLoaded(PlayerInformation[] data)
-    {
-
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
     public override void OnUnLoaded()
     {
-        Debug.Log("Exit_load");
-    }
-
-    private string NextRandGame() {
-
-        string sceneName = GameInformation.GameScenes[GameSceneIndex];
-        return sceneName;
+        Debug.Log("Exit_load  index:" + GameSceneIndex);
     }
 
     private void GameSceneAdd() {
+
+        Debug.Log("AddInadex");
 
         if (GameSceneIndex >= 3)
         {
@@ -67,5 +47,14 @@ public class LoadSceneManager : InGameManeger
         }
 
         GameSceneIndex++;
+    }
+
+    private new async Task NextScene() {
+
+        var presenter =
+            await SSceneManager.LoadScene<InGameManeger>(playerInformation, SceneLeftimeManager);
+        if (presenter == null) { Debug.LogError("NULL!!");return; }
+        presenter.SetPlayerInformation(playerInformation);
+        GameSceneAdd();
     }
 }

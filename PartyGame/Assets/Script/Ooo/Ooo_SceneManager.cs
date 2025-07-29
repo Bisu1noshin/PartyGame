@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -51,7 +52,7 @@ public class Ooo_SceneManager : InGameManeger
         }
     }
 
-    protected override void Update()
+    protected  override async void Update()
     {
         base.Update();
         for (int i = 0; i < PLAYER_CNT; i++)
@@ -126,7 +127,7 @@ public class Ooo_SceneManager : InGameManeger
 
             if (status == GameStatus.finish) {
 
-                NextSceneJump();
+                await NextScene();
             }
         }
 
@@ -161,19 +162,6 @@ public class Ooo_SceneManager : InGameManeger
 
     public override string SceneName => GameInformation.LoadScene;
 
-    public override void OnLoaded(PlayerInformation[] data)
-    {
-
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
     public override void OnUnLoaded()
     {
         Debug.Log("Exit_Ooo");

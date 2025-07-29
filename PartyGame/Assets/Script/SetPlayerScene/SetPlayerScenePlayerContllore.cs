@@ -5,8 +5,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent
 {
     bool SetUserNum;
     bool onButtonA;
-    int UIContllore;
-
     private string FBXpath = " ";
     private PlayerInformation information = default;
     private GameObject[] prefabs;
@@ -49,7 +47,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent
         }
 
         onButtonA = false;
-        UIContllore = 0;
         prefabs = new GameObject[4];
 
         // FBXのファイル
@@ -65,7 +62,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent
 
     protected override void MoveUpdate(Vector2 vec)
     {
-        UIContllore = (int)vec.x;
+        
     }
 
     protected override void LookUpdate(Vector2 vec)

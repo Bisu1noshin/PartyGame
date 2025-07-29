@@ -19,8 +19,9 @@ public class PlayerInputManager : InGameManeger
     private void Start()
     {
         playerInformation = new PlayerInformation[GameInformation.MAX_PLAYER_VALUE];
+        GameInformation.RandomGameScene();
     }
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
 
@@ -37,25 +38,11 @@ public class PlayerInputManager : InGameManeger
 
         if (Input.anyKey) {
 
-            GameInformation.RandomGameScene();
-            NextSceneJump();
+            await NextScene();
         }
 
     }
 
     public override string SceneName => "LoadScene";
-
-    public override void OnLoaded(PlayerInformation[] data) {
-
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
     public override void OnUnLoaded() { }
 }

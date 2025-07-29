@@ -35,8 +35,9 @@ public class SetPlayerSceneManager : InGameManeger
 
     private void Start()
     {
-        instanceFlag = new bool[GameInformation.MAX_PLAYER_VALUE];
-        decideFlag = new bool[GameInformation.MAX_PLAYER_VALUE];
+        playerInformation   = new PlayerInformation[GameInformation.MAX_PLAYER_VALUE];
+        instanceFlag        = new bool[GameInformation.MAX_PLAYER_VALUE];
+        decideFlag          = new bool[GameInformation.MAX_PLAYER_VALUE];
 
         for (int i = 0; i < instanceFlag.Length; i++) {
             instanceFlag[i] = true;
@@ -44,7 +45,7 @@ public class SetPlayerSceneManager : InGameManeger
         }
     }
 
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
 
@@ -77,28 +78,13 @@ public class SetPlayerSceneManager : InGameManeger
             }
         }
 
-        NextSceneJump();
+        await NextScene();
     }
 
     public override string SceneName => GameInformation.LoadScene;
-
-    public override void OnLoaded(PlayerInformation[] data)
-    {
-
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        GameInformation.RandomGameScene();
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
     public override void OnUnLoaded()
     {
+
     }
 
     public void SetPlayerInformation(PlayerInformation data ,int index) {

@@ -3,8 +3,16 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//---------------------------------------------------------
+// クラスの名前を変更して実装する
+// SceneNameを自分のゲームシーンにする
+// 必要な要素を追記する
+//---------------------------------------------------------
+
 public class GameInformationScene :InGameManeger
 {
+    private GameInformationPlayer[] _player = default;　// playerの派生クラス
+
     protected override string SetPlayerPrefab(int index)
     {
         string playerPrefabPath = "Player/Test/Cube_" + index.ToString();
@@ -18,21 +26,33 @@ public class GameInformationScene :InGameManeger
 
     private void Start()
     {
-        if (playerInformation == null)
+        // 例外処理
         {
-            Debug.LogError("playerの情報がnullです。");
-            return;
+            // プレイヤーの情報がなかった場合
+            if (playerInformation == null)
+            {
+                Debug.LogError("playerの情報がnullです。");
+                return;
+            }
+        }
+
+        // その他初期化処理
+        {
+            // pass
         }
 
         // playerの召喚
         {
             int length = playerInformation.Length;
+            _player = new GameInformationPlayer[length];
 
             for (int i = 0; i < length; i++)
             {
-
                 Vector3 pos = new Vector3(-10000, 0, 0);// 画面外に飛ばす
                 player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.identity);
+
+                // playerの派生クラスの取得
+                _player[i]= player[i].gameObject.GetComponent<GameInformationPlayer>();
             }
         }
     }
@@ -42,20 +62,31 @@ public class GameInformationScene :InGameManeger
 
     }
 
-    public override string SceneName => "LoadScene";
+    public override string SceneName => "LoadScene";// <-変更する!!
+    public override void OnUnLoaded() { }
 
-    public override void OnLoaded(PlayerInformation[] data)
-    {
+    /// <summary>
+    /// 全員のフラグが立っているか確認するメソッド
+    /// </summary>
+    /// <returns></returns>
+    private bool GetAllDecide() {
 
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
+        bool flag = false;
+
+        foreach (var player in _player) {
+
+            // 一人でもふらぐがたっていなければはじく
+            if (!player.GetDecide()) { return flag; }
         }
 
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
+        flag = true;
+
+        foreach (var player in _player)
+        {
+            // 全員のフラグをおろす
+            player.SetDecideToFlase();
+        }
+
+        return flag;
     }
-    public override void OnUnLoaded() { }
 }

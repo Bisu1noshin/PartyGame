@@ -6,36 +6,44 @@ using Cysharp.Threading.Tasks;
 public static class SSceneManager
 {
     private static ISceneLifetimeManager _currentSceneLifetimeManager;
-    public static async UniTaskVoid LoadScene(PlayerInformation[] data, SceneLeftimeManager sceneLeftime, LoadSceneMode mode = LoadSceneMode.Single) 
+    public static async UniTask<T> LoadScene<T>(PlayerInformation[] data, SceneLeftimeManager sceneLeftime, LoadSceneMode mode = LoadSceneMode.Single)
+        where T : InGameManeger
     {
         _currentSceneLifetimeManager?.OnUnLoaded();
         _currentSceneLifetimeManager = sceneLeftime;
 
         await SceneManager.LoadSceneAsync(_currentSceneLifetimeManager.SceneName, mode).ToUniTask();
-        _currentSceneLifetimeManager.OnLoaded(data);
+        Scene scene = SceneManager.GetSceneByName(_currentSceneLifetimeManager.SceneName);
+
+        foreach (GameObject go in scene.GetRootGameObjects())
+        {
+            var presenter = go.GetComponent<T>();
+            if (presenter != null)
+            {
+                return presenter;
+            }
+        }
+        
+        return null;
     }
 }
 public interface ISceneLifetimeManager
 {
     public string SceneName { get; }
-    public void OnLoaded(PlayerInformation[] data);
     public void OnUnLoaded();
 }
 public sealed class SceneLeftimeManager : ISceneLifetimeManager
 {
     private string sceneName;
-    private Action<PlayerInformation[]> onLoad;
     private Action unLoad;
 
-    public SceneLeftimeManager(string _sceneName, Action<PlayerInformation[]> _onLoad, Action _unLoad) {
+    public SceneLeftimeManager(string _sceneName, Action _unLoad) {
 
         sceneName = _sceneName;
-        onLoad = _onLoad;
         unLoad = _unLoad;
     }
 
     public string SceneName => sceneName;
-    public void OnLoaded(PlayerInformation[] data) => onLoad.Invoke(data);
     public void OnUnLoaded() => unLoad.Invoke();
 }
 
