@@ -20,7 +20,7 @@ public class Ooo_Waterbomb : MonoBehaviour
 
     void Start()
     {
-        waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb");
+        waterbombPrefab = Resources.Load<GameObject>("Ooo/waterbomb_Prefab");
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
 
