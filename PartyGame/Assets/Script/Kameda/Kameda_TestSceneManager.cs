@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public partial class Kameda_TestSceneManager : InGameManeger
 {
@@ -8,13 +9,20 @@ public partial class Kameda_TestSceneManager : InGameManeger
     [SerializeField] GameObject light;
     GameState state;
     float timer;
+    bool ReadyFlag;
+    bool EndFlag;
     private void Start()
     {
+        maxPlayerCount = 2;
+        ReadyFlag = false;
+        EndFlag = false;
+        
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
         for(int i = 0; i < 4; ++i)
         {
             Instantiate(light);
         }
+        SetPlayers();
     }
     protected override void Update()
     {
@@ -77,9 +85,11 @@ public partial class Kameda_TestSceneManager : InGameManeger
     }
     void SetPlayers()
     {
+        if(playerInformation == null) { return; }
         Vector3 pos = new Vector3(5, -1.25f, -4);
         for(int i = GetNullPlayerNum(); i < playerInformation.Length; i++)
         {
+            if (playerInformation[i] == null) { continue; }
             pos.x = 5 - i;
             CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0));
         }

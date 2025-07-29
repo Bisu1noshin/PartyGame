@@ -4,10 +4,10 @@ public class Boy_red_RotationFixer : RotationFixer
 {
     protected override void IdleRotate()
     {
-        transform.rotation = Quaternion.identity;
+        Rotate(0, 0, 0);
     }
     protected override void RunningRotate()
     {
-        transform.rotation = Quaternion.Euler(11, 0, 4);
+        Rotate(11, 0, 4);
     }
 }

@@ -15,23 +15,55 @@ public partial class Kameda_TestSceneManager : InGameManeger
     }
     void IntroUpdate()
     {
-
+        if(timer >= 2.0f)
+        {
+            timer = 0;
+            state = GameState.Ready;
+        }
     }
     void ReadyUpdate()
     {
-
+        if (!ReadyFlag)
+        {
+            GameObject go = Instantiate(Resources.Load("Font/Text_Start") as GameObject);
+            go.transform.SetParent(GameObject.Find("Canvas").transform, false);
+            ReadyFlag = true;
+        }
+        if(timer >= 4.0f)
+        {
+            timer = 0;
+            state = GameState.Play;
+        }
     }
     void PlayUpdate()
     {
         UpdatePlayersTransform();
+        if(timer >= 60.0f)
+        {
+            timer = 0;
+            state = GameState.End;
+        }
     }
     void EndUpdate()
     {
-
+        if (!EndFlag)
+        {
+            GameObject go = Instantiate(Resources.Load("Font/Text_Finish") as GameObject);
+            go.transform.SetParent(GameObject.Find("Canvas").transform);
+            EndFlag = true;
+        }
+        if(timer >= 2.0f)
+        {
+            timer = 0;
+            state = GameState.Result;
+        }
     }
     void ResultUpdate()
     {
-
+        if(timer >= 2.0f)
+        {
+            NextSceneJump();
+        }
     }
     void StateUpdate(GameState s)
     {
