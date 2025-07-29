@@ -9,7 +9,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 1;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -19,9 +19,10 @@ public class Ooo_SceneManager : InGameManeger
     };
 
     private GameStatus status; //ゲームステータス管理
-    float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
+    float timer = 40f; //タイマー ゲーム時間で初期化する(秒)
     bool playerFlag = false;
     public static int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
+    public static int[] playerEscape = new int[PLAYER_CNT];
 
 
 
@@ -30,8 +31,8 @@ public class Ooo_SceneManager : InGameManeger
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
     [SerializeField] TMP_Text[] scoreText = new TMP_Text[PLAYER_CNT]; //プレイヤースコアText
-    
-
+    [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // B버튼 연타 UI 텍스트
+    private string text;
 
     protected override Type SetPlayerScript()
     {
@@ -44,7 +45,7 @@ public class Ooo_SceneManager : InGameManeger
         status = GameStatus.standby;
 
         //プレイヤースコア0で初期化
-        for(int i = 0; i < PLAYER_CNT; i++)
+        for (int i = 0; i < PLAYER_CNT; i++)
         {
             playerScore[i] = 0;
         }
@@ -102,36 +103,46 @@ public class Ooo_SceneManager : InGameManeger
                 if (scoreText[i] != null)
                 {
                     scoreText[i].text = "P" + (i + 1) + "\nscore: " + playerScore[i];
+
+                    //Trap状態なら連打テキストも追加
+                    if (player[i] is Ooo_TestPlayer testPlayer && testPlayer.isTrapped)
+                    {
+                        scoreText[i].text += "\nBボタン連打! " + testPlayer.nowEscapeClick + "/10";
+                    }
                 }
             }
 
-            //ゲーム終了時処理
+            
             if (timer <= 0f)
             {
                 timer = 0;
 
-                //「Finish」の文字を召喚
+                
                 GameObject go = Instantiate(FinishText);
                 go.transform.SetParent(Canvas.transform);
                 go.transform.position = new Vector3(600, 400, 0);
 
-                //Statusを変更
+                
                 status = GameStatus.finish;
             }
         }
-
     }
 
-    //Score管理関数
-    public static void AddScore(int playerIndex)
-    {
-        if(playerIndex >= 0 && playerIndex < PLAYER_CNT)
-        {
-            playerScore[playerIndex]++;
-        }
-    }
 
+
+
+        //Score管理関数
+        public static void AddScore(int playerIndex)
+        { 
     
+            if(playerIndex >= 0 && playerIndex < PLAYER_CNT)
+            {
+            playerScore[playerIndex]++;
+            }
+        }
+
+
+
 
 
 

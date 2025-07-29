@@ -60,7 +60,7 @@ public class WaterbombScript : MonoBehaviour
             Ooo_ExplodeEffect effectScript = effect.GetComponent<Ooo_ExplodeEffect>();
             if (effectScript != null)
             {
-                effectScript.Initialize(ownerId);
+                //effectScript.Initialize(ownerId);
             }
         }
     }
