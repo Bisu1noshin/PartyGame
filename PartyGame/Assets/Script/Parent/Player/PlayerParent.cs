@@ -28,7 +28,7 @@ public abstract class PlayerParent : MonoBehaviour
             _ButtonY    = playerInput.actions["ButtonY"];
         }
 
-        animationContllore = new AnimationContllore(gameObject);
+        //animationContllore = new AnimationContllore(gameObject);
     }
 
     private void OnEnable()
