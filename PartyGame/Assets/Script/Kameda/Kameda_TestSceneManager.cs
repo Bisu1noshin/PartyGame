@@ -7,15 +7,22 @@ public partial class Kameda_TestSceneManager : InGameManeger
 {
     Oni_Script o_s;
     [SerializeField] GameObject light;
+    public List<PlayerParent> Caughts = new List<PlayerParent>();
     GameState state;
     float timer;
     bool ReadyFlag;
     bool EndFlag;
+    bool TitleFlag;
+    public Dictionary<int, int> points = new();
+    public Dictionary<PlayerParent, int> PlayerNum = new();
+    Kameda_CntDnController cd;
+
     private void Start()
     {
-        maxPlayerCount = 2;
         ReadyFlag = false;
         EndFlag = false;
+        TitleFlag = false;
+        Caughts.Clear();
         
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
         for(int i = 0; i < 4; ++i)
@@ -23,6 +30,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
             Instantiate(light);
         }
         SetPlayers();
+        SetPlayerInformations();
     }
     protected override void Update()
     {
@@ -104,4 +112,44 @@ public partial class Kameda_TestSceneManager : InGameManeger
         }
         return 4;
     }
+    void GetRank()
+    {
+        target[] targets = new target[4]; 
+        for(int i = 0; i < player.Length; ++i)
+        {
+            targets[i] = new target(i, points[i]);
+        }
+        for(int i = 0; i < 4; ++i)
+        {
+            for(int j = 0; j < 3 - i; ++j)
+            {
+                if (targets[j].score > targets[j + 1].score)
+                {
+                    target tmp = targets[j];
+                    targets[j] = targets[j + 1];
+                    targets[j + 1] = tmp;
+                }
+            }
+        }
+        for(int i = 0; i < 4; ++i)
+        {
+            playerInformation[targets[i].num].AddPlayerScore(4 - i);
+        }
+    }
+    void SetPlayerInformations()
+    {
+        points.Clear();
+        for(int i = 0; i < player.Length; ++i)
+        {
+            points.Add(i, 0);
+            PlayerNum.Add(player[i], i);
+        }
+    }
 }
+class target {
+    public int num, score;
+    public target(int a, int b)
+    {
+        num = a; score = b;
+    }
+};
