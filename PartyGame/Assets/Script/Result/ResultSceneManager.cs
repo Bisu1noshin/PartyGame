@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class ResultSceneManager : InGameManeger
 {
     [SerializeField] TextMeshProUGUI[] Rank;
-
+    private GameInformationPlayer[] _player = default;　// playerの派生クラス
 
     protected override string SetPlayerPrefab(int index)
     {
@@ -21,7 +21,7 @@ public class ResultSceneManager : InGameManeger
 
     protected override Type SetPlayerScript()
     {
-        return typeof(TestPlayer);
+        return typeof(GameInformationPlayer);
     }
 
     private void Start()
@@ -44,11 +44,15 @@ public class ResultSceneManager : InGameManeger
         // playerの召喚
         {
             int length = playerInformation.Length;
+            _player = new GameInformationPlayer[length];
 
             for (int i = 0; i < length; i++)
             {
                 Vector3 pos = new Vector3(-10000, 0, 0);// 画面外に飛ばす
                 player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.identity);
+
+                // playerの派生クラスの取得
+                _player[i] = player[i].gameObject.GetComponent<GameInformationPlayer>();
             }
         }
     }
@@ -61,8 +65,13 @@ public class ResultSceneManager : InGameManeger
             GamingColor(Rank[i]);
         }
 
+        if (!GetAllDecide()) {
+            return;
+        }
 
-        if (Input.anyKey)
+
+
+        if (GetAllDecide())
         {
             SceneManager.LoadScene("TitleScene");
         }
@@ -113,5 +122,27 @@ public class ResultSceneManager : InGameManeger
         }
 
         ui.color = new Color(r, g, b);
+    }
+    private bool GetAllDecide()
+    {
+
+        bool flag = false;
+
+        foreach (var player in _player)
+        {
+
+            // 一人でもふらぐがたっていなければはじく
+            if (!player.GetDecide()) { return flag; }
+        }
+
+        flag = true;
+
+        foreach (var player in _player)
+        {
+            // 全員のフラグをおろす
+            player.SetDecideToFlase();
+        }
+
+        return flag;
     }
 }
