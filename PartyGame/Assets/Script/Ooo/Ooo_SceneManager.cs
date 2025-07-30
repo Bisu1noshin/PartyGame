@@ -6,10 +6,11 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Linq;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 1;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -49,7 +50,7 @@ public class Ooo_SceneManager : InGameManeger
         }
     }
 
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
         for (int i = 0; i < PLAYER_CNT; i++)
@@ -72,7 +73,8 @@ public class Ooo_SceneManager : InGameManeger
                 player[i] = CreatePlayer(
                     playerInformation: playerInformation[i],
                     p: vec,
-                    q: quat
+                    q: quat,
+                    index: i+1
                     );
             }
 
@@ -114,8 +116,27 @@ public class Ooo_SceneManager : InGameManeger
             if (timer <= 0f)
             {
                 timer = 0;
-
+                //順位処理
+                int[] val = new int[4] { -1, -1, -1, -1 };
+                for (int i = 0; i < PLAYER_CNT; ++i)
+                {
+                    int maxCnt = playerScore.Max(); //最大の点数を取得
+                    int maxPl = Array.IndexOf(playerScore, maxCnt); //最大点を取ったPlayerの番号を取得
+                    int rank = i + 1; //被りなしの場合の順位
+                    for (int j = 0; j < i; ++j)
+                    {
+                        if (val[j] == maxCnt) //過去の点数と同じなら
+                        {
+                            rank = j + 1; //同順位に更新
+                            break;
+                        }
+                    }
+                    playerInformation[maxPl].AddPlayerScore(rank);
+                    playerScore[maxPl] = -1; //該当者の得点をリセット
+                    val[i] = maxCnt; //同順位判定用のものをセット
+                }
                 
+
                 GameObject go = Instantiate(FinishText);
                 go.transform.SetParent(Canvas.transform);
                 go.transform.position = new Vector3(600, 400, 0);
@@ -123,6 +144,10 @@ public class Ooo_SceneManager : InGameManeger
                 
                 status = GameStatus.finish;
             }
+        }
+        if (status == GameStatus.finish) {
+
+            await NextScene();
         }
     }
 
@@ -153,7 +178,7 @@ public class Ooo_SceneManager : InGameManeger
     protected override string SetPlayerPrefab(int index)
     {
         string str =
-            "Player/Test/Cube_" + index.ToString();
+            "Player/VRM/VRM_" + index.ToString();
 
         return str;
     }
