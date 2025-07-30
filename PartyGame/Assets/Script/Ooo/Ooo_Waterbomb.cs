@@ -14,8 +14,8 @@ public class Ooo_Waterbomb : MonoBehaviour
     private MeshRenderer meshRenderer;
     public Color[] blinkColors = { Color.white, Color.red }; //点滅時の色変更
 
-    private int waterBombPlayerId;      //設置したプレイヤーId
-    private SphereCollider explodeCollider;   //爆発範囲当たり判定
+    private int ownerId;      //設置したプレイヤーId
+    //private SphereCollider explodeCollider;   //爆発範囲当たり判定
     public int playerIndex;
 
     void Start()
@@ -24,15 +24,15 @@ public class Ooo_Waterbomb : MonoBehaviour
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
 
 
-        explodeCollider = GetComponent<SphereCollider>();
-        if(explodeCollider == null)
+        //explodeCollider = GetComponent<SphereCollider>();
+       // if(explodeCollider == null)
         {
-            explodeCollider = gameObject.AddComponent<SphereCollider>();
+       //     explodeCollider = gameObject.AddComponent<SphereCollider>();
         }
 
-        explodeCollider.isTrigger = true;   //範囲内当たり判定
-        explodeCollider.radius = explodeRange;
-        explodeCollider.enabled = false;    //爆発する時のみOn
+      //  explodeCollider.isTrigger = true;   //範囲内当たり判定
+        //explodeCollider.radius = explodeRange;
+       // explodeCollider.enabled = false;    //爆発する時のみOn
 
         meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
@@ -40,7 +40,7 @@ public class Ooo_Waterbomb : MonoBehaviour
     //設置時初期化
     public void Initialize(int playerId)    
     {
-        waterBombPlayerId = playerId;       //設置したプレイヤーId保存
+       // waterBombPlayerId = playerId;       //設置したプレイヤーId保存
         StartCoroutine(ExplodeRoutine());   //爆発課程スタート
     }
 
@@ -126,24 +126,21 @@ public class Ooo_Waterbomb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) //爆発時プレイヤ当たり判定
     {
+        Debug.Log("hit");
         Ooo_TestPlayer player = other.GetComponent<Ooo_TestPlayer>();
 
         if(player != null && player.IsTrapped())
         {
-            player.GetTrapped(waterBombPlayerId);
+            //player.GetTrapped();
 
-            if(player.playerId != waterBombPlayerId)
+            /*if(player.playerId != waterBombPlayerId)
             {
-                Ooo_SceneManager sceneManager = FindObjectOfType<Ooo_SceneManager>();
+                Ooo_SceneManager sceneManager = GetComponent<Ooo_SceneManager>();
                 if(sceneManager != null)
                 {
                     sceneManager.AddScore(waterBombPlayerId);
                 }
-                else
-                {
-                    Debug.LogWarning("SceneManager not found");
-                }
-            }
+            }*/
         }
         
     }
