@@ -53,9 +53,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent
         {
             for (int i = 0; i < 4; i++)
             {
-                prefabs[i]= Resources.Load<GameObject>("Player/Test/Cube_" + i.ToString());
-                // 正規のpath
-                // "Player/VRM/VRM_(index)"<-indexは1～4
+                prefabs[i]= Resources.Load<GameObject>("Player/VRM/VRM_" + i.ToString());
             }
         }
     }
