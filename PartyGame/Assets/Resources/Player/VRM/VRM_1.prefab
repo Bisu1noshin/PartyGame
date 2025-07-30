@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5087393407171182751}
   - component: {fileID: 1134178732720800712}
-  - component: {fileID: -1787246275316389279}
+  - component: {fileID: -6113700710372397955}
   m_Layer: 0
   m_Name: VRM_1
   m_TagString: Untagged
@@ -64,8 +64,8 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!136 &-1787246275316389279
-CapsuleCollider:
+--- !u!135 &-6113700710372397955
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -82,11 +82,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 3
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1001 &6017302239071968965
 PrefabInstance:
   m_ObjectHideFlags: 0
