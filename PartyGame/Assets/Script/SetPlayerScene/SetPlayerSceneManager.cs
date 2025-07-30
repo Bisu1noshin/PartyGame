@@ -16,10 +16,10 @@ public class SetPlayerSceneManager : InGameManeger
     private int decideCnt = default;
     private Vector3[] playerPos = new Vector3[GameInformation.MAX_PLAYER_VALUE] {
 
-        new Vector3(0,0,0),
-        new Vector3(0,0,0),
-        new Vector3(0,0,0),
-        new Vector3(0,0,0)
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0),
+        new Vector3(-10000,0,0)
     };
 
     protected override string SetPlayerPrefab(int index)
@@ -35,8 +35,9 @@ public class SetPlayerSceneManager : InGameManeger
 
     private void Start()
     {
-        instanceFlag = new bool[GameInformation.MAX_PLAYER_VALUE];
-        decideFlag = new bool[GameInformation.MAX_PLAYER_VALUE];
+        playerInformation   = new PlayerInformation[GameInformation.MAX_PLAYER_VALUE];
+        instanceFlag        = new bool[GameInformation.MAX_PLAYER_VALUE];
+        decideFlag          = new bool[GameInformation.MAX_PLAYER_VALUE];
 
         for (int i = 0; i < instanceFlag.Length; i++) {
             instanceFlag[i] = true;
@@ -44,7 +45,7 @@ public class SetPlayerSceneManager : InGameManeger
         }
     }
 
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
 
@@ -77,33 +78,13 @@ public class SetPlayerSceneManager : InGameManeger
             }
         }
 
-        NextSceneJump();
+        await NextScene();
     }
 
-    public override string SceneName => "LoadScene";
-
-    public override void OnLoaded(PlayerInformation[] data)
+    public override string SceneName => GameInformation.LoadScene;
+    public override void OnUnLoaded()
     {
 
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
-    public override void OnUnLoaded() {
-
-        GameInformation.RandomGameScene();
-    }
-
-    protected override void NextSceneJump()
-    {
-
-        SSceneManager.LoadScene<SetPlayerSceneManager>(playerInformation).Forget();
     }
 
     public void SetPlayerInformation(PlayerInformation data ,int index) {

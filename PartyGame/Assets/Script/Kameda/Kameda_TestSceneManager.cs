@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -30,7 +31,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
             Instantiate(light);
         }
         SetPlayers();
-        SetPlayerInformations();
+        //SetPlayerInformations();
     }
     protected override void Update()
     {
@@ -57,27 +58,10 @@ public partial class Kameda_TestSceneManager : InGameManeger
 
         return str;
     }
-    public override string SceneName => "TitleScene";
-
-    public override void OnLoaded(PlayerInformation[] data)
+    public override string SceneName => GameInformation.LoadScene;
+    public override void OnUnLoaded()
     {
-
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
-    public override void OnUnLoaded() { }
-
-    protected override void NextSceneJump()
-    {
-
-        SSceneManager.LoadScene<PlayerInputManager>(playerInformation).Forget();
+        Debug.Log("Exit_Kameda");
     }
     public GameState GetGameState() => state;
     void UpdatePlayersTransform()
@@ -94,13 +78,27 @@ public partial class Kameda_TestSceneManager : InGameManeger
     void SetPlayers()
     {
         if(playerInformation == null) { return; }
+
+        // 追記
+
         Vector3 pos = new Vector3(5, -1.25f, -4);
-        for(int i = GetNullPlayerNum(); i < playerInformation.Length; i++)
+
+        //for(int i = GetNullPlayerNum(); i < playerInformation.Length; i++)
+        //{
+        //    if (playerInformation[i] == null) { continue; }
+        //    pos.x = 5 - i;
+        //    CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0));
+        //}
+
+        
+        for (int i = GetNullPlayerNum(); i < playerInformation.Length; i++)
         {
             if (playerInformation[i] == null) { continue; }
             pos.x = 5 - i;
-            CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0));
+            player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0));// playerに代入する
         }
+
+        SetPlayerInformations();// ここで呼ぶ
     }
     int GetNullPlayerNum()
     {
@@ -141,8 +139,19 @@ public partial class Kameda_TestSceneManager : InGameManeger
         points.Clear();
         for(int i = 0; i < player.Length; ++i)
         {
+            // 追記
+
+            if (player[i] == null) {
+
+                Debug.LogError("PlayerがNullです。");
+                return;
+            }
+
             points.Add(i, 0);
             PlayerNum.Add(player[i], i);
+
+            // Dictionaryにnullは入んないよ。
+            // playerをInctance化した後に呼び出すよ
         }
     }
 }

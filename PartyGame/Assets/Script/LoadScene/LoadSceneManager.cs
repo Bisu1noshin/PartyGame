@@ -1,7 +1,8 @@
 ﻿using System;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Threading.Tasks;
 
 public class LoadSceneManager : InGameManeger
 {
@@ -18,31 +19,29 @@ public class LoadSceneManager : InGameManeger
         return typeof(TestPlayer);
     }
 
-    protected override void Update()
+    protected override void Awake()
     {
-        base.Update();
-
-        NextSceneJump();
+        base.Awake();
     }
 
-    public override string SceneName => NextRandGame();
-
-    public override void OnLoaded(PlayerInformation[] data)
+    private async void Start()
     {
+        await NextScene();
+    }
 
-        if (data is null || data is not PlayerInformation[] playerInformation)
+    public override string SceneName => GameInformation.GameScenes[GameSceneIndex];
+
+    public override void OnUnLoaded()
+    {
+        Debug.Log("Exit_load  index:" + GameSceneIndex);
+    }
+
+    private void GameSceneAdd() {
+
+        Debug.Log("AddInadex");
+
+        if (GameSceneIndex >= 3)
         {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
-    public override void OnUnLoaded() {
-
-        if (GameSceneIndex>=3) {
             GameSceneIndex = 0;
             return;
         }
@@ -50,16 +49,12 @@ public class LoadSceneManager : InGameManeger
         GameSceneIndex++;
     }
 
-    protected override void NextSceneJump()
-    {
+    private new async Task NextScene() {
 
-        SSceneManager.LoadScene<LoadSceneManager>(playerInformation).Forget();
-    }
-
-    private string NextRandGame() {
-
-        string sceneName = GameInformation.GameScenes[GameSceneIndex];
-
-        return "TestGame";
+        var presenter =
+            await SSceneManager.LoadScene<InGameManeger>(playerInformation, SceneLeftimeManager);
+        if (presenter == null) { Debug.LogError("NULL!!");return; }
+        presenter.SetPlayerInformation(playerInformation);
+        GameSceneAdd();
     }
 }

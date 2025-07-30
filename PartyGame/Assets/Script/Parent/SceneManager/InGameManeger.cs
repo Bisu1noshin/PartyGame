@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Buffers;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
@@ -15,8 +14,9 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     [SerializeField] private    bool    DebagMode       = default;
     [SerializeField] protected  int     maxPlayerCount  = default;
 
-    protected       PlayerInformation[]     playerInformation = default;
-    protected       PlayerParent[]         player;
+    protected       PlayerInformation[]     playerInformation   = default;
+    protected       PlayerParent[]          player              = default;
+    protected       SceneLeftimeManager     SceneLeftimeManager = default;
 
     private     Type            playerScript;
     private     InputAction     playerJoinInputAction;
@@ -81,13 +81,14 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         else
         {
             maxPlayerCount = GameInformation.MAX_PLAYER_VALUE;
-            playerInformation = new PlayerInformation[maxPlayerCount];
-            for (int i = 0; i < maxPlayerCount; i++) playerInformation[i] = null;
+            //playerInformation = new PlayerInformation[maxPlayerCount];
+            //for (int i = 0; i < maxPlayerCount; i++) playerInformation[i] = null;
         }
 
         playerScript = SetPlayerScript();
         joinedDevices = new InputDevice[maxPlayerCount];
         player = new PlayerParent[maxPlayerCount];
+        SceneLeftimeManager = new SceneLeftimeManager(SceneName, OnUnLoaded);
     }
 
     protected virtual void OnDestroy()
@@ -139,12 +140,10 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
     // 抽象メソッド
     public abstract string SceneName { get; }
-    public abstract void OnLoaded(PlayerInformation[] data);
     public abstract void OnUnLoaded();
 
     protected abstract string SetPlayerPrefab(int index);
     protected abstract Type SetPlayerScript();
-    protected abstract void NextSceneJump();
 
     // メソッド
 
@@ -211,10 +210,10 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     /// <param name="p"></param>
     /// <param name="q"></param>
     /// <returns></returns>
-    protected PlayerParent CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q) {
+    protected PlayerParent CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q,int index = 0) { 
 
         GameObject prefab =
-            Resources.Load<GameObject>(SetPlayerPrefab(0));
+            Resources.Load<GameObject>(SetPlayerPrefab(index));
 
         PlayerParent pp =
         PlayerParent.CreatePlayer(
@@ -227,6 +226,21 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         );
 
         return pp;
+    }
+
+    /// <summary>
+    /// 非同期処理でシーンを読み込む
+    /// </summary>
+    /// <returns></returns>
+    protected async Task NextScene()
+    {
+        var presenter =
+            await SSceneManager.LoadScene<InGameManeger>(playerInformation, SceneLeftimeManager);
+        if (presenter == null) {
+            Debug.LogError("次のシーンのSceneManagerがNULL!!");
+            return;
+        }
+        presenter.SetPlayerInformation(playerInformation);
     }
 
     // 参照可能メソッド

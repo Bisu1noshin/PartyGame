@@ -19,7 +19,8 @@ public class TestPlayer : PlayerParent
 
             animationContllore.SetAniamation(PlayerAniamtonState.Idle);
         }
-        else {
+        else
+        {
 
             animationContllore.SetAniamation(PlayerAniamtonState.Walk);
         }
