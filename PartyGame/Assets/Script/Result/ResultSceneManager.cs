@@ -31,7 +31,7 @@ public class ResultSceneManager : InGameManeger
         if (Input.anyKey)
         {
 
-            SceneManager.LoadScene("SetPlayerScene");
+            SceneManager.LoadScene("TitleScene");
         }
 
     }
