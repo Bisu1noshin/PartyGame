@@ -7,7 +7,7 @@ public class PlayerInputManager : InGameManeger
 {
     protected override string SetPlayerPrefab(int index)
     {
-        string playerPrefabPath = "Player/Test/Cube_" + index.ToString();
+        string playerPrefabPath = "Player/VRM/VRM_" + index.ToString();
         return playerPrefabPath;
     }
 
@@ -25,20 +25,21 @@ public class PlayerInputManager : InGameManeger
     {
         base.Update();
 
-        if (playerInformation == null) {
+        if (playerInformation[0] == null) {
             return;
         }
 
-        PlayerInformation p = playerInformation[0]; 
-
-        for (int i = 0; i < GameInformation.MAX_PLAYER_VALUE; i++) {
-
-            playerInformation[i] = p;
+        if(player[0] == null)
+        {
+            PlayerInformation p = playerInformation[0];
+            Vector3 vector = Vector3.zero;
+            player[0] = CreatePlayer(p, vector, Quaternion.identity, 1);
         }
+        
 
         if (Input.anyKey) {
 
-            await NextScene();
+            //await NextScene();
         }
 
     }
