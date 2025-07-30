@@ -116,6 +116,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
     }
     void GetRank()
     {
+        if (player[0] == null) return;
         target[] targets = new target[4]; 
         for(int i = 0; i < player.Length; ++i)
         {
