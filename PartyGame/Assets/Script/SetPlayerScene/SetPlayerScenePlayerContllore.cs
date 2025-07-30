@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SetPlayerScenePlayerContllore : PlayerParent
 {
@@ -9,6 +10,21 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     private PlayerInformation information = default;
     private GameObject[] prefabs;
 
+    private Vector3[] pos = new Vector3[4] {
+
+        new Vector3(-5,1,0),
+        new Vector3(4.5f,1,0),
+        new Vector3(-5,-4,0),
+        new Vector3(4.5f,-3.5f,0)
+    };
+
+    private Vector3[] scale = new Vector3[4] {
+
+        new Vector3(3,3,3),
+        new Vector3(2.5f,2.5f,2.5f),
+        new Vector3(3,3,3),
+        new Vector3(2.5f,2.5f,2.5f)
+    };
     private enum StateType {
 
         Non,
@@ -53,9 +69,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent
         {
             for (int i = 0; i < 4; i++)
             {
-                prefabs[i]= Resources.Load<GameObject>("Player/Test/Cube_" + i.ToString());
-                // 正規のpath
-                // "Player/VRM/VRM_(index)"<-indexは1～4
+                prefabs[i]= Resources.Load<GameObject>("Player/VRM/VRM_" + (i+1).ToString());
             }
         }
     }
@@ -123,6 +137,11 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     private void UpDateChoseFBX() {
 
         st.ExecuteTrigger(TriggerType.End);
+        int index = playerInput.playerIndex;
+        GameObject go =
+         Instantiate(prefabs[index], pos[index], Quaternion.identity);
+
+        go.transform.localScale = scale[index];
     }
     private void ExitChoseFBX() {
 
@@ -135,11 +154,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     }
     private void UpDateEnd() {
 
-        if(onButtonA) {
-
-            SetPlayerInformation();
-            onButtonA = false;
-        }
+        SetPlayerInformation();
     }
     private void ExitEnd() {
 
