@@ -20,7 +20,7 @@ public class Onishi_TestSceneManager : InGameManeger
     };
   
     GameStatus status; //ゲームステータス管理
-    float timer = 10f; //タイマー ゲーム時間で初期化する(秒)
+    float timer = 40f; //タイマー ゲーム時間で初期化する(秒)
 
     bool playerFlag = false; //プレイヤーの存在フラグ
 
@@ -48,7 +48,7 @@ public class Onishi_TestSceneManager : InGameManeger
         status = GameStatus.standby;
     }
 
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
 
@@ -81,9 +81,10 @@ public class Onishi_TestSceneManager : InGameManeger
             for (int i = 0; i < PLAYER_CNT; i++)
             {
                 player[i] = CreatePlayer(
-                    playerInformation : playerInformation[i],
-                    p : vec[i],
-                    q : quat
+                    playerInformation: playerInformation[i],
+                    p: vec[i],
+                    q: quat,
+                    index: i + 1
                     );
             }
 
@@ -165,6 +166,11 @@ public class Onishi_TestSceneManager : InGameManeger
             }
             finishcnt = true;
         }
+
+        if(status== GameStatus.non)
+        {
+            await NextScene();
+        }
     }
 
     //プレイ中か返す関数
@@ -192,7 +198,7 @@ public class Onishi_TestSceneManager : InGameManeger
     protected override string SetPlayerPrefab(int index)
     {
         string str =
-            "Player/Test/Cube_" + index.ToString();
+            "Player/VRM/VRM_" + index.ToString();
 
         return str;
     }
