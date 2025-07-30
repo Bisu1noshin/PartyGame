@@ -25,7 +25,7 @@ public class Ooo_waterbombNew : MonoBehaviour
     public void Initialize(int ownerPlayerId, Vector3 spawnPos)
     {
         ownerId = ownerPlayerId;
-        transform.position = spawnPos;  // 위치 명확히 지정
+        transform.position = spawnPos;  //スポン位置
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
     }
 
@@ -72,7 +72,7 @@ public class Ooo_waterbombNew : MonoBehaviour
             return;
         }
 
-        // 십자 방향 + 본인 위치
+        //十字方向
         Vector3[] directions = new Vector3[]
         {
             Vector3.forward,

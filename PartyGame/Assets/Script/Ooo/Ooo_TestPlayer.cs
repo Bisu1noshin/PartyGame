@@ -130,10 +130,10 @@ public class Ooo_TestPlayer : PlayerParent
             GameObject waterbomb = Instantiate(waterbombPrefab, transform.position, Quaternion.identity);
 
             //誰がwaterbombを配置したのか(waterbombのIDを保存)
-            Ooo_Waterbomb ooo_waterbomb = waterbomb.GetComponent<Ooo_Waterbomb>();
+            Ooo_waterbombNew ooo_waterbomb = waterbomb.GetComponent<Ooo_waterbombNew>();
             if (ooo_waterbomb != null)
             {
-                ooo_waterbomb.Initialize(playerInput.playerIndex);
+                ooo_waterbomb.Initialize(playerInput.playerIndex,transform.position);
             }
 
         }
@@ -212,7 +212,7 @@ public class Ooo_TestPlayer : PlayerParent
             
             StartCoroutine(TrapSequence());
 
-            if (ownerplayerId == playerId)
+            if (ownerplayerId != playerId)  //自分のWATERBOMBじゃなかったら
             {
                 Ooo_SceneManager.AddScore(ownerplayerId);
             }
