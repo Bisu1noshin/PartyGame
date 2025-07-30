@@ -24,8 +24,6 @@ public class Ooo_SceneManager : InGameManeger
     public static int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
     public static int[] playerEscape = new int[PLAYER_CNT];
 
-
-
     [SerializeField] GameObject StartText; //Startの文字のPrefab
     [SerializeField] GameObject FinishText; //Finishの文字のPrefab
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)

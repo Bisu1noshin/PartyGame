@@ -1,16 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class ResultSceneManager : MonoBehaviour
+public class ResultSceneManager : InGameManeger
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override string SetPlayerPrefab(int index)
     {
-        
+        string playerPrefabPath = "Player/VRM/VRM_" + index.ToString();
+        return playerPrefabPath;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override Type SetPlayerScript()
     {
-        
+        return typeof(TestPlayer);
     }
+
+    private void Start()
+    {
+    }
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Input.anyKey)
+        {
+
+            SceneManager.LoadScene("SetPlayerScene");
+        }
+
+    }
+
+    public override string SceneName => "LoadScene";
+    public override void OnUnLoaded() { }
 }
