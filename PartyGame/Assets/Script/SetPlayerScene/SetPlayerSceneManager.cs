@@ -43,6 +43,8 @@ public class SetPlayerSceneManager : InGameManeger
             instanceFlag[i] = true;
             decideFlag[i]   = false;
         }
+
+        GameInformation.RandomGameScene();
     }
 
     protected override async void Update()
