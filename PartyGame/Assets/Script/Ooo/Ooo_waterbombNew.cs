@@ -38,14 +38,14 @@ public class Ooo_waterbombNew : MonoBehaviour
 
         
 
-        // 깜빡이기
+        //点滅
         while (timer < blinkStartTime)
         {
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // 1초 동안 깜빡이기 시작
+        // 1秒間点滅
         float blinkTimer = 0f;
         while (timer < totalDelay)
         {
@@ -57,7 +57,7 @@ public class Ooo_waterbombNew : MonoBehaviour
             blinkTimer += blinkInterval;
         }
 
-        // 폭발!
+        //爆発
         Explode();
         Destroy(gameObject);
     }

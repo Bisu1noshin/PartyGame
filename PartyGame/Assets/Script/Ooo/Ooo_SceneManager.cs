@@ -10,7 +10,7 @@ using System.Linq;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 1;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -30,7 +30,7 @@ public class Ooo_SceneManager : InGameManeger
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
     [SerializeField] TMP_Text[] scoreText = new TMP_Text[PLAYER_CNT]; //プレイヤースコアText
-    [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // B버튼 연타 UI 텍스트
+    [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // Bボタン連打テキスト
     private string text;
 
     protected override Type SetPlayerScript()
@@ -107,7 +107,7 @@ public class Ooo_SceneManager : InGameManeger
                     //Trap状態なら連打テキストも追加
                     if (player[i] is Ooo_TestPlayer testPlayer && testPlayer.isTrapped)
                     {
-                        scoreText[i].text += "\nBボタン連打! " + testPlayer.nowEscapeClick + "/10";
+                        scoreText[i].text += "\nBボタンおして! " + testPlayer.nowEscapeClick + "/10";
                     }
                 }
             }
