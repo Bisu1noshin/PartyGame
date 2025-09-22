@@ -37,7 +37,7 @@ public class Oni_Script : MonoBehaviour
         {
             p.OnCaught();
             parent.Caughts.Add(p);
-            parent.points[parent.PlayerNum[p]] = 4 - catchCnt;
+            parent.points[parent.PlayerNum[p]] = 3 - catchCnt++;
             audio.Play();
         }
     }

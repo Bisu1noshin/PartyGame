@@ -24,8 +24,13 @@ public partial class Kameda_TestSceneManager : InGameManeger
         {
             GameObject g = Instantiate(introTxt);
             g.name = "intro";
+            g.transform.SetParent(GameObject.Find("Canvas").transform);
+            g.transform.localPosition = Vector3.zero;
+            g.transform.localRotation = Quaternion.identity;
+            g.transform.localScale = Vector3.one;
+            introFlag = true;
         }
-        if(timer >= 2.0f)
+        if(timer >= 5.0f)
         {
             Destroy(GameObject.Find("intro"));
             timer = 0;
@@ -38,6 +43,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
         {
             GameObject go = Instantiate(Resources.Load("Font/CountDown") as GameObject);
             cd = go.GetComponent<Kameda_CntDnController>();
+            go.name = "CountDown";
         }
         if (!ReadyFlag)
         {
@@ -54,7 +60,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
     void PlayUpdate()
     {
         UpdatePlayersTransform();
-        cd.SetText("00:" + (60 - (int)timer).ToString());
+        cd.SetText((60 - (int)timer).ToString());
         if(timer >= 60.0f)
         {
             timer = 0;
@@ -68,6 +74,10 @@ public partial class Kameda_TestSceneManager : InGameManeger
             GetRank();
             GameObject go = Instantiate(Resources.Load("Font/Text_Finish") as GameObject);
             go.transform.SetParent(GameObject.Find("Canvas").transform);
+            go.transform.localPosition = Vector3.zero;
+            go.transform.localRotation = Quaternion.identity;
+            go.transform.localScale = Vector3.one;
+            Destroy(GameObject.Find("CountDown"));
             EndFlag = true;
         }
         if(timer >= 2.0f)
