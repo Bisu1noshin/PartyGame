@@ -8,7 +8,7 @@ using System.Linq;
 
 public class Onishi_TestSceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 4; //最終的に4にする
+    const int PLAYER_CNT = 1; //最終的に4にする
 
     enum GameStatus
     {
@@ -197,7 +197,7 @@ public class Onishi_TestSceneManager : InGameManeger
 
     protected override string SetPlayerPrefab(int index)
     {
-        string str =
+        string str = 
             "Player/VRM/VRM_" + index.ToString();
 
         return str;
