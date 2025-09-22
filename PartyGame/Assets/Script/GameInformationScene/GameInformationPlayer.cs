@@ -2,8 +2,7 @@
 
 public class GameInformationPlayer : PlayerParent
 {
-    Vector3 moveVec;
-    float plSpeed = 10.0f;
+    private bool decide = default;
 
     private void Update()
     {
@@ -11,12 +10,6 @@ public class GameInformationPlayer : PlayerParent
 
     protected override void MoveUpdate(Vector2 vec)
     {
-
-        //移動方向を決定
-        moveVec = new Vector3(vec.x, 0, vec.y);
-
-        // 回転の補正
-        //animationContllore.RotaitionContllore(vec);
     }
 
     protected override void LookUpdate(Vector2 vec)
@@ -26,7 +19,7 @@ public class GameInformationPlayer : PlayerParent
 
     protected override void OnButtonA()
     {
-
+        decide = true;
         Debug.Log("OnButtonA");
     }
 
@@ -45,4 +38,12 @@ public class GameInformationPlayer : PlayerParent
     protected override void OnButtonY() { }
 
     protected override void UpButtonY() { }
+
+    public bool GetDecide() {
+
+        bool flag = decide;
+
+        return flag;
+    }
+    public void SetDecideToFlase() { decide = false; }
 }

@@ -5,12 +5,12 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
+using System.Linq;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -20,9 +20,10 @@ public class Ooo_SceneManager : InGameManeger
     };
 
     private GameStatus status; //ゲームステータス管理
-    float timer = 20f; //タイマー ゲーム時間で初期化する(秒)
+    float timer = 40f; //タイマー ゲーム時間で初期化する(秒)
     bool playerFlag = false;
-    private int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
+    public static int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
+    public static int[] playerEscape = new int[PLAYER_CNT];
 
 
 
@@ -31,8 +32,8 @@ public class Ooo_SceneManager : InGameManeger
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
     [SerializeField] TMP_Text[] scoreText = new TMP_Text[PLAYER_CNT]; //プレイヤースコアText
-    
-
+    [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // B버튼 연타 UI 텍스트
+    private string text;
 
     protected override Type SetPlayerScript()
     {
@@ -41,17 +42,17 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
-        //playerInformation = new PlayerInformation[PLAYER_CNT];
+        playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
 
         //プレイヤースコア0で初期化
-        for(int i = 0; i < PLAYER_CNT; i++)
+        for (int i = 0; i < PLAYER_CNT; i++)
         {
             playerScore[i] = 0;
         }
     }
 
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
         for (int i = 0; i < PLAYER_CNT; i++)
@@ -74,7 +75,8 @@ public class Ooo_SceneManager : InGameManeger
                 player[i] = CreatePlayer(
                     playerInformation: playerInformation[i],
                     p: vec,
-                    q: quat
+                    q: quat,
+                    index: i+1
                     );
             }
 
@@ -103,45 +105,69 @@ public class Ooo_SceneManager : InGameManeger
                 if (scoreText[i] != null)
                 {
                     scoreText[i].text = "P" + (i + 1) + "\nscore: " + playerScore[i];
+
+                    //Trap状態なら連打テキストも追加
+                    if (player[i] is Ooo_TestPlayer testPlayer && testPlayer.isTrapped)
+                    {
+                        scoreText[i].text += "\nBボタン連打! " + testPlayer.nowEscapeClick + "/10";
+                    }
                 }
             }
 
-            //ゲーム終了時処理
+            
             if (timer <= 0f)
             {
                 timer = 0;
+                //順位処理
+                int[] val = new int[4] { -1, -1, -1, -1 };
+                for (int i = 0; i < PLAYER_CNT; ++i)
+                {
+                    int maxCnt = playerScore.Max(); //最大の点数を取得
+                    int maxPl = Array.IndexOf(playerScore, maxCnt); //最大点を取ったPlayerの番号を取得
+                    int rank = i + 1; //被りなしの場合の順位
+                    for (int j = 0; j < i; ++j)
+                    {
+                        if (val[j] == maxCnt) //過去の点数と同じなら
+                        {
+                            rank = j + 1; //同順位に更新
+                            break;
+                        }
+                    }
+                    playerInformation[maxPl].AddPlayerScore(rank);
+                    playerScore[maxPl] = -1; //該当者の得点をリセット
+                    val[i] = maxCnt; //同順位判定用のものをセット
+                }
+                
 
-                //「Finish」の文字を召喚
                 GameObject go = Instantiate(FinishText);
                 go.transform.SetParent(Canvas.transform);
                 go.transform.position = new Vector3(600, 400, 0);
 
-                //Statusを変更
+                
                 status = GameStatus.finish;
             }
         }
+        if (status == GameStatus.finish) {
 
-        // 追記
-        {
+            await NextScene();
+        }
+    }
 
-            if (status == GameStatus.finish) {
 
-                NextSceneJump();
+
+
+        //Score管理関数
+        public static void AddScore(int playerIndex)
+        { 
+    
+            if(playerIndex >= 0 && playerIndex < PLAYER_CNT)
+            {
+            playerScore[playerIndex]++;
             }
         }
 
-    }
 
-    //Score管理関数
-    public void AddScore(int playerIndex)
-    {
-        if(playerIndex >= 0 && playerIndex < PLAYER_CNT)
-        {
-            playerScore[playerIndex]++;
-        }
-    }
 
-    
 
 
 
@@ -154,28 +180,14 @@ public class Ooo_SceneManager : InGameManeger
     protected override string SetPlayerPrefab(int index)
     {
         string str =
-            "Player/Test/Cube_" + index.ToString();
+            "Player/VRM/VRM_" + index.ToString();
 
         return str;
     }
 
-    public override string SceneName => GameInformation.LoadScene;
+    public override string SceneName => "TitleScene";
 
-    public override void OnLoaded(PlayerInformation[] data)
-    {
+    
+    public override void OnUnLoaded() { }
 
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
-    public override void OnUnLoaded()
-    {
-        Debug.Log("Exit_Ooo");
-    }
 }

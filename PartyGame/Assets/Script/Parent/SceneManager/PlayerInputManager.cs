@@ -7,7 +7,7 @@ public class PlayerInputManager : InGameManeger
 {
     protected override string SetPlayerPrefab(int index)
     {
-        string playerPrefabPath = "Player/Test/Cube_" + index.ToString();
+        string playerPrefabPath = "Player/VRM/VRM_" + index.ToString();
         return playerPrefabPath;
     }
 
@@ -19,43 +19,31 @@ public class PlayerInputManager : InGameManeger
     private void Start()
     {
         playerInformation = new PlayerInformation[GameInformation.MAX_PLAYER_VALUE];
+        GameInformation.RandomGameScene();
     }
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
 
-        if (playerInformation == null) {
+        if (playerInformation[0] == null) {
             return;
         }
 
-        PlayerInformation p = playerInformation[0]; 
-
-        for (int i = 0; i < GameInformation.MAX_PLAYER_VALUE; i++) {
-
-            playerInformation[i] = p;
+        if(player[0] == null)
+        {
+            PlayerInformation p = playerInformation[0];
+            Vector3 vector = Vector3.zero;
+            player[0] = CreatePlayer(p, vector, Quaternion.identity, 1);
         }
+        
 
         if (Input.anyKey) {
 
-            GameInformation.RandomGameScene();
-            NextSceneJump();
+            //await NextScene();
         }
 
     }
 
     public override string SceneName => "LoadScene";
-
-    public override void OnLoaded(PlayerInformation[] data) {
-
-        if (data is null || data is not PlayerInformation[] playerInformation)
-        {
-            Debug.LogError("data is null");
-            return;
-        }
-
-        // presenterを取得して、Presenter側の初期化メソッドを実行して、シーン全体を動かす
-        var presenter = UnityEngine.Object.FindAnyObjectByType<InGameManeger>();
-        presenter.SetPlayerInformation(playerInformation);
-    }
     public override void OnUnLoaded() { }
 }

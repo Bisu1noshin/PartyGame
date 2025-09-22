@@ -37,11 +37,11 @@ public static class GameInformation
         //}
 
         string[] strings = new string[4]
-        {
-            "ResultScene",
+        {           
             _GameScenes[0],
             _GameScenes[1],
-            _GameScenes[2]
+            _GameScenes[2],
+            "ResultScene",
         };
 
         GameScenes = strings;

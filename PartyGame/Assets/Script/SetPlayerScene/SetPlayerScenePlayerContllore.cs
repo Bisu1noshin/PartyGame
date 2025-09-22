@@ -5,8 +5,6 @@ public class SetPlayerScenePlayerContllore : PlayerParent
 {
     bool SetUserNum;
     bool onButtonA;
-    int UIContllore;
-
     private string FBXpath = " ";
     private PlayerInformation information = default;
     private GameObject[] prefabs;
@@ -49,23 +47,20 @@ public class SetPlayerScenePlayerContllore : PlayerParent
         }
 
         onButtonA = false;
-        UIContllore = 0;
         prefabs = new GameObject[4];
 
         // FBXのファイル
         {
             for (int i = 0; i < 4; i++)
             {
-                prefabs[i]= Resources.Load<GameObject>("Player/Test/Cube_" + i.ToString());
-                // 正規のpath
-                // "Player/VRM/VRM_(index)"<-indexは1～4
+                prefabs[i]= Resources.Load<GameObject>("Player/VRM/VRM_" + i.ToString());
             }
         }
     }
 
     protected override void MoveUpdate(Vector2 vec)
     {
-        UIContllore = (int)vec.x;
+        
     }
 
     protected override void LookUpdate(Vector2 vec)

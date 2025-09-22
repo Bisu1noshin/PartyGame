@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Threading.Tasks;
+using UnityEngine;
 public enum GameState
 {
     Title, Introduction, Ready, Play, End, Result
@@ -54,7 +55,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
             state = GameState.End;
         }
     }
-    void EndUpdate()
+    async void EndUpdate()
     {
         if (!EndFlag)
         {
@@ -66,7 +67,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
         if(timer >= 2.0f)
         {
             timer = 0;
-            NextSceneJump();
+            await NextScene();
         }
     }
     void ResultUpdate()
