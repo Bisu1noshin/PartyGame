@@ -121,7 +121,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
 
                     // PlayerInputを所持した仮想のプレイヤーをインスタンス化
                     // ※Join要求元のデバイス情報を紐づけてインスタンスを生成する
-                    player[i] = PlayerParent.CreatePlayer(
+                    player[i] = PartyGameFunctionLibrary.CreatePlayer(
                         prefab,
                         playerScript,
                         playerInformation[i].PairWithDevice,
@@ -216,7 +216,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
             Resources.Load<GameObject>(SetPlayerPrefab(index));
 
         PlayerParent pp =
-        PlayerParent.CreatePlayer(
+        PartyGameFunctionLibrary.CreatePlayer(
             prefab: prefab,
             type: playerScript,
             playerIndex: (int)playerInformation.SelectedCharacter,
