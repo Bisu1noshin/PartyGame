@@ -11,6 +11,7 @@ public class Oni_Script : MonoBehaviour
     [SerializeField] Kameda_TestSceneManager parent;// 追記
     public static Oni_Script instance;
     int catchCnt;
+    AudioSource audio;
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -20,11 +21,7 @@ public class Oni_Script : MonoBehaviour
         catchCnt = 0;
         transform.position = new Vector3(-5, -0.75f, 4);
         agent = gameObject.GetOrAddComponent<NavMeshAgent>();
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -41,6 +38,7 @@ public class Oni_Script : MonoBehaviour
             p.OnCaught();
             parent.Caughts.Add(p);
             parent.points[parent.PlayerNum[p]] = 4 - catchCnt;
+            audio.Play();
         }
     }
     int SelectTargetPlayer()

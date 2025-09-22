@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using TMPro;
 
 public partial class Kameda_TestSceneManager : InGameManeger
 {
@@ -14,15 +15,18 @@ public partial class Kameda_TestSceneManager : InGameManeger
     bool ReadyFlag;
     bool EndFlag;
     bool TitleFlag;
+    bool introFlag;
     public Dictionary<int, int> points = new();
     public Dictionary<PlayerParent, int> PlayerNum = new();
     Kameda_CntDnController cd;
+    public GameObject introTxt;
 
     private void Start()
     {
         ReadyFlag = false;
         EndFlag = false;
         TitleFlag = false;
+        introFlag = false;
         Caughts.Clear();
         
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
@@ -54,7 +58,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
     protected override string SetPlayerPrefab(int index)
     {
         string str =
-            "Player/Test_Kameda/Cube_" + index.ToString();
+            "Player/VRM/VRM_" + index.ToString();
 
         return str;
     }
@@ -95,7 +99,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
         {
             if (playerInformation[i] == null) { continue; }
             pos.x = 5 - i;
-            player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0));// playerに代入する
+            player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0), i + 1);// playerに代入する
         }
 
         SetPlayerInformations();// ここで呼ぶ

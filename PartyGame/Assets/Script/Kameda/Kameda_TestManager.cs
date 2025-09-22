@@ -20,8 +20,14 @@ public partial class Kameda_TestSceneManager : InGameManeger
     }
     void IntroUpdate()
     {
+        if (!introFlag)
+        {
+            GameObject g = Instantiate(introTxt);
+            g.name = "intro";
+        }
         if(timer >= 2.0f)
         {
+            Destroy(GameObject.Find("intro"));
             timer = 0;
             state = GameState.Ready;
         }

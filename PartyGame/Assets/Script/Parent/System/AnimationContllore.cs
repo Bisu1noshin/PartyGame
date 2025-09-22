@@ -37,9 +37,8 @@ public class AnimationContllore
         parent = obj;
         index = _index;
 
-        if (parent.transform.GetChild(0).gameObject != null)
+        if (parent.transform.childCount >0)
         {
-
             child = parent.transform.GetChild(0).gameObject;
             animator = child.GetComponent<Animator>();
         }

@@ -5,18 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainGame/TitleScene.unity
     guid: fd5328fd0333e9d429cd33370c57a444
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestScene/TestGame.unity
     guid: b578186976b28e342bc3e9b72686ac49
   - enabled: 1
-    path: Assets/Scenes/MainGame/LoadScene.unity
-    guid: dce36fa36c203174ea707f3a841440b2
-  - enabled: 0
     path: Assets/Scenes/MainGame/SetPlayerScene.unity
     guid: b1408ca777a221a4dbb9e515193fdac6
+  - enabled: 1
+    path: Assets/Scenes/MainGame/LoadScene.unity
+    guid: dce36fa36c203174ea707f3a841440b2
   - enabled: 1
     path: Assets/Scenes/TestScene/OnishiTestScene.unity
     guid: 143cde4bdd331ed479dbf38d251ae898

@@ -13,7 +13,7 @@ public class Kameda_CntDnController : MonoBehaviour
         else Destroy(gameObject);
         tm = GetComponent<TextMeshProUGUI>();
         transform.SetParent(GameObject.Find("Canvas").transform);
-        transform.localPosition = new Vector3(0, 220, 0);
+        transform.localPosition = new Vector3(0, 300, 0);
         transform.localScale = new Vector3(1, 2, 1);
     }
 
