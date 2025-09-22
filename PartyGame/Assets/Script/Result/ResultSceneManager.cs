@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ResultSceneManager : InGameManeger
 {
@@ -46,6 +47,8 @@ public class ResultSceneManager : InGameManeger
             int length = playerInformation.Length;
             _player = new GameInformationPlayer[length];
 
+            int[] score= new int[length];
+
             for (int i = 0; i < length; i++)
             {
                 Vector3 pos = new Vector3(-10000, 0, 0);// 画面外に飛ばす
@@ -53,6 +56,21 @@ public class ResultSceneManager : InGameManeger
 
                 // playerの派生クラスの取得
                 _player[i] = player[i].gameObject.GetComponent<GameInformationPlayer>();
+                score[i] = playerInformation[i].PlayerScore;
+            }
+
+            int[] rank = new int[4] { -1, -1, -1, -1 };
+            for (int i = 0; i < length; ++i)
+            {
+                int maxCnt = score.Max(); //最大の点数を取得
+                int maxPl = Array.IndexOf(score, maxCnt); //最大点を取ったPlayerの番号を取得
+                rank[i] = maxPl;
+            }
+
+            Vector3[] lastpos = new Vector3[4] { new Vector3(-7, -2, 0), new Vector3(-3, -2, 0), new Vector3(1, -2, 0), new Vector3(5, -2, 0) };
+            for(int i = 0; i < length; ++i)
+            {
+                player[rank[i]].transform.position =lastpos[i];
             }
         }
     }

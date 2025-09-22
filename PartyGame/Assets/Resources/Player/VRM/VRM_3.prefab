@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 469212846883354313}
   - component: {fileID: 1864778965818845993}
+  - component: {fileID: 1027256560498647405}
   m_Layer: 0
   m_Name: VRM_3
   m_TagString: Untagged
@@ -63,6 +64,27 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!135 &1027256560498647405
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424688259937426663}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!1001 &3906135059673489139
 PrefabInstance:
   m_ObjectHideFlags: 0
