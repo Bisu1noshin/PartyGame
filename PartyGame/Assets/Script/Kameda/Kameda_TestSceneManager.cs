@@ -10,7 +10,7 @@ public partial class Kameda_TestSceneManager : InGameManeger
     Oni_Script o_s;
     [SerializeField] GameObject light;
     public List<PlayerParent> Caughts = new List<PlayerParent>();
-    GameState state;
+    public GameState state { get; private set; }
     float timer;
     bool ReadyFlag;
     bool EndFlag;

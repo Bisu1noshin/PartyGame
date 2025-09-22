@@ -666,8 +666,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d2ab0f881477e4bb768032141bd568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebagMode: 0
-  maxPlayerCount: 4
+  DebagMode: 1
+  maxPlayerCount: 1
   light: {fileID: 1151994384062621565, guid: 6ba6ff58e2b3fe543bf0c3b1352a0e48, type: 3}
   Caughts: []
   introTxt: {fileID: 7274516000517768314, guid: 66668dfbe61398240b52e40c2f8ff17f, type: 3}

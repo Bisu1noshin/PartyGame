@@ -10,20 +10,23 @@ public class Player_Instant : PlayerParent
     Rigidbody rb;
     Light_Script ls;
     GameObject oni;
+    SphereCollider sc;
     protected void Start()
     {
         moveVec = Vector3.zero;
         transform.localScale = Vector3.one * 0.5f;
-        gameObject.GetOrAddComponent<Rigidbody>();
-        rb = GetComponent<Rigidbody>();
-        rb.AddForce(new Vector3(0, -100, 0));
+
+        InitComponents();
         ls = GameObject.Find("Light_Player").GetComponent<Light_Script>();
         ls.gameObject.name = "Light_Player_Used";
         ls.player = this.gameObject;
         oni = GameObject.Find("Oni");
+
+        rb.freezeRotation = true;
     }
     private void Update()
     {
+        if (GameObject.Find("SceneManager").GetComponent<Kameda_TestSceneManager>().state != GameState.Play) { return; }
         rb.position += moveVec.normalized * PlayerSpeed * Time.deltaTime;
         UpdateTransformforOni();
         SetLightColorInDenger();
@@ -75,5 +78,11 @@ public class Player_Instant : PlayerParent
     {
         ls.gameObject.SetActive(false);
         gameObject.SetActive(false);
+    }
+    void InitComponents()
+    {
+        sc = this.gameObject.AddComponent<SphereCollider>();
+        sc.radius = 0.5f; sc.center = new Vector3(0, 0.5f, 0);
+        rb = this.gameObject.AddComponent<Rigidbody>();
     }
 }

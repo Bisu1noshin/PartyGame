@@ -117,7 +117,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
                     Vector3 vector3 =  Vector3.zero;
                     Quaternion quat = Quaternion.identity;
                     GameObject prefab =
-                        Resources.Load<GameObject>(SetPlayerPrefab(0));
+                        Resources.Load<GameObject>(SetPlayerPrefab(1));
 
                     // PlayerInputを所持した仮想のプレイヤーをインスタンス化
                     // ※Join要求元のデバイス情報を紐づけてインスタンスを生成する
