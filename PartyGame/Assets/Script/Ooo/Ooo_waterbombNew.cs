@@ -25,18 +25,16 @@ public class Ooo_waterbombNew : MonoBehaviour
     public void Initialize(int ownerPlayerId, Vector3 spawnPos)
     {
         ownerId = ownerPlayerId;
-        transform.position = spawnPos;  //スポン位置
+        transform.position = spawnPos;  //生成位置
         explodeEffectPrefab = Resources.Load<GameObject>("Ooo/explodeEffect");
     }
 
     IEnumerator ExplodeRoutine()
     {
-        float totalDelay = 3f;
-        float blinkStartTime = 2f;
-        float blinkInterval = 0.2f;
-        float timer = 0f;
-
-        
+        float totalDelay = 3f;      //total生成時間３秒
+        float blinkStartTime = 2f;  //生成２秒後点滅 Start
+        float blinkInterval = 0.2f; //0.2秒間隔で点滅
+        float timer = 0f;           //生成後経過時間
 
         //点滅
         while (timer < blinkStartTime)
@@ -57,7 +55,7 @@ public class Ooo_waterbombNew : MonoBehaviour
             blinkTimer += blinkInterval;
         }
 
-        //爆発
+        //waterbomb爆発
         Explode();
         Destroy(gameObject);
     }
@@ -65,14 +63,13 @@ public class Ooo_waterbombNew : MonoBehaviour
     void Explode()
     {
         audioSource.PlayOneShot(explodeSound);
-        Debug.Log($"Explode called at position: {transform.position}");
         if (explodeEffectPrefab == null)
         {
-            Debug.LogWarning("Explode Effect Prefab not assigned.");
+            Debug.Log("Explode Effect null.");
             return;
         }
 
-        //十字方向
+        //Effect 十字方向生成
         Vector3[] directions = new Vector3[]
         {
             Vector3.forward,
@@ -95,7 +92,7 @@ public class Ooo_waterbombNew : MonoBehaviour
 
             foreach (var hit in hits)
             {
-                if (hit.CompareTag("Wall"))  //タグがWallのオブジェクトと重なると生成しない
+                if (hit.CompareTag("Wall"))  //Wallあったら生成しない
                 {
                     hitWall = true;
                     break;

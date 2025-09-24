@@ -12,7 +12,7 @@ public class Ooo_TestPlayer : PlayerParent
     public GameObject explodeEffectPrefab;
     float plSpeed = 10.0f;
 
-    public float rayLength = 1.0f;
+    public float rayLength = 1.0f;  //Wallあたり判定RayCastの長さ
 
 
     public int playerId;
@@ -25,11 +25,9 @@ public class Ooo_TestPlayer : PlayerParent
 
 
     //---------------Trap関連関連設定------------------
-    public float trapTime = 3f;             //基本爆発時間は3秒(囲まれたら3秒間動けない）
-    private int maxEscapeClick = 10;         //最大連打可能回数（3秒内に10回押したら脱出可能）
-    public int nowEscapeClick = 0;   //現在脱出ボタンを押した回数
-
-    public bool isTrapped = false;    //相手のWaterbombに囲まれたか
+    private int maxEscapeClick = 10;    //最大連打可能回数（3秒内に10回押したら脱出可能）
+    public int nowEscapeClick = 0;      //現在脱出ボタンを押した回数
+    public bool isTrapped = false;      //相手のWaterbombに囲まれたか
     //------------------------------------------------
 
     protected void Start()
@@ -40,19 +38,17 @@ public class Ooo_TestPlayer : PlayerParent
         playerId = playerInput.playerIndex;
 
         lastPosition = transform.position;
-
-
     }
 
     private void Update()
     {
-        if (!isTrapped)    //Trap状況ではない場合移動不可能
+        if (!isTrapped)    
         {
-            TryMoveWithRaycast();
+            WallRaycast();  //Wall当たり判定（移動不可）
         }
     }
 
-    private void TryMoveWithRaycast()
+    private void WallRaycast()
     {
         if (moveVec == Vector3.zero) return;
 
@@ -63,10 +59,7 @@ public class Ooo_TestPlayer : PlayerParent
         {
             transform.position += direction * plSpeed * Time.deltaTime;
         }
-        else
-        {
-            //Debug.Log("Blocked by something.");
-        }
+
     }
     protected override void MoveUpdate(Vector2 vec)
     {
@@ -91,14 +84,13 @@ public class Ooo_TestPlayer : PlayerParent
 
     protected override void OnButtonB()
     {
-        if (isTrapped)  //Trapの場合
+        if (isTrapped)          //Trapの場合
         {
-            nowEscapeClick++;   //Bボタン押したらEscapeClick回数1増える
+            nowEscapeClick++;   //BでEscapeClick回数 +1
                                 
-
-            if (nowEscapeClick >= maxEscapeClick)
+            if (nowEscapeClick >= maxEscapeClick)   //Escape条件回数超えたら(今は10回)
             {
-                ForceEscape();
+                Escape();                           //Trapから脱出(動ける）
             }
         }
     }
@@ -107,9 +99,9 @@ public class Ooo_TestPlayer : PlayerParent
 
     protected override void OnButtonX()
     {
-        if (!isTrapped)     //Trap状況ではない場合現在位置にwaterbomb設置
+        if (!isTrapped)     //Trap状況ではない場合
         {
-            ThrowBomb();
+            ThrowBomb();    //Xでwaterbomb設置
         }
     }
 
@@ -126,7 +118,7 @@ public class Ooo_TestPlayer : PlayerParent
     {
         if (waterbombPrefab != null)
         {
-            //今のプレイヤの位置に水風船配置
+            //現在位置にwaterbomb配置
             GameObject waterbomb = Instantiate(waterbombPrefab, transform.position, Quaternion.identity);
 
             //誰がwaterbombを配置したのか(waterbombのIDを保存)
@@ -140,46 +132,27 @@ public class Ooo_TestPlayer : PlayerParent
     }
     //--------------------------------------------------------
 
+
     //---------------Trap処理---------------------------------
-
-
-    IEnumerator TrapSequence()
+    public void Trap(int ownerplayerId)
     {
-        isTrapped = true;
-        moveVec = Vector3.zero; //動けない
-        nowEscapeClick = 0;     //escapeボタン初期化
-        trapTime = 3.0f;
-
-
-
-        while (trapTime > 0 && isTrapped)
+        if (!isTrapped)
         {
-            trapTime -= Time.deltaTime;
+            isTrapped = true;
+            moveVec = Vector3.zero; //動けない
+            nowEscapeClick = 0;     //Bボタン回数初期化しとく
 
-            yield return null;
-        }
-
-        if (isTrapped)
-        {
-            Escape();
-        }
-    }
-
-    void ForceEscape()
-    {
-        if (isTrapped)
-        {
-            StopAllCoroutines();
-            Escape();
+            if (ownerplayerId != playerId)                  //自分のwaterbombじゃなかったら
+            {
+                Ooo_SceneManager.AddScore(ownerplayerId);   //得点
+            }
         }
     }
 
     void Escape()
     {
         isTrapped = false;  //waterbombから脱出
-        nowEscapeClick = 0; //escape Button初期化
-
-       
+        nowEscapeClick = 0; //Bボタン初期化
     }
 
     public bool IsTrapped()
@@ -194,32 +167,15 @@ public class Ooo_TestPlayer : PlayerParent
             Ooo_ExplodeEffect effect = other.GetComponent<Ooo_ExplodeEffect>();
             if (effect != null)
             {
-                GetTrapped(effect.ownerId);
+                Trap(effect.ownerId);
             }
         }
 
         if(other.CompareTag("Wall"))
         {
             transform.position -= moveVec * plSpeed * Time.deltaTime;
-           
         }
     }
+    //--------------------------------------------------------
 
-    public void GetTrapped(int ownerplayerId)
-    {
-        if (!isTrapped)
-        {
-            
-            StartCoroutine(TrapSequence());
-
-            if (ownerplayerId != playerId)  //自分のWATERBOMBじゃなかったら
-            {
-                Ooo_SceneManager.AddScore(ownerplayerId);
-            }
-        }
-    }
-
-   
 }
-
- //--------------------------------------------------------

@@ -16,7 +16,7 @@ public class Ooo_ExplodeEffect : MonoBehaviour
         Ooo_TestPlayer player = other.GetComponent<Ooo_TestPlayer>();
         if (player != null)
         {
-            player.GetTrapped(ownerId);
+            player.Trap(ownerId);
         }
         else
         {
