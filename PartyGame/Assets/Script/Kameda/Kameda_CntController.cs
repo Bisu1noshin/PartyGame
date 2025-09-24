@@ -2,9 +2,9 @@
 using TMPro;
 using UnityEngine;
 
-public class Kameda_CntDnController : MonoBehaviour
+public class Kameda_CntController : MonoBehaviour
 {
-    public static Kameda_CntDnController Instance { get; private set; }
+    public static Kameda_CntController Instance { get; private set; }
     string txt;
     TextMeshProUGUI tm;
     private void Awake()

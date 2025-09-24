@@ -26,7 +26,7 @@ public class Player_Instant : PlayerParent
     }
     private void Update()
     {
-        if (GameObject.Find("SceneManager").GetComponent<Kameda_TestSceneManager>().state != GameState.Play) { return; }
+        if (GameObject.Find("SceneManager").GetComponent<Kameda_SceneManager>().State != GameState.Play) { return; }
         rb.position += moveVec.normalized * PlayerSpeed * Time.deltaTime;
         UpdateTransformforOni();
         SetLightColorInDenger();

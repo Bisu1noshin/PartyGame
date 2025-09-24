@@ -2,20 +2,11 @@
 
 public class Kameda_TitleController : MonoBehaviour
 {
-    float timer;
-    private void Awake()
-    {
-        transform.SetParent(GameObject.Find("Canvas").transform);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
-        transform.localScale = Vector3.zero;
-        transform.Rotate(new Vector3(0, 0, -5));
-        timer = 0;
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    float timer = 0.0f;
     void Start()
     {
-        
+        transform.localScale = Vector3.one * 0.5f;
+        transform.Rotate(new Vector3(0, 0, -5));
     }
 
     // Update is called once per frame

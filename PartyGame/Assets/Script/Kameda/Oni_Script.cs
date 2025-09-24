@@ -8,7 +8,7 @@ public class Oni_Script : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] public Transform[] playersPos = new Transform[4];
-    [SerializeField] Kameda_TestSceneManager parent;// 追記
+    [SerializeField] Kameda_SceneManager parent;// 追記
     public static Oni_Script instance;
     int catchCnt;
     AudioSource audio;
@@ -28,7 +28,7 @@ public class Oni_Script : MonoBehaviour
     void Update()
     {
         if (playersPos[0] == null) { return; }
-        if(parent.GetGameState() != GameState.Play) { return; }
+        if(parent.State != GameState.Play) { return; }
         agent.SetDestination(playersPos[SelectTargetPlayer()].position);
     }
     private void OnTriggerEnter(Collider collision)
