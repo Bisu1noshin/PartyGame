@@ -11,7 +11,7 @@ using System.Linq;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 1;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -88,7 +88,7 @@ public class Ooo_SceneManager : InGameManeger
             //「Start」の文字を召喚
             GameObject go = Instantiate(StartText);
             go.transform.SetParent(Canvas.transform);
-            go.transform.position = new Vector3(600, 400, 0);
+            go.transform.position = new Vector3(1000, 600, 0);
 
             //Statusを変更
             status = GameStatus.play;
