@@ -19,6 +19,8 @@ public class Light_Script : MonoBehaviour
     void Update()
     {
         if (player == null) return;
+        if((int)(Kameda_SceneManager.Instance.State) < 2) { return; }
+
         transform.LookAt(player.transform.position);
 
         GetComponent<Light>().color = new Color(1, lightColor, lightColor, 1);

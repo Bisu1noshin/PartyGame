@@ -2,7 +2,7 @@
 
 public class ReadyState : IState
 {
-    StatePhase m_Phase = StatePhase.Ready;
+    StatePhase m_Phase = StatePhase.Enter;
     public StatePhase Phase => m_Phase;
     public GameState State => GameState.Ready;
     float m_timer = 0.0f;
@@ -11,16 +11,18 @@ public class ReadyState : IState
     {
         GameObject go = Kameda_UIManager.Create(Resources.Load("Font/CountDown") as GameObject, "TimeCount");
         go.transform.localPosition = new(0, 220, 0);
+        go.transform.localScale = new(1, 2, 1);
         Kameda_UIManager.Create(Resources.Load("Font/Text_Start") as GameObject);
-        m_Phase = StatePhase.Started;
+        m_Phase = StatePhase.Update;
     }
 
     public void Update()
     {
+        // if (PauseState.enable == true) return;
         m_timer += Time.deltaTime;
         if (m_timer >= 4.0f)
         {
-            m_Phase = StatePhase.Ended;
+            m_Phase = StatePhase.Exit;
         }
     }
 }

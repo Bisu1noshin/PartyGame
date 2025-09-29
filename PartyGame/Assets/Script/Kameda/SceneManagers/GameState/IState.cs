@@ -3,9 +3,9 @@ using System;
 
 public enum StatePhase
 {
-    Ready,
-    Started,
-    Ended,
+    Enter,
+    Update,
+    Exit,
 }
 
 public interface IState //疑似的なステートマシン
