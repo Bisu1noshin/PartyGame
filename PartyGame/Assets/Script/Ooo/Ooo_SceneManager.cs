@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -10,7 +11,7 @@ using System.Linq;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 1;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -30,7 +31,7 @@ public class Ooo_SceneManager : InGameManeger
     [SerializeField] GameObject Canvas; //キャンバス(文字のPrefabを表示するのに必要)
     [SerializeField] TMP_Text text_Timer; //タイマーを表示するText
     [SerializeField] TMP_Text[] scoreText = new TMP_Text[PLAYER_CNT]; //プレイヤースコアText
-    [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // B버튼 연타 UI 텍스트
+    [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // Bボタン連打テキスト
     private string text;
 
     protected override Type SetPlayerScript()
@@ -49,6 +50,7 @@ public class Ooo_SceneManager : InGameManeger
             playerScore[i] = 0;
         }
     }
+
 
     protected override async void Update()
     {
@@ -92,7 +94,7 @@ public class Ooo_SceneManager : InGameManeger
             status = GameStatus.play;
         }
 
-        //インゲーム処理
+        //---------------インゲーム処理---------------
         if (status == GameStatus.play)
         {
             timer -= Time.deltaTime;
@@ -102,59 +104,65 @@ public class Ooo_SceneManager : InGameManeger
             {
                 if (scoreText[i] != null)
                 {
-                    scoreText[i].text = "P" + (i + 1) + "\nscore: " + playerScore[i];
+                    scoreText[i].text = "P" + (i + 1) + "  score: " + playerScore[i];
 
-                    //Trap状態なら連打テキストも追加
+                    //Trap状態なら連打Text追加
                     if (player[i] is Ooo_TestPlayer testPlayer && testPlayer.isTrapped)
                     {
-                        scoreText[i].text += "\nBボタン連打! " + testPlayer.nowEscapeClick + "/10";
+                        scoreText[i].text += "\nYou are Trapped!\nBボタンおして! " + testPlayer.nowEscapeClick + "/10";
                     }
                 }
             }
+            //------------------------------------------------
 
-            
+
             if (timer <= 0f)
             {
                 timer = 0;
-                //順位処理
+
+                //---------------順位処理---------------
                 int[] val = new int[4] { -1, -1, -1, -1 };
                 for (int i = 0; i < PLAYER_CNT; ++i)
                 {
-                    int maxCnt = playerScore.Max(); //最大の点数を取得
+                    int maxCnt = playerScore.Max();                 //最大の点数を取得
                     int maxPl = Array.IndexOf(playerScore, maxCnt); //最大点を取ったPlayerの番号を取得
-                    int rank = i + 1; //被りなしの場合の順位
+                    int rank = i + 1;                               //被りなしの場合の順位
                     for (int j = 0; j < i; ++j)
                     {
-                        if (val[j] == maxCnt) //過去の点数と同じなら
+                        if (val[j] == maxCnt)   //過去の点数と同じなら
                         {
-                            rank = j + 1; //同順位に更新
+                            rank = j + 1;       //同順位に更新
                             break;
                         }
                     }
                     playerInformation[maxPl].AddPlayerScore(rank);
-                    playerScore[maxPl] = -1; //該当者の得点をリセット
-                    val[i] = maxCnt; //同順位判定用のものをセット
+                    playerScore[maxPl] = -1;    //該当者の得点をリセット
+                    val[i] = maxCnt;            //同順位判定用のものをセット
                 }
-                
+                //------------------------------------------------
 
+                //「Finish」の文字を召喚
                 GameObject go = Instantiate(FinishText);
                 go.transform.SetParent(Canvas.transform);
                 go.transform.position = new Vector3(600, 400, 0);
 
-                
+                //Statusを変更
                 status = GameStatus.finish;
             }
         }
-        if (status == GameStatus.finish) {
 
+        //Statusを変更
+        if (status == GameStatus.finish)
+        {
             await NextScene();
         }
+
+        //ESCでゲーム終了
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
 
-
-
-
-        //Score管理関数
+        //Score処理
         public static void AddScore(int playerIndex)
         { 
     
@@ -163,16 +171,6 @@ public class Ooo_SceneManager : InGameManeger
             playerScore[playerIndex]++;
             }
         }
-
-
-
-
-
-
-
-
-
-
 
 
     protected override string SetPlayerPrefab(int index)
