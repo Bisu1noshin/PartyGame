@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8742315500476199384}
   - component: {fileID: 4446314969005373640}
   - component: {fileID: 8151547704273238591}
-  - component: {fileID: 6872312127170068481}
+  - component: {fileID: 8801532330725861839}
   m_Layer: 5
   m_Name: CountDown
   m_TagString: Untagged
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &6872312127170068481
+--- !u!114 &8801532330725861839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,6 +146,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1739706110230232005}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1277d44812229214ba54569e39280f08, type: 3}
+  m_Script: {fileID: 11500000, guid: 477eae3053bfd4b458cc8ecd47874d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
