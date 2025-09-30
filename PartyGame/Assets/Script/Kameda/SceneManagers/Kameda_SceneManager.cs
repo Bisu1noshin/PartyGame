@@ -21,8 +21,11 @@ public class Kameda_SceneManager : InGameManeger
     public Dictionary<PlayerParent, int> PlayerNum = new();
     private IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
     {
-        {GameState.Title,  new TitleState()},
-        //次から書く
+        { GameState.Title,  new TitleState() },
+        { GameState.Intro, new IntroState() },
+        { GameState.Ready, new ReadyState() },
+        { GameState.Play, new PlayState() },
+        { GameState.End, new EndState() }
     };
 
     private void Start()
@@ -78,27 +81,15 @@ public class Kameda_SceneManager : InGameManeger
         }
     }
 
-    async void SetNextState(GameState state) //次のステートマシンを呼び出す
+    async void SetNextState(GameState state) //次のステートを呼び出す
     {
-        switch (state)
+        if (state == GameState.End)
         {
-            case GameState.Title:
-                currentState = new IntroState();
-                break;
-            case GameState.Intro:
-                currentState = new ReadyState();
-                break;
-            case GameState.Ready:
-                currentState = new PlayState();
-                break;
-            case GameState.Play:
-                currentState = new EndState();
-                break;
-            case GameState.End:
-                await NextScene();
-                break;
-            default:
-                break;
+            await NextScene();
+        }
+        else
+        {
+            currentState = StateDic[state + 1];
         }
     }
 
@@ -165,7 +156,7 @@ public class Kameda_SceneManager : InGameManeger
         }
         for (int i = 0; i < 4; ++i)
         {
-            playerInformation[targets[i].num].AddPlayerScore(4 - i);
+            playerInformation[targets[i].num].AddPlayerScore(i);
         }
     }
 
