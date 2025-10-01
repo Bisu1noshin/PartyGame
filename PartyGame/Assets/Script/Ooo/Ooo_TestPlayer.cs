@@ -12,6 +12,8 @@ public class Ooo_TestPlayer : PlayerParent
     public GameObject explodeEffectPrefab;
     float plSpeed = 10.0f;
 
+   
+
     public float rayLength = 1.0f;  //Wallあたり判定RayCastの長さ
 
 
