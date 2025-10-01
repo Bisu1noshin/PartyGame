@@ -11,8 +11,8 @@ public class Oni_Script : MonoBehaviour
     [SerializeField] Kameda_SceneManager parent;// 追記
     public static Oni_Script instance;
     int catchCnt;
-    AudioSource audio;
-    private void Awake()
+    AudioSource biteSound;
+    private void Start()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
@@ -21,7 +21,8 @@ public class Oni_Script : MonoBehaviour
         catchCnt = 0;
         transform.position = new Vector3(-5, -0.75f, 4);
         agent = gameObject.GetOrAddComponent<NavMeshAgent>();
-        audio = GetComponent<AudioSource>();
+        biteSound = GetComponent<AudioSource>();
+        parent = Kameda_SceneManager.Instance.GetComponent<Kameda_SceneManager>();
     }
 
     // Update is called once per frame
@@ -35,39 +36,30 @@ public class Oni_Script : MonoBehaviour
     {
         if (collision.TryGetComponent<Player_Instant>(out var p))
         {
-            p.OnCaught();
             parent.Caughts.Add(p);
             parent.points[parent.PlayerNum[p]] = 3 - catchCnt++;
-            audio.Play();
+            biteSound.Play();
+            p.OnCaught();
         }
     }
     int SelectTargetPlayer()
     {
-        float[] ranges = new float[4];
+        float currentRange;
+        (int num, float range) currentTarget = new(0, 1e6f);
         for (int i = 0; i < playersPos.Length; i++)
         {
             if (playersPos[i] != null)
             {
-                ranges[i] = (playersPos[i].position - transform.position).sqrMagnitude;
+                currentRange = (playersPos[i].position - transform.position).sqrMagnitude;
             }
             else
             {
-                ranges[i] = -1.0f;
+                currentRange = 1e6f;
             }
+
+            if (currentRange < currentTarget.range) { currentTarget = new(i, currentRange); }
         }
-        int selectnum = 0;
-        for (int i = 0; i < ranges.Length; i++)
-        {
-            if (ranges[i] == -1.0f)
-            {
-                continue;
-            }
-            if (ranges[i] > ranges[selectnum])
-            {
-                selectnum = i;
-            }
-        }
-        return selectnum;
+        return currentTarget.num;
     }
     // 追記
 

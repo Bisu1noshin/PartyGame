@@ -17,8 +17,10 @@ public class Kameda_SceneManager : InGameManeger
     public List<PlayerParent> Caughts = new();
     public GameState State => currentState.State;
     IState currentState = new TitleState();
-    public Dictionary<int, int> points = new();
+
+    public int[] points = new int[GameInformation.MAX_PLAYER_VALUE];
     public Dictionary<PlayerParent, int> PlayerNum = new();
+
     private IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
     {
         { GameState.Title,  new TitleState() },
@@ -28,20 +30,26 @@ public class Kameda_SceneManager : InGameManeger
         { GameState.End, new EndState() }
     };
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // シングルトーンの処理
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+        }
+    }
     private void Start()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(this);
-
         Caughts.Clear();
-        
+
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             Kameda_UIManager.CreateInWorld(Resources.Load("Kameda/PlayerLight") as GameObject);
         }
         SetPlayers();
-        //SetPlayerInformations();
     }
     protected override void Update()
     {
@@ -162,7 +170,6 @@ public class Kameda_SceneManager : InGameManeger
 
     void SetPlayerInformations()
     {
-        points.Clear();
         for (int i = 0; i < player.Length; ++i)
         {
             // 追記
@@ -174,10 +181,9 @@ public class Kameda_SceneManager : InGameManeger
                 return;
             }
 
-            points.Add(i, 0);
+            points[i] = 0;
             PlayerNum.Add(player[i], i);
 
-            // Dictionaryにnullは入んないよ。
             // playerをInctance化した後に呼び出すよ
         }
     }
