@@ -11,7 +11,7 @@ public class Onishi_TestPlayer : PlayerParent
     private GameObject AtkBomb_Prefab; //爆弾のプレファブ
     private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
     
-    Onishi_TestSceneManager sceneManager; //シーンマネージャー
+    IOnishi_SceneInterface sceneManager; //シーンマネージャー
 
     const float xRange = 13.0f;
     const float zRange = 9.0f; //xとzの範囲
