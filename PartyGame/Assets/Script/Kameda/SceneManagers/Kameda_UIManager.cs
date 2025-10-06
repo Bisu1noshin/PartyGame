@@ -24,5 +24,11 @@ public class Kameda_UIManager : MonoBehaviour
         if (GameObject.Find(name) == null) { return; }
         Destroy(GameObject.Find(name));
     }
+    public static GameObject CreateInWorld(GameObject gameObject)
+    {
+        if (gameObject == null) { return null; }
+        GameObject go = Instantiate(gameObject);
+        return go;
+    }
 
 }

@@ -3,14 +3,14 @@
 public class IntroState : IState
 {
     public StatePhase Phase => m_Phase;
-    StatePhase m_Phase = StatePhase.Ready;
+    StatePhase m_Phase = StatePhase.Enter;
     float m_timer = 0.0f;
     public GameState State => GameState.Intro;
 
     public void Start()
     {
         Kameda_UIManager.Create(Resources.Load("Font/Text_Intro") as GameObject, "intro");
-        m_Phase = StatePhase.Started;
+        m_Phase = StatePhase.Update;
     }
 
     public void Update()
@@ -19,7 +19,7 @@ public class IntroState : IState
         if (m_timer >= 5.0f)
         {
             Kameda_UIManager.Destroy("intro");
-            m_Phase = StatePhase.Ended;
+            m_Phase = StatePhase.Exit;
         }
     }
 }
