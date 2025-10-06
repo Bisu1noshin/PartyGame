@@ -862,7 +862,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "A Button\u2192Player Ready\nX Button\u2192WaterBomb Attack\nB Button\u2192Escape!\n\n"
+  m_text: "A Button\u2192Player Ready\nX Button\u2192waterbomb Attack\nB Button\u2192Escape!\nTime\u219240
+    second\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d7fd20771cea234fb7717e50871e5eb, type: 2}
   m_sharedMaterial: {fileID: 4868213004196264768, guid: 8d7fd20771cea234fb7717e50871e5eb, type: 2}
