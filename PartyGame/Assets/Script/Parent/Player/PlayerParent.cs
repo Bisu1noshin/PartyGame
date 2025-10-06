@@ -36,20 +36,22 @@ public abstract class PlayerParent : MonoBehaviour
         if (playerInput == null) { return; }
 
         // デリゲート登録
-        _LeftStick.started    += OnLeftStick;
-        _LeftStick.performed  += OnLeftStick;
-        _LeftStick.canceled   += OnLeftStick;
-        _RightStick.started   += OnRightStick;
-        _RightStick.performed += OnRightStick;
-        _RightStick.canceled  += OnRightStick;
-        _ButtonA.started      += EnterButtonA;
-        _ButtonA.canceled     += ExitButtonA;
-        _ButtonB.started      += EnterButtonB;
-        _ButtonB.canceled     += ExitButtonB;
-        _ButtonX.started      += EnterButtonX;
-        _ButtonX.canceled     += ExitButtonX;
-        _ButtonY.started      += EnterButtonY;
-        _ButtonY.canceled     += ExitButtonY;
+        {
+            _LeftStick.started += OnLeftStick;
+            _LeftStick.performed += OnLeftStick;
+            _LeftStick.canceled += OnLeftStick;
+            _RightStick.started += OnRightStick;
+            _RightStick.performed += OnRightStick;
+            _RightStick.canceled += OnRightStick;
+            _ButtonA.started += EnterButtonA;
+            _ButtonA.canceled += ExitButtonA;
+            _ButtonB.started += EnterButtonB;
+            _ButtonB.canceled += ExitButtonB;
+            _ButtonX.started += EnterButtonX;
+            _ButtonX.canceled += ExitButtonX;
+            _ButtonY.started += EnterButtonY;
+            _ButtonY.canceled += ExitButtonY;
+        }
     }
 
     private void OnDisable()
@@ -57,20 +59,22 @@ public abstract class PlayerParent : MonoBehaviour
         if (playerInput == null) return;
 
         // デリゲート登録解除
-        _LeftStick.started    -= OnLeftStick;
-        _LeftStick.performed  -= OnLeftStick;
-        _LeftStick.canceled   -= OnLeftStick;
-        _RightStick.started   -= OnRightStick;
-        _RightStick.performed -= OnRightStick;
-        _RightStick.canceled  -= OnRightStick;
-        _ButtonA.started      -= EnterButtonA;
-        _ButtonA.canceled     -= ExitButtonA;
-        _ButtonB.started      -= EnterButtonB;
-        _ButtonB.canceled     -= ExitButtonB;
-        _ButtonX.started      -= EnterButtonX;
-        _ButtonX.canceled     -= ExitButtonX;
-        _ButtonY.started      -= EnterButtonY;
-        _ButtonY.canceled     -= ExitButtonY;
+        {
+            _LeftStick.started -= OnLeftStick;
+            _LeftStick.performed -= OnLeftStick;
+            _LeftStick.canceled -= OnLeftStick;
+            _RightStick.started -= OnRightStick;
+            _RightStick.performed -= OnRightStick;
+            _RightStick.canceled -= OnRightStick;
+            _ButtonA.started -= EnterButtonA;
+            _ButtonA.canceled -= ExitButtonA;
+            _ButtonB.started -= EnterButtonB;
+            _ButtonB.canceled -= ExitButtonB;
+            _ButtonX.started -= EnterButtonX;
+            _ButtonX.canceled -= ExitButtonX;
+            _ButtonY.started -= EnterButtonY;
+            _ButtonY.canceled -= ExitButtonY;
+        }
     }
 
     // 抽象メソッド
