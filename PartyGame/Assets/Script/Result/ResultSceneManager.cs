@@ -47,7 +47,7 @@ public class ResultSceneManager : InGameManeger
             int length = playerInformation.Length;
             _player = new GameInformationPlayer[length];
 
-            int[] score= new int[length];
+            int[] score = new int[length];
 
             for (int i = 0; i < length; i++)
             {
@@ -70,7 +70,7 @@ public class ResultSceneManager : InGameManeger
             Vector3[] lastpos = new Vector3[4] { new Vector3(-7, -2, 0), new Vector3(-3, -2, 0), new Vector3(1, -2, 0), new Vector3(5, -2, 0) };
             for(int i = 0; i < length; ++i)
             {
-                player[rank[i]].transform.position =lastpos[i];
+                player[rank[i]].transform.position = lastpos[i];
             }
         }
     }

@@ -194,7 +194,6 @@ public class Onishi_TestSceneManager : InGameManeger
     }
 
     //以下、必要がなければ触らない----------------------------------------------
-
     protected override string SetPlayerPrefab(int index)
     {
         string str = 
