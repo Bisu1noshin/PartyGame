@@ -7,29 +7,49 @@ using TMPro;
 
 public enum GameState
 {
-    Title, Intro, Ready, Play, End, Result
+    Title = 0, Intro, Ready, Play, End, Result
 }
 
 public class Kameda_SceneManager : InGameManeger
 {
+    public static Kameda_SceneManager Instance { get; private set; }
     Oni_Script o_s;
     public List<PlayerParent> Caughts = new();
     public GameState State => currentState.State;
     IState currentState = new TitleState();
-    public Dictionary<int, int> points = new();
+
+    public int[] points = new int[GameInformation.MAX_PLAYER_VALUE];
     public Dictionary<PlayerParent, int> PlayerNum = new();
 
+    private IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
+    {
+        { GameState.Title,  new TitleState() },
+        { GameState.Intro, new IntroState() },
+        { GameState.Ready, new ReadyState() },
+        { GameState.Play, new PlayState() },
+        { GameState.End, new EndState() }
+    };
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // シングルトーンの処理
+        {
+            if (Instance == null) Instance = this;
+            else Destroy(this);
+        }
+    }
     private void Start()
     {
         Caughts.Clear();
-        
+
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
-            Instantiate(Resources.Load("Kameda/PlayerLight") as GameObject);
+            Kameda_UIManager.CreateInWorld(Resources.Load("Kameda/PlayerLight") as GameObject);
         }
         SetPlayers();
-        //SetPlayerInformations();
     }
     protected override void Update()
     {
@@ -47,7 +67,7 @@ public class Kameda_SceneManager : InGameManeger
 
     void StateUpdate() //現在の状態に応じてステートマシンを呼び出す
     {
-        if (currentState.Phase == StatePhase.Ready) //スタート
+        if (currentState.Phase == StatePhase.Enter) //スタート
         {
             if (currentState.State == GameState.End) //追加の処理
             {
@@ -55,7 +75,7 @@ public class Kameda_SceneManager : InGameManeger
             }
             currentState.Start();
         }
-        else if (currentState.Phase == StatePhase.Started) //アップデート
+        else if (currentState.Phase == StatePhase.Update) //アップデート
         {
             if (currentState.State == GameState.Play) //追加の処理
             {
@@ -63,33 +83,21 @@ public class Kameda_SceneManager : InGameManeger
             }
             currentState.Update();
         }
-        else if (currentState.Phase == StatePhase.Ended) //次のステート
+        else if (currentState.Phase == StatePhase.Exit) //次のステート
         {
             SetNextState(currentState.State);
         }
     }
 
-    async void SetNextState(GameState state) //次のステートマシンを呼び出す
+    async void SetNextState(GameState state) //次のステートを呼び出す
     {
-        switch (state)
+        if (state == GameState.End)
         {
-            case GameState.Title:
-                currentState = new IntroState();
-                break;
-            case GameState.Intro:
-                currentState = new ReadyState();
-                break;
-            case GameState.Ready:
-                currentState = new PlayState();
-                break;
-            case GameState.Play:
-                currentState = new EndState();
-                break;
-            case GameState.End:
-                await NextScene();
-                break;
-            default:
-                break;
+            await NextScene();
+        }
+        else
+        {
+            currentState = StateDic[state + 1];
         }
     }
 
@@ -137,32 +145,31 @@ public class Kameda_SceneManager : InGameManeger
     void UpdatePlayerScore() //スコアを決める
     {
         if (player[0] == null) return;
-        Target[] targets = new Target[4];
+
+        (int num, int score)[] targets = new (int num, int score)[4];
         for (int i = 0; i < player.Length; ++i)
         {
-            targets[i] = new Target(i, points[i]);
+            targets[i] = (i, points[i]);
         }
+
         for (int i = 0; i < 4; ++i) //スコアを参照して昇順にソート
         {
             for (int j = 0; j < 3 - i; ++j)
             {
                 if (targets[j].score > targets[j + 1].score)
                 {
-                    Target tmp = targets[j];
-                    targets[j] = targets[j + 1];
-                    targets[j + 1] = tmp;
+                    (targets[j], targets[j + 1]) = (targets[j + 1], targets[j]);
                 }
             }
         }
         for (int i = 0; i < 4; ++i)
         {
-            playerInformation[targets[i].num].AddPlayerScore(4 - i);
+            playerInformation[targets[i].num].AddPlayerScore(i);
         }
     }
 
     void SetPlayerInformations()
     {
-        points.Clear();
         for (int i = 0; i < player.Length; ++i)
         {
             // 追記
@@ -174,10 +181,9 @@ public class Kameda_SceneManager : InGameManeger
                 return;
             }
 
-            points.Add(i, 0);
+            points[i] = 0;
             PlayerNum.Add(player[i], i);
 
-            // Dictionaryにnullは入んないよ。
             // playerをInctance化した後に呼び出すよ
         }
     }
@@ -203,10 +209,3 @@ public class Kameda_SceneManager : InGameManeger
     }
 
 }
-class Target {
-    public int num, score;
-    public Target(int a, int b)
-    {
-        num = a; score = b;
-    }
-};

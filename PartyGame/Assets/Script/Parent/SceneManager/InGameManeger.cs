@@ -136,6 +136,17 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
             return;
         }
 #endif
+
+        // ゲーム終了の処理
+        // エディター上はPlay終了
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 
     // 抽象メソッド

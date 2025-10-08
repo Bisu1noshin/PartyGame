@@ -8,10 +8,11 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using System.Linq;
+using Cysharp.Threading.Tasks.Triggers;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 1;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -21,7 +22,9 @@ public class Ooo_SceneManager : InGameManeger
     };
 
     private GameStatus status; //ゲームステータス管理
-    float timer = 40f; //タイマー ゲーム時間で初期化する(秒)
+    float countTimer = 4f; //タイマー ゲーム時間で初期化する(秒)
+    float endTimer = 1.5f;
+    float timer = 40f;
     bool playerFlag = false;
     public static int[] playerScore = new int[PLAYER_CNT]; //各プレイヤー点数保存
     public static int[] playerEscape = new int[PLAYER_CNT];
@@ -43,7 +46,7 @@ public class Ooo_SceneManager : InGameManeger
     {
         playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
-
+        
         //プレイヤースコア0で初期化
         for (int i = 0; i < PLAYER_CNT; i++)
         {
@@ -66,32 +69,45 @@ public class Ooo_SceneManager : InGameManeger
         // 呼び出し
         if (!playerFlag)
         {
-            Vector3 vec = Vector3.zero;
-            Quaternion quat = Quaternion.identity;
+            Vector3[] vec = new Vector3[]
+            {
+                new Vector3 (-1, 0, 0),
+                new Vector3 (1, 0, 0),
+                new Vector3 (-1, 0, -1),
+                new Vector3 (1, 0, -1)
+            };
 
+            Quaternion quat = Quaternion.identity;
 
             for (int i = 0; i < PLAYER_CNT; i++)
             {
                 player[i] = CreatePlayer(
                     playerInformation: playerInformation[i],
-                    p: vec,
+                    p: vec[i],
                     q: quat,
                     index: i+1
                     );
             }
-
             playerFlag = true;
         }
 
         if (status == GameStatus.standby)
-        {
-            //「Start」の文字を召喚
-            GameObject go = Instantiate(StartText);
-            go.transform.SetParent(Canvas.transform);
-            go.transform.position = new Vector3(600, 400, 0);
+        {            
+            if (countTimer == 4f)
+            {
+                //「Start」の文字を召喚
+                GameObject go = Instantiate(StartText);
+                go.transform.SetParent(Canvas.transform);
+                go.transform.position = new Vector3(1000, 600, 0);  
+            }
+            countTimer -= Time.deltaTime;
 
             //Statusを変更
-            status = GameStatus.play;
+            if (countTimer <= 0f)
+            {
+                countTimer = 0f;            //カウントText終わったっら
+                status = GameStatus.play;   //timer開始
+            }
         }
 
         //---------------インゲーム処理---------------
@@ -106,7 +122,7 @@ public class Ooo_SceneManager : InGameManeger
                 {
                     scoreText[i].text = "P" + (i + 1) + "  score: " + playerScore[i];
 
-                    //Trap状態なら連打Text追加
+                    //Trap状態なら連打Text表示
                     if (player[i] is Ooo_TestPlayer testPlayer && testPlayer.isTrapped)
                     {
                         scoreText[i].text += "\nYou are Trapped!\nBボタンおして! " + testPlayer.nowEscapeClick + "/10";
@@ -142,12 +158,20 @@ public class Ooo_SceneManager : InGameManeger
                 //------------------------------------------------
 
                 //「Finish」の文字を召喚
-                GameObject go = Instantiate(FinishText);
-                go.transform.SetParent(Canvas.transform);
-                go.transform.position = new Vector3(600, 400, 0);
+                if (endTimer == 1.5f)
+                {
+                    GameObject go = Instantiate(FinishText);
+                    go.transform.SetParent(Canvas.transform);
+                    go.transform.position = new Vector3(1000, 600, 0);
+                }
+                endTimer -= Time.deltaTime;
 
                 //Statusを変更
-                status = GameStatus.finish;
+                if (endTimer <= 0f)
+                {
+                    endTimer = 0f;
+                    status = GameStatus.finish;
+                }
             }
         }
 
