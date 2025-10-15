@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class SetPlayerSceneManager : InGameManeger
@@ -83,7 +80,7 @@ public class SetPlayerSceneManager : InGameManeger
         await NextScene();
     }
 
-    public override string SceneName => GameInformation.LoadScene;
+    public override string SceneName => GameInformation.ONISHI_INFO;
     public override void OnUnLoaded()
     {
 

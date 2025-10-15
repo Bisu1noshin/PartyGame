@@ -1,9 +1,5 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 /// <summary>
 ///     伸びる壁 テスト
 /// </summary>

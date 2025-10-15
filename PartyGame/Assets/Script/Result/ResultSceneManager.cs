@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Build.Content;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
@@ -16,8 +12,9 @@ public class ResultSceneManager : InGameManeger
 
     protected override string SetPlayerPrefab(int index)
     {
-        string playerPrefabPath = "Player/VRM/VRM_" + index.ToString();
-        return playerPrefabPath;
+        string str =
+            "Player/VRM/VRM_" + index.ToString();
+        return str;
     }
 
     protected override Type SetPlayerScript()
@@ -39,7 +36,13 @@ public class ResultSceneManager : InGameManeger
 
         // その他初期化処理
         {
-            // pass
+            for (int i = 0; i < 4; i++)
+            {
+                if (playerInformation[i] == null)
+                    throw new ArgumentOutOfRangeException(
+                       "playerInformation "+ i.ToString() +"is null"
+                       );
+            }
         }
 
         // playerの召喚
@@ -52,7 +55,7 @@ public class ResultSceneManager : InGameManeger
             for (int i = 0; i < length; i++)
             {
                 Vector3 pos = new Vector3(-10000, 0, 0);// 画面外に飛ばす
-                player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.identity);
+                player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.identity, i + 1);
 
                 // playerの派生クラスの取得
                 _player[i] = player[i].gameObject.GetComponent<GameInformationPlayer>();

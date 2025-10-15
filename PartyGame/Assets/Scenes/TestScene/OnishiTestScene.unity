@@ -3363,8 +3363,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf877b3f22036a4b86d002a546537f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebagMode: 1
-  maxPlayerCount: 1
+  DebagMode: 0
+  maxPlayerCount: 4
   StartText: {fileID: 5159351029994937053, guid: 7abefcb6a6e27134f9dbe16156206277, type: 3}
   FinishText: {fileID: 1406932386179043561, guid: 2818cb9e7319b144488a30a16e58e500, type: 3}
   Canvas: {fileID: 343693012}

@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using System.Linq;
-using Cysharp.Threading.Tasks.Triggers;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
+    const int PLAYER_CNT = GameInformation.MAX_PLAYER_VALUE;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -44,7 +37,6 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
         
         //プレイヤースコア0で初期化
@@ -205,7 +197,7 @@ public class Ooo_SceneManager : InGameManeger
         return str;
     }
 
-    public override string SceneName => "TitleScene";
+    public override string SceneName => GameInformation.KAMEDA_GAME;
 
     
     public override void OnUnLoaded() { }

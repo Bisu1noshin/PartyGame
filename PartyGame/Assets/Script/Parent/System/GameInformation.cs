@@ -8,8 +8,8 @@ public static class GameInformation
 
     public const string LoadScene      =   "LoadScene";
     public const string KAMEDA_INFO    =    "";
-    public const string OOO_INFO       =    "";
-    public const string ONISHI_INFO    =    "";
+    public const string OOO_INFO       =   "Ooo_Introduction";
+    public const string ONISHI_INFO    =   "Onishi_Intro";
     public const string KAMEDA_GAME    =   "Kameda";
     public const string OOO_GAME       =   "Ooo";
     public const string ONISHI_GAME    =   "OnishiTestScene";

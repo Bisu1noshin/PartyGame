@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
-using UnityEngine.SceneManagement;
 
 // インゲーム中のSceneを管理する
 // すべてのシーンにこいつを継承させたスクリプトをアタッチすること！
@@ -105,7 +104,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         playerJoinInputAction.Disable();
     }
 
-    protected virtual void Update() {
+    protected virtual async void Update() {
 #if UNITY_EDITOR
 
         if (DebagMode)
@@ -143,6 +142,16 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
+        // デバッグ用すきっぷ
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+#if UNITY_EDITOR
+            await NextScene();
 #else
             Application.Quit();
 #endif

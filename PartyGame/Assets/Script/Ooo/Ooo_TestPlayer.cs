@@ -1,9 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
-using System.Collections;
-using UnityEngine.UI;
-using System.Runtime.CompilerServices;
-using DG.Tweening.Core.Easing;
 
 public class Ooo_TestPlayer : PlayerParent
 {

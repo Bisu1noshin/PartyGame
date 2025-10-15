@@ -3481,7 +3481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DebagMode: 0
-  maxPlayerCount: 0
+  maxPlayerCount: 4
   StartText: {fileID: 5159351029994937053, guid: 7abefcb6a6e27134f9dbe16156206277, type: 3}
   FinishText: {fileID: 1406932386179043561, guid: 2818cb9e7319b144488a30a16e58e500, type: 3}
   Canvas: {fileID: 1982291522}

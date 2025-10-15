@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainGame/SetPlayerScene.unity
     guid: b1408ca777a221a4dbb9e515193fdac6
   - enabled: 1
-    path: Assets/Scenes/MainGame/LoadScene.unity
-    guid: dce36fa36c203174ea707f3a841440b2
-  - enabled: 1
     path: Assets/Scenes/TestScene/OnishiTestScene.unity
     guid: 143cde4bdd331ed479dbf38d251ae898
   - enabled: 1
@@ -26,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene/Ooo.unity
     guid: 601c87cf41836c34e93c1c41848c14d5
+  - enabled: 1
+    path: Assets/Scenes/Introduction/Onishi_Intro.unity
+    guid: ff2addea5d0df87468a14db09507e138
+  - enabled: 1
+    path: Assets/Scenes/Introduction/Ooo_Intro/Ooo_Introduction.unity
+    guid: ba1a1d803c4a21541b5e4bf35d831fdb
   - enabled: 1
     path: Assets/Scenes/MainGame/ResultScene.unity
     guid: 033a9db487bc79a4f99777fb1689b960

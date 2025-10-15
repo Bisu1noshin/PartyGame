@@ -681,8 +681,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c023605368c75545b287306bbd43c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DebagMode: 1
-  maxPlayerCount: 1
+  DebagMode: 0
+  maxPlayerCount: 4
   Caughts: []
   points: 00000000000000000000000000000000
 --- !u!1 &1246159081

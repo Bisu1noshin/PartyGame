@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine.SceneManagement;
 using UnityEngine;
 using TMPro;
 using System.Linq;
@@ -15,7 +12,7 @@ public interface IOnishi_SceneInterface
 
 public class Onishi_TestSceneManager : InGameManeger, IOnishi_SceneInterface 
 {
-    const int PLAYER_CNT = 1; //最終的に4にする
+    const int PLAYER_CNT = GameInformation.MAX_PLAYER_VALUE; //最終的に4にする
 
     enum GameStatus
     {
@@ -209,7 +206,7 @@ public class Onishi_TestSceneManager : InGameManeger, IOnishi_SceneInterface
         return str;
     }
 
-    public override string SceneName => GameInformation.LoadScene;
+    public override string SceneName => GameInformation.OOO_INFO;
     public override void OnUnLoaded()
     {
         Debug.Log("Exit_Onishi");

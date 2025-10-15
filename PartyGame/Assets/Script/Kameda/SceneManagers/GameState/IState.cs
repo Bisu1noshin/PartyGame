@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System;
-using UnityEditor;
-using NUnit.Framework;
 
 public enum StatePhase
 {

@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Audio;
 
 public class Ooo_waterbombNew : MonoBehaviour
 {

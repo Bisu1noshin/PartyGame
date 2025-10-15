@@ -1,7 +1,5 @@
 ﻿using System;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 //---------------------------------------------------------
 // クラスの名前を変更して実装する
@@ -56,10 +54,14 @@ public class Onishi_GameInformationScene : InGameManeger
             }
         }
     }
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
 
+        if (GetAllDecide()) {
+
+            await NextScene();
+        }
     }
 
     public override string SceneName => "OnishiTestScene";// <-変更する!!

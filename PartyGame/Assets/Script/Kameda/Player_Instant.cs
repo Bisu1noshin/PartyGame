@@ -1,7 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
-using UnityEditor.UIElements;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player_Instant : PlayerParent
 {

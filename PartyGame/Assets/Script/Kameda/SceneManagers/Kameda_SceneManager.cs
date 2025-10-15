@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using TMPro;
 
 public interface Kameda_PlayerSeeker
 {
@@ -183,7 +180,7 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
         }
         for (int i = 0; i < 4; ++i)
         {
-            playerInformation[targets[i].num].AddPlayerScore(i);
+            playerInformation[targets[i].num].AddPlayerScore(i + 1);
         }
     }
 
@@ -224,7 +221,7 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
         return str;
     }
 
-    public override string SceneName => GameInformation.LoadScene;
+    public override string SceneName => "ResultScene";
 
     public override void OnUnLoaded()
     {
