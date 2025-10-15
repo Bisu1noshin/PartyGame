@@ -5,12 +5,22 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using TMPro;
 
+public interface Kameda_PlayerSeeker
+{
+    int GetPlayerNum(PlayerParent p);
+    bool AllPlayerCaught();
+    void AddCaught(PlayerParent p);
+    void UpdatePlayersTransform();
+    void AddPoint(int num, int _point);
+
+    GameState State { get; }
+}
 public enum GameState
 {
     Title = 0, Intro, Ready, Play, End, Result
 }
 
-public class Kameda_SceneManager : InGameManeger
+public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
 {
     public static Kameda_SceneManager Instance { get; private set; }
     Oni_Script o_s;
@@ -19,7 +29,7 @@ public class Kameda_SceneManager : InGameManeger
     IState currentState = new TitleState();
 
     public int[] points = new int[GameInformation.MAX_PLAYER_VALUE];
-    public Dictionary<PlayerParent, int> PlayerNum = new();
+    [SerializeField] public Dictionary<PlayerParent, int> PlayerNum = new();
 
     private IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
     {
@@ -69,18 +79,10 @@ public class Kameda_SceneManager : InGameManeger
     {
         if (currentState.Phase == StatePhase.Enter) //スタート
         {
-            if (currentState.State == GameState.End) //追加の処理
-            {
-                UpdatePlayerScore();
-            }
             currentState.Start();
         }
         else if (currentState.Phase == StatePhase.Update) //アップデート
         {
-            if (currentState.State == GameState.Play) //追加の処理
-            {
-                UpdatePlayersTransform();
-            }
             currentState.Update();
         }
         else if (currentState.Phase == StatePhase.Exit) //次のステート
@@ -102,7 +104,7 @@ public class Kameda_SceneManager : InGameManeger
     }
 
 
-    void UpdatePlayersTransform() //プレイヤーの位置を更新する　鬼が使う
+    public void UpdatePlayersTransform() //プレイヤーの位置を更新する　鬼が使う
     {
         int j = 0;
         for (int i = 0; i < player.Length; i++)
@@ -131,7 +133,16 @@ public class Kameda_SceneManager : InGameManeger
 
         SetPlayerInformations();// ここで呼ぶ
     }
-
+    public int GetPlayerNum(PlayerParent p)
+    {
+        if (!PlayerNum.ContainsKey(p)) {
+            //追加
+            PlayerNum.Add(p, GetNullPlayerNum());
+            Debug.LogError("存在しないキー :" + p.GetType().Name);
+            return -1;
+        }
+        return PlayerNum.GetValueOrDefault(p);
+    }
     int GetNullPlayerNum() //プレイヤーを追加する場所を決める
     {
         int i;
@@ -141,8 +152,16 @@ public class Kameda_SceneManager : InGameManeger
         }
         return 4;
     }
+    public bool AllPlayerCaught()
+    {
+        return Caughts.Count == 4;
+    }
+    public void AddPoint(int num, int _point)
+    {
+        points[num] = _point;
+    }
 
-    void UpdatePlayerScore() //スコアを決める
+    public void UpdatePlayerScore() //スコアを決める
     {
         if (player[0] == null) return;
 
@@ -186,6 +205,10 @@ public class Kameda_SceneManager : InGameManeger
 
             // playerをInctance化した後に呼び出すよ
         }
+    }
+    public void AddCaught(PlayerParent p)
+    {
+        Caughts.Add(p);
     }
 
     protected override Type SetPlayerScript()

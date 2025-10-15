@@ -21,7 +21,8 @@ public class PlayState : IState
             Kameda_CntController.Instance.SetText((60 - (int)m_timer).ToString());
         }
         m_timer += Time.deltaTime;
-        if (m_timer >= 60.0f)
+        Kameda_SceneManager.Instance.UpdatePlayersTransform();
+        if (m_timer >= 60.0f || Kameda_SceneManager.Instance.AllPlayerCaught())
         {
             m_Phase = StatePhase.Exit;
         }

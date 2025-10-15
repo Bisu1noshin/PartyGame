@@ -28,7 +28,7 @@ public class Player_Instant : PlayerParent
     }
     private void Update()
     {
-        if (GameObject.Find("SceneManager").GetComponent<Kameda_SceneManager>().State != GameState.Play) { return; }
+        if (Kameda_SceneManager.Instance.State != GameState.Play) { return; }
         rb.position += moveVec.normalized * PlayerSpeed * Time.deltaTime;
         UpdateTransformforOni();
         SetLightColorInDenger();
@@ -101,5 +101,7 @@ public class Player_Instant : PlayerParent
         sc = this.gameObject.AddComponent<SphereCollider>();
         sc.radius = 0.5f; sc.center = new Vector3(0, 0.5f, 0);
         rb = this.gameObject.AddComponent<Rigidbody>();
+        Kameda_PlayerSeeker sm = Kameda_SceneManager.Instance;
+        Debug.Log("入室 : Player" + sm.GetPlayerNum(this));
     }
 }

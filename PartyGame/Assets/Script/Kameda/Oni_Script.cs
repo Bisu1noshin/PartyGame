@@ -8,7 +8,7 @@ public class Oni_Script : MonoBehaviour
 {
     [SerializeField] NavMeshAgent agent;
     [SerializeField] public Transform[] playersPos = new Transform[4];
-    [SerializeField] Kameda_SceneManager parent;// 追記
+    [SerializeField] Kameda_PlayerSeeker parent;// 追記
     public static Oni_Script instance;
     int catchCnt;
     AudioSource biteSound;
@@ -36,10 +36,16 @@ public class Oni_Script : MonoBehaviour
     {
         if (collision.TryGetComponent<Player_Instant>(out var p))
         {
-            parent.Caughts.Add(p);
-            parent.points[parent.PlayerNum[p]] = 3 - catchCnt++;
+            parent.AddCaught(p);
+
             biteSound.Play();
             p.OnCaught();
+
+            int rank = 3 - catchCnt;
+            Kameda_PlayerSeeker ps = Kameda_SceneManager.Instance;
+            parent.AddPoint(parent.GetPlayerNum(p), rank);
+
+            catchCnt++;
         }
     }
     int SelectTargetPlayer()
