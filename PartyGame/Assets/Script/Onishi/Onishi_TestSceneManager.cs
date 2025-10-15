@@ -6,7 +6,14 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 
-public class Onishi_TestSceneManager : InGameManeger
+public interface IOnishi_SceneInterface
+{
+    public bool isPlaying();
+    public bool isFinish();
+    public void getBombCnt(int pl_, int bombCnt_);
+}
+
+public class Onishi_TestSceneManager : InGameManeger, IOnishi_SceneInterface 
 {
     const int PLAYER_CNT = 1; //最終的に4にする
 
