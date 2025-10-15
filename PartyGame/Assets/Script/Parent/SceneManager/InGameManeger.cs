@@ -221,7 +221,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     /// <param name="p"></param>
     /// <param name="q"></param>
     /// <returns></returns>
-    protected PlayerParent CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q,int index = 0) { 
+     protected PlayerParent CreatePlayer(PlayerInformation playerInformation,Vector3 p,Quaternion q,int index = 0) { 
 
         GameObject prefab =
             Resources.Load<GameObject>(SetPlayerPrefab(index));

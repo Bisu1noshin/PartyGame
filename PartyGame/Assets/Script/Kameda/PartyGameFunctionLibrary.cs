@@ -42,6 +42,9 @@ public static class PartyGameFunctionLibrary
 
         pi.gameObject.AddComponent(type);
         PlayerParent p = pi.gameObject.GetComponent<PlayerParent>();
+
+        p.animationContllore = new AnimationContllore(p.gameObject, playerIndex);
+
         return p;
     }
 }

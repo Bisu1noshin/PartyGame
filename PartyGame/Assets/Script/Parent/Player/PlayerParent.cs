@@ -5,7 +5,7 @@ using System;
 public abstract class PlayerParent : MonoBehaviour
 {
     protected　  PlayerInput                playerInput;
-    protected    AnimationContllore         animationContllore;
+    public       AnimationContllore         animationContllore;
 
     private      InputAction      _LeftStick;
     private      InputAction      _RightStick;
@@ -27,8 +27,6 @@ public abstract class PlayerParent : MonoBehaviour
             _ButtonX    = playerInput.actions["ButtonX"];
             _ButtonY    = playerInput.actions["ButtonY"];
         }
-
-        animationContllore = new AnimationContllore(gameObject);
     }
 
     private void OnEnable()

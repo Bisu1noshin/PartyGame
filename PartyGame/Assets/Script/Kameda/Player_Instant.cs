@@ -11,6 +11,7 @@ public class Player_Instant : PlayerParent
     Light_Script ls;
     GameObject oni;
     SphereCollider sc;
+
     protected void Start()
     {
         moveVec = Vector3.zero;
@@ -31,11 +32,26 @@ public class Player_Instant : PlayerParent
         rb.position += moveVec.normalized * PlayerSpeed * Time.deltaTime;
         UpdateTransformforOni();
         SetLightColorInDenger();
+
+        // アニメーションの管理
+        if (moveVec.x == 0 && moveVec.y == 0)
+        {
+            // 入力がなければ待機
+            animationContllore.SetAniamation(PlayerAniamtonState.Idle);
+        }
+        else
+        {
+
+            // 入力があれば走る
+            animationContllore.SetAniamation(PlayerAniamtonState.Walk);
+        }
     }
     protected override void MoveUpdate(Vector2 vec)
-    {
+    { 
         moveVec = new Vector3(vec.x, 0, vec.y);
-        
+
+        // 回転の補正
+        animationContllore.RotaitionContllore(vec);
     }
 
     protected override void LookUpdate(Vector2 vec)
