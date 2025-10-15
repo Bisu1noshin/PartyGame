@@ -114,7 +114,7 @@ public class Ooo_SceneManager : InGameManeger
         if (status == GameStatus.play)
         {
             timer -= Time.deltaTime;
-            text_Timer.text = timer.ToString("F0");
+            text_Timer.text = "Time: " + timer.ToString("F0");
 
             for (int i = 0; i < PLAYER_CNT; i++)
             {
