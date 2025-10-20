@@ -12,7 +12,7 @@ using Cysharp.Threading.Tasks.Triggers;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = 2;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -137,7 +137,7 @@ public class Ooo_SceneManager : InGameManeger
                 timer = 0;
 
                 //---------------順位処理---------------
-                int[] val = new int[4] { -1, -1, -1, -1 };
+                int[] val = new int[4] { playerScore[0], playerScore[1], playerScore[2], playerScore[3] };
                 for (int i = 0; i < PLAYER_CNT; ++i)
                 {
                     int maxCnt = playerScore.Max();                 //最大の点数を取得
@@ -152,7 +152,7 @@ public class Ooo_SceneManager : InGameManeger
                         }
                     }
                     playerInformation[maxPl].AddPlayerScore(rank);
-                    playerScore[maxPl] = -1;    //該当者の得点をリセット
+                    playerScore[maxPl] = playerScore.Max();    //該当者の得点をリセット
                     val[i] = maxCnt;            //同順位判定用のものをセット
                 }
                 //------------------------------------------------
