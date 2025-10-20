@@ -1,11 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using System.Linq;
+using Cysharp.Threading.Tasks.Triggers;
 
 public class Ooo_SceneManager : InGameManeger
 {
-    const int PLAYER_CNT = GameInformation.MAX_PLAYER_VALUE;   //最大プレイヤーは4人
+    const int PLAYER_CNT = 4;   //最大プレイヤーは4人
     enum GameStatus
     {
         standby,    //スタンバイ 始まる前
@@ -37,6 +44,7 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
+        playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
         
         //プレイヤースコア0で初期化
@@ -129,7 +137,7 @@ public class Ooo_SceneManager : InGameManeger
                 timer = 0;
 
                 //---------------順位処理---------------
-                int[] val = new int[4] { -1, -1, -1, -1 };
+                int[] val = new int[4] { playerScore[0], playerScore[1], playerScore[2], playerScore[3] };
                 for (int i = 0; i < PLAYER_CNT; ++i)
                 {
                     int maxCnt = playerScore.Max();                 //最大の点数を取得
@@ -144,7 +152,7 @@ public class Ooo_SceneManager : InGameManeger
                         }
                     }
                     playerInformation[maxPl].AddPlayerScore(rank);
-                    playerScore[maxPl] = -1;    //該当者の得点をリセット
+                    playerScore[maxPl] = playerScore.Max();    //該当者の得点をリセット
                     val[i] = maxCnt;            //同順位判定用のものをセット
                 }
                 //------------------------------------------------
@@ -197,7 +205,7 @@ public class Ooo_SceneManager : InGameManeger
         return str;
     }
 
-    public override string SceneName => GameInformation.KAMEDA_GAME;
+    public override string SceneName => "TitleScene";
 
     
     public override void OnUnLoaded() { }
