@@ -59,7 +59,7 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
         }
         SetPlayers();
     }
-    protected override void Update()
+    protected override async void Update()
     {
         base.Update();
         StateUpdate();
@@ -208,8 +208,6 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     public override void OnUnLoaded()
     {
         Debug.Log("Exit_Kameda");
-
-        UpdatePlayerScore();
 
         int[] score=new int[4] {
 

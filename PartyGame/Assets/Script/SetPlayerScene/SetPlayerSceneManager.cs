@@ -63,8 +63,6 @@ public class SetPlayerSceneManager : InGameManeger
                 Quaternion q = Quaternion.identity;
                 player[i] = CreatePlayer(playerInformation[i], v, q);
 
-                pushA_UIs[i].enabled = false;
-
                 Debug.Log("player" + (i + 1) + "が追加されました");
             }
         }
@@ -74,6 +72,10 @@ public class SetPlayerSceneManager : InGameManeger
             if (!decideFlag[i] || playerInformation[i].playerFBXPath == null)
             {
                 return;
+            }
+            else
+            {
+                pushA_UIs[i].enabled = false;
             }
         }
 

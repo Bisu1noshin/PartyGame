@@ -12,7 +12,7 @@ public class EndState : IState
         Kameda_UIManager.Create(Resources.Load("Font/Text_Finish") as GameObject);
         Kameda_UIManager.Destroy("CountDown");
         m_Phase = StatePhase.Update;
-        //Kameda_SceneManager.Instance.UpdatePlayerScore();
+        Kameda_SceneManager.Instance.UpdatePlayerScore();
     }
 
     public void Update()

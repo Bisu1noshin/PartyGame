@@ -9,8 +9,8 @@ public static class SSceneManager
     public static async UniTask<T> LoadScene<T>(PlayerInformation[] data, SceneLeftimeManager sceneLeftime, LoadSceneMode mode = LoadSceneMode.Single)
         where T : InGameManeger
     {
-        _currentSceneLifetimeManager?.OnUnLoaded();
         _currentSceneLifetimeManager = sceneLeftime;
+        _currentSceneLifetimeManager?.OnUnLoaded();
 
         await SceneManager.LoadSceneAsync(_currentSceneLifetimeManager.SceneName, mode).ToUniTask();
         Scene scene = SceneManager.GetSceneByName(_currentSceneLifetimeManager.SceneName);

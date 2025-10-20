@@ -256,6 +256,8 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     /// <returns></returns>
     protected async Task NextScene()
     {
+        if (SceneName == "TitleScene") { return; }
+
         var presenter =
             await SSceneManager.LoadScene<InGameManeger>(playerInformation, SceneLeftimeManager);
         if (presenter == null) {

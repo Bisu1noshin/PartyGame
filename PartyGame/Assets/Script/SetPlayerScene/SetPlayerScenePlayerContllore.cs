@@ -69,7 +69,7 @@ public class SetPlayerScenePlayerContllore : PlayerParent
         {
             for (int i = 0; i < 4; i++)
             {
-                prefabs[i]= Resources.Load<GameObject>("Player/VRM/VRM_" + (i+1).ToString());
+                prefabs[i] = Resources.Load<GameObject>("Player/VRM/VRM_" + (i + 1).ToString());
             }
         }
     }
@@ -136,12 +136,13 @@ public class SetPlayerScenePlayerContllore : PlayerParent
     private void EnterChoseFBX() { }
     private void UpDateChoseFBX() {
 
-        st.ExecuteTrigger(TriggerType.End);
         int index = playerInput.playerIndex;
         GameObject go =
          Instantiate(prefabs[index], pos[index], Quaternion.identity);
 
         go.transform.localScale = scale[index];
+
+        st.ExecuteTrigger(TriggerType.End);
     }
     private void ExitChoseFBX() {
 
