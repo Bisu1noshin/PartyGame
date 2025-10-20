@@ -7,7 +7,7 @@ using System.Linq;
 
 public class ResultSceneManager : InGameManeger
 {
-    [SerializeField] TextMeshProUGUI[] Rank;
+    [SerializeField] TextMeshProUGUI[] Rank = new TextMeshProUGUI[4];
     private GameInformationPlayer[] _player = default;　// playerの派生クラス
 
     protected override string SetPlayerPrefab(int index)
@@ -62,18 +62,68 @@ public class ResultSceneManager : InGameManeger
                 score[i] = playerInformation[i].PlayerScore;
             }
 
-            int[] rank = new int[4] { -1, -1, -1, -1 };
+            int[] rank = new int[4] { -1, -1, -1, -1 }; //Pl0~3に順位番号が入る
+            int[] val = new int[4] { -1, -1, -1, -1 }; //同順位判定
             for (int i = 0; i < length; ++i)
             {
                 int maxCnt = score.Max(); //最大の点数を取得
                 int maxPl = Array.IndexOf(score, maxCnt); //最大点を取ったPlayerの番号を取得
-                rank[i] = maxPl;
+                int rank_ = i + 1; //被りなしの場合の順位をメモ
+                for (int j = 0; j < i; ++j)
+                {
+                    if (val[j] == maxCnt) //過去の点数と同じなら
+                    {
+                        rank_ = j + 1; //同順位に更新
+                        break;
+                    }
+                }
+                rank[maxPl] = rank_;
+                score[maxPl] = -1;
+                val[i] = maxCnt; //同順位判定用のものをセット
             }
 
-            Vector3[] lastpos = new Vector3[4] { new Vector3(-7, -2, 0), new Vector3(-3, -2, 0), new Vector3(1, -2, 0), new Vector3(5, -2, 0) };
+            Vector3[] lastpos = new Vector3[4] { new Vector3(-6, -2, 0), new Vector3(-2, -2, 0), new Vector3(2, -2, 0), new Vector3(6, -2, 0) };
+            bool[] isSet = new bool[4] { false, false, false, false };
             for(int i = 0; i < length; ++i)
             {
-                player[rank[i]].transform.position = lastpos[i];
+                if (isSet[rank[i]-1] == false) //その位置になければ
+                {
+                    player[i].transform.position = lastpos[rank[i] - 1]; //配置
+                    isSet[rank[i]-1] = true;
+                }
+                else //既に置かれていたら
+                {
+                    for (int j = rank[i]; j < length; ++j) 
+                    {
+                        if (isSet[j] == false) //次の順位を探して設置
+                        {
+                            player[i].transform.position = lastpos[j];
+                            isSet[j] = true;
+                            break;
+                        }
+                    }
+                }
+                switch (rank[i])
+                {
+                    case 1:
+                        Rank[i].SetText("1位");
+                        break;
+                    case 2:
+                        Rank[i].SetText("2位");
+                        break;
+                    case 3:
+                        Rank[i].SetText("3位");
+                        break;
+                    case 4:
+                        Rank[i].SetText("4位");
+                        break;
+                }
+                player[i].transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+            }
+
+            for(int i = 0; i < length; ++i)
+            {
+                Debug.Log(player[i].transform.position.ToString());
             }
         }
     }
