@@ -104,7 +104,7 @@ public class Onishi_TestSceneManager : InGameManeger, IOnishi_SceneInterface
                 //「Start」の文字を召喚
                 go_start = Instantiate(StartText);
                 go_start.transform.SetParent(Canvas.transform);
-                go_start.transform.position = new Vector3(600, 320, 0);
+                go_start.transform.position = new Vector3(960, 540, 0);
                 start = true;
             }
 
@@ -128,7 +128,7 @@ public class Onishi_TestSceneManager : InGameManeger, IOnishi_SceneInterface
                 //「Finish」の文字を召喚
                 go_finish = Instantiate(FinishText);
                 go_finish.transform.SetParent(Canvas.transform);
-                go_finish.transform.position = new Vector3(600, 400, 0);
+                go_finish.transform.position = new Vector3(960, 540, 0);
 
                 //Statusを変更
                 status = GameStatus.finish;
@@ -210,5 +210,18 @@ public class Onishi_TestSceneManager : InGameManeger, IOnishi_SceneInterface
     public override void OnUnLoaded()
     {
         Debug.Log("Exit_Onishi");
+
+        int[] score =new int[4] {
+
+            playerInformation[0].PlayerScore,
+            playerInformation[1].PlayerScore,
+            playerInformation[2].PlayerScore,
+            playerInformation[3].PlayerScore
+        };
+
+        for (int i = 0; i < 4; i++) {
+
+            Debug.Log("index :" + i + "score :" + score[i]);
+        }
     }
 }
