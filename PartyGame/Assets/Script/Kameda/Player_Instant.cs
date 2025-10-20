@@ -1,16 +1,24 @@
 ﻿using UnityEngine;
 
+public enum PlayerState
+{
+    Non = -1, Normal, Caught
+}
+
 public class Player_Instant : PlayerParent
 {
-    float PlayerSpeed = 4.0f;
+    const float PlayerSpeed = 4.0f;
     Vector3 moveVec;
     Rigidbody rb;
     Light_Script ls;
     GameObject oni;
     SphereCollider sc;
+    PlayerState state = PlayerState.Normal;
+    public PlayerState State => state;
 
     protected void Start()
     {
+        if (state == PlayerState.Non) { return; }
         moveVec = Vector3.zero;
         transform.localScale = Vector3.one * 0.5f;
         transform.position = Vector3.one * -1.2f;
@@ -26,6 +34,7 @@ public class Player_Instant : PlayerParent
     private void Update()
     {
         if (Kameda_SceneManager.Instance.State != GameState.Play) { return; }
+        if (state != PlayerState.Normal) { return; }
         rb.position += moveVec.normalized * PlayerSpeed * Time.deltaTime;
         UpdateTransformforOni();
         SetLightColorInDenger();
@@ -44,7 +53,9 @@ public class Player_Instant : PlayerParent
         }
     }
     protected override void MoveUpdate(Vector2 vec)
-    { 
+    {
+        if (state != PlayerState.Normal) { return; }
+
         moveVec = new Vector3(vec.x, 0, vec.y);
 
         // 回転の補正
@@ -91,12 +102,13 @@ public class Player_Instant : PlayerParent
     public void OnCaught()
     {
         ls.gameObject.SetActive(false);
-        gameObject.SetActive(false);
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        sc.enabled = false;
+        state = PlayerState.Caught;
     }
     void InitComponents()
     {
-        sc = this.gameObject.AddComponent<SphereCollider>();
-        sc.radius = 0.5f; sc.center = new Vector3(0, 0.5f, 0);
+        sc = this.gameObject.GetComponent<SphereCollider>();
         rb = this.gameObject.AddComponent<Rigidbody>();
         Kameda_PlayerSeeker sm = Kameda_SceneManager.Instance;
         Debug.Log("入室 : Player" + sm.GetPlayerNum(this));

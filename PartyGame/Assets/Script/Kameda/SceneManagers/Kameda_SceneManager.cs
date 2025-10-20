@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public interface Kameda_PlayerSeeker
@@ -8,7 +9,7 @@ public interface Kameda_PlayerSeeker
     bool AllPlayerCaught();
     void AddCaught(PlayerParent p);
     void UpdatePlayersTransform();
-    void AddPoint(int num, int _point);
+    void SetPoint(int num, int _point);
 
     GameState State { get; }
 }
@@ -26,9 +27,8 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     IState currentState = new TitleState();
 
     public int[] points = new int[GameInformation.MAX_PLAYER_VALUE];
-    [SerializeField] public Dictionary<PlayerParent, int> PlayerNum = new();
 
-    private IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
+    private readonly IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
     {
         { GameState.Title,  new TitleState() },
         { GameState.Intro, new IntroState() },
@@ -54,7 +54,8 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
         o_s = GameObject.Find("Oni").GetComponent<Oni_Script>();
         for (int i = 0; i < 4; ++i)
         {
-            Kameda_UIManager.CreateInWorld(Resources.Load("Kameda/PlayerLight") as GameObject);
+            GameObject go = Kameda_UIManager.CreateInWorld(Resources.Load("Kameda/PlayerLight") as GameObject);
+            go.gameObject.GetComponent<Light>().enabled = false;
         }
         SetPlayers();
     }
@@ -127,18 +128,16 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
             pos.x = 5 - i;
             player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0), i + 1);// playerに代入する
         }
-
-        SetPlayerInformations();// ここで呼ぶ
     }
     public int GetPlayerNum(PlayerParent p)
     {
-        if (!PlayerNum.ContainsKey(p)) {
-            //追加
-            PlayerNum.Add(p, GetNullPlayerNum());
-            Debug.LogError("存在しないキー :" + p.GetType().Name);
-            return -1;
+        for (int i = 0; i < maxPlayerCount; ++i)
+        {
+            if (p == player[i]) { return i; }
         }
-        return PlayerNum.GetValueOrDefault(p);
+
+        Debug.Log("存在しないプレイヤー");
+        return -1;
     }
     int GetNullPlayerNum() //プレイヤーを追加する場所を決める
     {
@@ -151,9 +150,9 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     }
     public bool AllPlayerCaught()
     {
-        return Caughts.Count == 4;
+        return Caughts.Count == maxPlayerCount;
     }
-    public void AddPoint(int num, int _point)
+    public void SetPoint(int num, int _point)
     {
         points[num] = _point;
     }
@@ -168,9 +167,9 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
             targets[i] = (i, points[i]);
         }
 
-        for (int i = 0; i < 4; ++i) //スコアを参照して昇順にソート
+        for (int i = 0; i < maxPlayerCount; ++i) //スコアを参照して昇順にソート
         {
-            for (int j = 0; j < 3 - i; ++j)
+            for (int j = 0; j < maxPlayerCount - 1 - i; ++j)
             {
                 if (targets[j].score > targets[j + 1].score)
                 {
@@ -178,34 +177,17 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
                 }
             }
         }
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < maxPlayerCount; ++i)
         {
             playerInformation[targets[i].num].AddPlayerScore(i + 1);
         }
-    }
-
-    void SetPlayerInformations()
-    {
-        for (int i = 0; i < player.Length; ++i)
-        {
-            // 追記
-
-            if (player[i] == null)
-            {
-
-                Debug.LogError("PlayerがNullです。");
-                return;
-            }
-
-            points[i] = 0;
-            PlayerNum.Add(player[i], i);
-
-            // playerをInctance化した後に呼び出すよ
-        }
-    }
+    } 
+    
     public void AddCaught(PlayerParent p)
     {
         Caughts.Add(p);
+        Debug.Log("No." + GetPlayerNum(p) + " List count : " + Caughts.Count);
+
     }
 
     protected override Type SetPlayerScript()
@@ -226,6 +208,19 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     public override void OnUnLoaded()
     {
         Debug.Log("Exit_Kameda");
+
+        int[] score=new int[4] {
+
+            playerInformation[0].PlayerScore,
+            playerInformation[1].PlayerScore,
+            playerInformation[2].PlayerScore,
+            playerInformation[3].PlayerScore
+        };
+
+        for (int i = 0; i < 4; i++) {
+
+            Debug.Log("player :" + i + " score :" + score[i]);
+        }
     }
 
 }

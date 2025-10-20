@@ -34,7 +34,7 @@ public class Oni_Script : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.TryGetComponent<Player_Instant>(out var p))
+        if (collision.TryGetComponent<Player_Instant>(out var p) && p.gameObject.GetComponent<SphereCollider>().enabled == true)
         {
             parent.AddCaught(p);
 
@@ -43,7 +43,7 @@ public class Oni_Script : MonoBehaviour
 
             int rank = 3 - catchCnt;
             Kameda_PlayerSeeker ps = Kameda_SceneManager.Instance;
-            parent.AddPoint(parent.GetPlayerNum(p), rank);
+            parent.SetPoint(parent.GetPlayerNum(p), rank);
 
             catchCnt++;
         }
@@ -51,7 +51,7 @@ public class Oni_Script : MonoBehaviour
     int SelectTargetPlayer()
     {
         float currentRange;
-        (int num, float range) currentTarget = new(0, 1e6f);
+        (int num, float range) currentTarget = new(0, 1e10f);
         for (int i = 0; i < playersPos.Length; i++)
         {
             if (playersPos[i] != null)
@@ -60,7 +60,7 @@ public class Oni_Script : MonoBehaviour
             }
             else
             {
-                currentRange = 1e6f;
+                currentRange = 1e10f;
             }
 
             if (currentRange < currentTarget.range) { currentTarget = new(i, currentRange); }

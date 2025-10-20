@@ -19,7 +19,7 @@ public interface IGameState {
     void ExecuteState();
 }
 
-public abstract class ParentGameState : IGameState{
+public abstract class ParentGameState : IGameState {
 
     protected   PlayerParent[]  PlayerParent    =    default;
     StatePhase phase = StatePhase.Enter;
