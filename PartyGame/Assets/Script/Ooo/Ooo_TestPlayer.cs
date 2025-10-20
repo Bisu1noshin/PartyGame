@@ -43,6 +43,9 @@ public class Ooo_TestPlayer : PlayerParent
         {
             WallRaycast();  //Wall当たり判定（移動不可）
         }
+
+        // アニメーション制御
+        ChangeAnimation(moveVec);
     }
 
     private void WallRaycast()
@@ -63,6 +66,9 @@ public class Ooo_TestPlayer : PlayerParent
         if (!isTrapped)
         {
             moveVec = new Vector3(vec.x, 0, vec.y);
+
+            // 回転の補正
+            animationContllore.RotaitionContllore(vec);
         }
     }
 

@@ -209,6 +209,8 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     {
         Debug.Log("Exit_Kameda");
 
+        UpdatePlayerScore();
+
         int[] score=new int[4] {
 
             playerInformation[0].PlayerScore,

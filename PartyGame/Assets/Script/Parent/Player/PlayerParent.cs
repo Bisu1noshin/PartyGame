@@ -144,4 +144,20 @@ public abstract class PlayerParent : MonoBehaviour
 
         UpButtonX();
     }
+
+    // アニメーション制御
+    protected void ChangeAnimation(Vector2 vec) {
+        // アニメーションの管理
+        if (vec.x == 0 && vec.y == 0)
+        {
+            // 入力がなければ待機
+            animationContllore.SetAniamation(PlayerAniamtonState.Idle);
+        }
+        else
+        {
+
+            // 入力があれば走る
+            animationContllore.SetAniamation(PlayerAniamtonState.Walk);
+        }
+    }
 }

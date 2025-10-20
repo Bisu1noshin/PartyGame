@@ -44,7 +44,7 @@ public class Ooo_SceneManager : InGameManeger
 
     private void Start()
     {
-        playerInformation = new PlayerInformation[PLAYER_CNT];
+        //playerInformation = new PlayerInformation[PLAYER_CNT];
         status = GameStatus.standby;
         
         //プレイヤースコア0で初期化
@@ -136,26 +136,7 @@ public class Ooo_SceneManager : InGameManeger
             {
                 timer = 0;
 
-                //---------------順位処理---------------
-                int[] val = new int[4] { playerScore[0], playerScore[1], playerScore[2], playerScore[3] };
-                for (int i = 0; i < PLAYER_CNT; ++i)
-                {
-                    int maxCnt = playerScore.Max();                 //最大の点数を取得
-                    int maxPl = Array.IndexOf(playerScore, maxCnt); //最大点を取ったPlayerの番号を取得
-                    int rank = i + 1;                               //被りなしの場合の順位
-                    for (int j = 0; j < i; ++j)
-                    {
-                        if (val[j] == maxCnt)   //過去の点数と同じなら
-                        {
-                            rank = j + 1;       //同順位に更新
-                            break;
-                        }
-                    }
-                    playerInformation[maxPl].AddPlayerScore(rank);
-                    playerScore[maxPl] = playerScore.Max();    //該当者の得点をリセット
-                    val[i] = maxCnt;            //同順位判定用のものをセット
-                }
-                //------------------------------------------------
+                
 
                 //「Finish」の文字を召喚
                 if (endTimer == 1.5f)
@@ -205,9 +186,45 @@ public class Ooo_SceneManager : InGameManeger
         return str;
     }
 
-    public override string SceneName => "TitleScene";
+    public override string SceneName => GameInformation.KAMEDA_GAME;
 
     
-    public override void OnUnLoaded() { }
+    public override void OnUnLoaded() {
+
+        //---------------順位処理---------------
+        int[] val = new int[4] { -1, -1, -1, -1 };
+        for (int i = 0; i < PLAYER_CNT; ++i)
+        {
+            int maxCnt = playerScore.Max();                 //最大の点数を取得
+            int maxPl = Array.IndexOf(playerScore, maxCnt); //最大点を取ったPlayerの番号を取得
+            int rank = i + 1;                               //被りなしの場合の順位
+            for (int j = 0; j < i; ++j)
+            {
+                if (val[j] == maxCnt)   //過去の点数と同じなら
+                {
+                    rank = j + 1;       //同順位に更新
+                    break;
+                }
+            }
+            playerInformation[maxPl].AddPlayerScore(rank);
+            playerScore[maxPl] = -1;    //該当者の得点をリセット
+            val[i] = maxCnt;            //同順位判定用のものをセット
+        }
+        //------------------------------------------------
+
+        int[] score = new int[4] {
+
+            playerInformation[0].PlayerScore,
+            playerInformation[1].PlayerScore,
+            playerInformation[2].PlayerScore,
+            playerInformation[3].PlayerScore
+        };
+
+        for (int i = 0; i < 4; i++)
+        {
+
+            Debug.Log("index :" + i + "score :" + score[i]);
+        }
+    }
 
 }

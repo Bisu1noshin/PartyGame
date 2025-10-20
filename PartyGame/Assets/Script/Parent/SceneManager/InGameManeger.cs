@@ -22,6 +22,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     private     InputDevice[]   joinedDevices = default;
     private     List<int>       lostDeviceIndex;
     private     int             currentPlayerCount = 0;
+    private     bool            nextSceneFlag;
 
     protected virtual void Awake()
     {
@@ -88,6 +89,7 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         joinedDevices = new InputDevice[maxPlayerCount];
         player = new PlayerParent[maxPlayerCount];
         SceneLeftimeManager = new SceneLeftimeManager(SceneName, OnUnLoaded);
+        nextSceneFlag = true;
     }
 
     protected virtual void OnDestroy()

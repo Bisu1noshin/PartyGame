@@ -150,7 +150,21 @@ public class ResultSceneManager : InGameManeger
     }
 
     public override string SceneName => "LoadScene";
-    public override void OnUnLoaded() { }
+    public override void OnUnLoaded() {
+        int[] score = new int[4] {
+
+            playerInformation[0].PlayerScore,
+            playerInformation[1].PlayerScore,
+            playerInformation[2].PlayerScore,
+            playerInformation[3].PlayerScore
+        };
+
+        for (int i = 0; i < 4; i++)
+        {
+
+            Debug.Log("index :" + i + "score :" + score[i]);
+        }
+    }
     private void GamingColor(MaskableGraphic ui)
     {
         float addValue = 1f / 256f * 16f;

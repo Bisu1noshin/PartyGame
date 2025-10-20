@@ -39,18 +39,8 @@ public class Player_Instant : PlayerParent
         UpdateTransformforOni();
         SetLightColorInDenger();
 
-        // アニメーションの管理
-        if (moveVec.x == 0 && moveVec.y == 0)
-        {
-            // 入力がなければ待機
-            animationContllore.SetAniamation(PlayerAniamtonState.Idle);
-        }
-        else
-        {
-
-            // 入力があれば走る
-            animationContllore.SetAniamation(PlayerAniamtonState.Walk);
-        }
+        // アニメーション制御
+        ChangeAnimation(moveVec);
     }
     protected override void MoveUpdate(Vector2 vec)
     {
