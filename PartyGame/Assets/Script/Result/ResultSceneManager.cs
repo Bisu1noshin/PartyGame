@@ -148,16 +148,16 @@ public class ResultSceneManager : InGameManeger
                 switch (rank[i])
                 {
                     case 1:
-                        Rank[i].SetText("1位");
+                        Rank[rank[i] - 1].SetText("No.1!!");
                         break;
                     case 2:
-                        Rank[i].SetText("2位");
+                        Rank[rank[i] - 1].SetText("No.2");
                         break;
                     case 3:
-                        Rank[i].SetText("3位");
+                        Rank[rank[i] - 1].SetText("No.3");
                         break;
                     case 4:
-                        Rank[i].SetText("4位");
+                        Rank[rank[i] - 1].SetText("No.4");
                         break;
                 }
                 player[i].transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
@@ -165,7 +165,7 @@ public class ResultSceneManager : InGameManeger
 
             for(int i = 0; i < length; ++i)
             {
-                Debug.Log(player[i].transform.position.ToString());
+                Debug.Log("player:" + i + " pos:" + player[i].transform.position.ToString());
             }
         }
     }
