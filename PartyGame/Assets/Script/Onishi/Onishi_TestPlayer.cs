@@ -23,7 +23,7 @@ public class Onishi_TestPlayer : PlayerParent
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
 
         //自分の名前を設定
-        this.gameObject.name = "player" + playerInput.playerIndex.ToString();
+        this.gameObject.name = "player" + (playerInput.playerIndex + 1).ToString();
 
         //自分の名前に応じたTextを探す
         text_pt = GameObject.Find("text_" + this.gameObject.name);

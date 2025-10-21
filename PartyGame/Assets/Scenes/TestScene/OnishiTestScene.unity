@@ -1127,7 +1127,7 @@ GameObject:
   - component: {fileID: 552002209}
   - component: {fileID: 552002211}
   m_Layer: 5
-  m_Name: text_player2
+  m_Name: text_player3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1174,8 +1174,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
-  m_sharedMaterial: {fileID: 5819873665535796263, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
+  m_sharedMaterial: {fileID: 4868213004196264768, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1199,8 +1199,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2248,7 +2248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -40}
+  m_AnchoredPosition: {x: 0, y: -60}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1079303874
@@ -2273,8 +2273,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 70d4c6e1cf075ba4a956dd4f0744b77a, type: 2}
-  m_sharedMaterial: {fileID: 5819873665535796263, guid: 70d4c6e1cf075ba4a956dd4f0744b77a, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8d7fd20771cea234fb7717e50871e5eb, type: 2}
+  m_sharedMaterial: {fileID: 4868213004196264768, guid: 8d7fd20771cea234fb7717e50871e5eb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2298,8 +2298,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 130
+  m_fontSizeBase: 130
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3089,7 +3089,7 @@ GameObject:
   - component: {fileID: 1534133024}
   - component: {fileID: 1534133026}
   m_Layer: 5
-  m_Name: text_player0
+  m_Name: text_player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3136,8 +3136,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
-  m_sharedMaterial: {fileID: 5819873665535796263, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
+  m_sharedMaterial: {fileID: 4868213004196264768, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3161,8 +3161,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3757,7 +3757,7 @@ GameObject:
   - component: {fileID: 1854867004}
   - component: {fileID: 1854867006}
   m_Layer: 5
-  m_Name: text_player3
+  m_Name: text_player4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3804,8 +3804,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
-  m_sharedMaterial: {fileID: 5819873665535796263, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
+  m_sharedMaterial: {fileID: 4868213004196264768, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3829,8 +3829,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3906,7 +3906,7 @@ GameObject:
   - component: {fileID: 1866958399}
   - component: {fileID: 1866958401}
   m_Layer: 5
-  m_Name: text_player1
+  m_Name: text_player2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3953,8 +3953,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
-  m_sharedMaterial: {fileID: 5819873665535796263, guid: 113c68923a0f05a4597379adc2fa0af5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
+  m_sharedMaterial: {fileID: 4868213004196264768, guid: 82f2bd5ba1df7714ab129b63d0f260c0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3978,8 +3978,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

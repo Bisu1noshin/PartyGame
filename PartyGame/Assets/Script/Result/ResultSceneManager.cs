@@ -10,6 +10,38 @@ public class ResultSceneManager : InGameManeger
     [SerializeField] TextMeshProUGUI[] Rank = new TextMeshProUGUI[4];
     private GameInformationPlayer[] _player = default;　// playerの派生クラス
 
+    public class RankInfo
+    {
+        public int playerindex { get; private set; } = default;
+        public int rank { get; private set; } = default;
+
+        /// <summary>
+        /// プレイヤーの順位を保存する
+        /// </summary>
+        /// <param name="playerindex"></param>
+        /// <param name="rank"></param>
+        public RankInfo(int playerindex,int rank) {
+
+            if (playerindex < 0 || playerindex > 4) {
+
+                throw new ArgumentOutOfRangeException(
+                    "プレイヤーの配列があってません"
+                    );
+            }
+
+            this.playerindex = playerindex;
+
+            if (rank < 0 || rank > 4){
+
+                throw new ArgumentOutOfRangeException(
+                    "プレイヤーの配列があってません"
+                    );
+            }
+
+            this.rank = rank;
+        }
+    }
+
     protected override string SetPlayerPrefab(int index)
     {
         string str =
@@ -62,6 +94,16 @@ public class ResultSceneManager : InGameManeger
                 score[i] = playerInformation[i].PlayerScore;
             }
 
+            //// 順位の処理
+            //{
+            //    RankInfo[] ranks = new RankInfo[length];
+
+            //    for (int i = 0; i < ranks.Length; i++) {
+
+            //        ranks[i] = new RankInfo();
+            //    }
+            //}
+
             int[] rank = new int[4] { -1, -1, -1, -1 }; //Pl0~3に順位番号が入る
             int[] val = new int[4] { -1, -1, -1, -1 }; //同順位判定
             for (int i = 0; i < length; ++i)
@@ -106,16 +148,16 @@ public class ResultSceneManager : InGameManeger
                 switch (rank[i])
                 {
                     case 1:
-                        Rank[i].SetText("1位");
+                        Rank[rank[i] - 1].SetText("No.1!!");
                         break;
                     case 2:
-                        Rank[i].SetText("2位");
+                        Rank[rank[i] - 1].SetText("No.2");
                         break;
                     case 3:
-                        Rank[i].SetText("3位");
+                        Rank[rank[i] - 1].SetText("No.3");
                         break;
                     case 4:
-                        Rank[i].SetText("4位");
+                        Rank[rank[i] - 1].SetText("No.4");
                         break;
                 }
                 player[i].transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
@@ -123,7 +165,7 @@ public class ResultSceneManager : InGameManeger
 
             for(int i = 0; i < length; ++i)
             {
-                Debug.Log(player[i].transform.position.ToString());
+                Debug.Log("player:" + i + " pos:" + player[i].transform.position.ToString());
             }
         }
     }
@@ -149,7 +191,7 @@ public class ResultSceneManager : InGameManeger
 
     }
 
-    public override string SceneName => "LoadScene";
+    public override string SceneName => "TitleScene";
     public override void OnUnLoaded() {
         int[] score = new int[4] {
 
