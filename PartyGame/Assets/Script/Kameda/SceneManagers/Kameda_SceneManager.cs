@@ -122,10 +122,10 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
 
         Vector3 pos = new(5, -1.25f, -4);
 
-        for (int i = GetNullPlayerNum(); i < playerInformation.Length; i++)
+        for (int i = 0; i < playerInformation.Length; i++)
         {
             if (playerInformation[i] == null) { continue; }
-            pos.x = 5 - i;
+            pos.x -= 1;
             player[i] = CreatePlayer(playerInformation[i], pos, Quaternion.Euler(0, 0, 0), i + 1);// playerに代入する
         }
     }
