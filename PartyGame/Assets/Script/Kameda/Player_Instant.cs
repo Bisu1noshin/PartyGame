@@ -21,7 +21,7 @@ public class Player_Instant : PlayerParent
         if (state == PlayerState.Non) { return; }
         moveVec = Vector3.zero;
         transform.localScale = Vector3.one * 0.5f;
-        transform.position = Vector3.one * -1.2f;
+        //transform.position = Vector3.one * -1.2f;
 
         InitComponents();
         ls = GameObject.Find("Light_Player").GetComponent<Light_Script>();
