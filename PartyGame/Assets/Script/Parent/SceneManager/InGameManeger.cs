@@ -28,6 +28,9 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     {
         lostDeviceIndex = new List<int>();
 
+        // マウスカーソル非表示
+        Cursor.visible = false;
+
         // inputManager
         {
             playerJoinInputAction =
@@ -154,8 +157,6 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
         {
 #if UNITY_EDITOR
             await NextScene();
-#else
-            Application.Quit();
 #endif
         }
     }
@@ -257,13 +258,18 @@ public abstract class InGameManeger : MonoBehaviour, ISceneLifetimeManager
     protected async Task NextScene()
     {
         if (SceneName == "TitleScene") { return; }
+        if (!nextSceneFlag) { return; }
 
         var presenter =
             await SSceneManager.LoadScene<InGameManeger>(playerInformation, SceneLeftimeManager);
+
+        nextSceneFlag = false;
+
         if (presenter == null) {
             Debug.LogError("次のシーンのSceneManagerがNULL!!");
             return;
         }
+
         presenter.SetPlayerInformation(playerInformation);
     }
 

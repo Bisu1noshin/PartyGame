@@ -181,10 +181,6 @@ public class Ooo_SceneManager : InGameManeger
         {
             await NextScene();
         }
-
-        //ESCでゲーム終了
-        if (Input.GetKeyDown(KeyCode.Escape))
-            Application.Quit();
     }
 
         //Score処理
