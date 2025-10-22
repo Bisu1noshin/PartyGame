@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 
 public class TitleState : IState
 {
@@ -9,10 +10,10 @@ public class TitleState : IState
     StatePhase m_Phase = StatePhase.Enter;
     float m_timer = 0.0f;
 
-
     public void Start()
     {
         Kameda_UIManager.Create(Resources.Load("Kameda/Thumbnail") as GameObject, "Logo");
+
         m_Phase = StatePhase.Update;
     }
 
