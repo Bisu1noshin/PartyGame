@@ -150,7 +150,7 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     }
     public bool AllPlayerCaught()
     {
-        return Caughts.Count == maxPlayerCount;
+        return Caughts.Count >= maxPlayerCount - 1;
     }
     public void SetPoint(int num, int _point)
     {

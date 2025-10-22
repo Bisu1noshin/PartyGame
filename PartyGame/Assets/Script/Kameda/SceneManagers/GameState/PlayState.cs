@@ -25,6 +25,7 @@ public class PlayState : IState
         if (m_timer >= 60.0f || Kameda_SceneManager.Instance.AllPlayerCaught())
         {
             m_Phase = StatePhase.Exit;
+            Kameda_UIManager.Destroy("TimeCount");
         }
     }
 }
