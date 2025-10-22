@@ -30,7 +30,6 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
 
     private readonly IReadOnlyDictionary<GameState, IState> StateDic = new Dictionary<GameState, IState>()
     {
-        { GameState.Title,  new TitleState() },
         { GameState.Intro, new IntroState() },
         { GameState.Ready, new ReadyState() },
         { GameState.Play, new PlayState() },
@@ -62,21 +61,19 @@ public class Kameda_SceneManager : InGameManeger, Kameda_PlayerSeeker
     protected override async void Update()
     {
         base.Update();
+
         StateUpdate();
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
     }
 
     void StateUpdate() //現在の状態に応じてステートマシンを呼び出す
     {
         if (currentState.Phase == StatePhase.Enter) //スタート
         {
+            if (currentState.State == GameState.Title) {
+
+                Debug.Log("Enter_Title");
+            }
+
             currentState.Start();
         }
         else if (currentState.Phase == StatePhase.Update) //アップデート
