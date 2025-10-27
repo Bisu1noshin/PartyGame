@@ -11,6 +11,9 @@ public class TitleController : MonoBehaviour
     bool isFinishTitleMove = false; //タイトルの動きを最後まで見せるためのフラグ
     private void Start()
     {
+        // マウスカーソル非表示
+        Cursor.visible = false;
+
         //最初はPressAnyKeyを透明に
         Color c = text_Next.GetComponent<TextMeshProUGUI>().color;
         c.a = 0f;
@@ -29,6 +32,16 @@ public class TitleController : MonoBehaviour
     }
     void Update()
     {
+        // ゲーム終了の処理
+        // エディター上はPlay終了
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
 
         if (Input.anyKeyDown && isFinishTitleMove == true) 
         {

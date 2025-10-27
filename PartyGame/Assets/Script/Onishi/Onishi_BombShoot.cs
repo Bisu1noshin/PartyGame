@@ -10,13 +10,18 @@ public class Onishi_BombShoot : MonoBehaviour
     bool isBomb = false;
     SphereCollider collider;
     private GameObject Ef_Bomb; //爆発時のエフェクト
+    AudioSource audioSource;
+    [SerializeField]AudioClip SE_Put;
+    [SerializeField]AudioClip SE_Bomb;
 
     private void Start()
     {
         collider = GetComponent<SphereCollider>();
         collider.enabled = false;
+        audioSource = GetComponent<AudioSource>();
 
         Ef_Bomb = Resources.Load<GameObject>("Onishi/Ef_Bomb");
+        audioSource.PlayOneShot(SE_Put);
     }
 
     void Update()
@@ -34,6 +39,7 @@ public class Onishi_BombShoot : MonoBehaviour
     public async void Explosion()
     {
         collider.enabled = true;
+        audioSource.PlayOneShot(SE_Bomb);
         await Task.Delay(25); //当たり判定を取るため一瞬待つ
         //爆発エフェクト
         GameObject go = Ef_Bomb;

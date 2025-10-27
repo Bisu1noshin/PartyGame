@@ -8,39 +8,19 @@ using System.Linq;
 public class ResultSceneManager : InGameManeger
 {
     [SerializeField] TextMeshProUGUI[] Rank = new TextMeshProUGUI[4];
+    [SerializeField] TextMeshProUGUI Txt_ty;
     private GameInformationPlayer[] _player = default;　// playerの派生クラス
 
-    public class RankInfo
-    {
-        public int playerindex { get; private set; } = default;
-        public int rank { get; private set; } = default;
+    AudioSource audioSource;
+    [SerializeField] AudioClip SE_don;
+    [SerializeField] AudioClip SE_clap;
 
-        /// <summary>
-        /// プレイヤーの順位を保存する
-        /// </summary>
-        /// <param name="playerindex"></param>
-        /// <param name="rank"></param>
-        public RankInfo(int playerindex,int rank) {
+    private int[] rank = new int[4] { -1, -1, -1, -1 }; //Pl0~3に順位番号が入る
+    private bool[] isSet = new bool[4] { false, false, false, false };
 
-            if (playerindex < 0 || playerindex > 4) {
-
-                throw new ArgumentOutOfRangeException(
-                    "プレイヤーの配列があってません"
-                    );
-            }
-
-            this.playerindex = playerindex;
-
-            if (rank < 0 || rank > 4){
-
-                throw new ArgumentOutOfRangeException(
-                    "プレイヤーの配列があってません"
-                    );
-            }
-
-            this.rank = rank;
-        }
-    }
+    private int index = 0;
+    private float timeCnt = 0;
+    private const float createCnt = 0.5f;
 
     protected override string SetPlayerPrefab(int index)
     {
@@ -77,6 +57,8 @@ public class ResultSceneManager : InGameManeger
             }
         }
 
+        audioSource = GetComponent<AudioSource>();
+
         // playerの召喚
         {
             int length = playerInformation.Length;
@@ -94,17 +76,6 @@ public class ResultSceneManager : InGameManeger
                 score[i] = playerInformation[i].PlayerScore;
             }
 
-            //// 順位の処理
-            //{
-            //    RankInfo[] ranks = new RankInfo[length];
-
-            //    for (int i = 0; i < ranks.Length; i++) {
-
-            //        ranks[i] = new RankInfo();
-            //    }
-            //}
-
-            int[] rank = new int[4] { -1, -1, -1, -1 }; //Pl0~3に順位番号が入る
             int[] val = new int[4] { -1, -1, -1, -1 }; //同順位判定
             for (int i = 0; i < length; ++i)
             {
@@ -123,50 +94,6 @@ public class ResultSceneManager : InGameManeger
                 score[maxPl] = -1;
                 val[i] = maxCnt; //同順位判定用のものをセット
             }
-
-            Vector3[] lastpos = new Vector3[4] { new Vector3(-6, -2, 0), new Vector3(-2, -2, 0), new Vector3(2, -2, 0), new Vector3(6, -2, 0) };
-            bool[] isSet = new bool[4] { false, false, false, false };
-            for(int i = 0; i < length; ++i)
-            {
-                if (isSet[rank[i]-1] == false) //その位置になければ
-                {
-                    player[i].transform.position = lastpos[rank[i] - 1]; //配置
-                    isSet[rank[i]-1] = true;
-                }
-                else //既に置かれていたら
-                {
-                    for (int j = rank[i]; j < length; ++j) 
-                    {
-                        if (isSet[j] == false) //次の順位を探して設置
-                        {
-                            player[i].transform.position = lastpos[j];
-                            isSet[j] = true;
-                            break;
-                        }
-                    }
-                }
-                switch (rank[i])
-                {
-                    case 1:
-                        Rank[rank[i] - 1].SetText("No.1!!");
-                        break;
-                    case 2:
-                        Rank[rank[i] - 1].SetText("No.2");
-                        break;
-                    case 3:
-                        Rank[rank[i] - 1].SetText("No.3");
-                        break;
-                    case 4:
-                        Rank[rank[i] - 1].SetText("No.4");
-                        break;
-                }
-                player[i].transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
-            }
-
-            for(int i = 0; i < length; ++i)
-            {
-                Debug.Log("player:" + i + " pos:" + player[i].transform.position.ToString());
-            }
         }
     }
     protected override void Update()
@@ -177,16 +104,15 @@ public class ResultSceneManager : InGameManeger
         {
             GamingColor(Rank[i]);
         }
+        GamingColor(Txt_ty);
 
-        if (!GetAllDecide()) {
-            return;
-        }
+        timeCnt += Time.deltaTime;
 
-
+        SetPlayerRank();
 
         if (GetAllDecide())
         {
-            SceneManager.LoadScene("TitleScene");
+            SceneManager.LoadScene("TitleScene"); 
         }
 
     }
@@ -271,5 +197,66 @@ public class ResultSceneManager : InGameManeger
         }
 
         return flag;
+    }
+
+    private void SetPlayer(int index) {
+
+        int length = GameInformation.MAX_PLAYER_VALUE;
+        Vector3[] lastpos = new Vector3[4] { new Vector3(-6, -2, 0), new Vector3(-2, -2, 0), new Vector3(2, -2, 0), new Vector3(6, -2, 0) };
+
+        if (isSet[rank[index] - 1] == false) //その位置になければ
+        {
+            player[index].transform.position = lastpos[rank[index] - 1]; //配置
+            isSet[rank[index] - 1] = true;
+        }
+        else //既に置かれていたら
+        {
+            for (int j = rank[index]; j < length; ++j)
+            {
+                if (isSet[j] == false) //次の順位を探して設置
+                {
+                    player[index].transform.position = lastpos[j];
+                    isSet[j] = true;
+                    break;
+                }
+            }
+        }
+        switch (rank[index])
+        {
+            case 1:
+                Rank[rank[index] - 1].SetText("No.1!!");
+                break;
+            case 2:
+                Rank[rank[index] - 1].SetText("No.2");
+                break;
+            case 3:
+                Rank[rank[index] - 1].SetText("No.3");
+                break;
+            case 4:
+                Rank[rank[index] - 1].SetText("No.4");
+                break;
+        }
+        player[index].transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+    }
+
+    private void SetPlayerRank()
+    {
+        if (index == 5) { return; }
+
+        if (timeCnt >= createCnt * index)
+        {
+            if (index < 4)
+            {
+                SetPlayer(index);
+                audioSource.PlayOneShot(SE_don);
+                index++;
+            }
+            else if (index == 4)
+            {
+                Txt_ty.SetText("Thank You for Playing!!!");
+                audioSource.PlayOneShot(SE_clap);
+                index++;
+            }
+        }
     }
 }
