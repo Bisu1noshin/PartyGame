@@ -8,7 +8,12 @@ using System.Linq;
 public class ResultSceneManager : InGameManeger
 {
     [SerializeField] TextMeshProUGUI[] Rank = new TextMeshProUGUI[4];
+    [SerializeField] TextMeshProUGUI Txt_ty;
     private GameInformationPlayer[] _player = default;　// playerの派生クラス
+
+    AudioSource audioSource;
+    [SerializeField] AudioClip SE_don;
+    [SerializeField] AudioClip SE_clap;
 
     private int[] rank = new int[4] { -1, -1, -1, -1 }; //Pl0~3に順位番号が入る
     private bool[] isSet = new bool[4] { false, false, false, false };
@@ -51,6 +56,8 @@ public class ResultSceneManager : InGameManeger
                        );
             }
         }
+
+        audioSource = GetComponent<AudioSource>();
 
         // playerの召喚
         {
@@ -97,6 +104,7 @@ public class ResultSceneManager : InGameManeger
         {
             GamingColor(Rank[i]);
         }
+        GamingColor(Txt_ty);
 
         timeCnt += Time.deltaTime;
 
@@ -233,13 +241,22 @@ public class ResultSceneManager : InGameManeger
 
     private void SetPlayerRank()
     {
-        if (index == 4) { return; }
+        if (index == 5) { return; }
 
         if (timeCnt >= createCnt * index)
         {
-
-            SetPlayer(index);
-            index++;
+            if (index < 4)
+            {
+                SetPlayer(index);
+                audioSource.PlayOneShot(SE_don);
+                index++;
+            }
+            else if (index == 4)
+            {
+                Txt_ty.SetText("Thank You for Playing!!!");
+                audioSource.PlayOneShot(SE_clap);
+                index++;
+            }
         }
     }
 }
