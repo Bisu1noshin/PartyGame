@@ -36,6 +36,7 @@ public class Ooo_SceneManager : InGameManeger
     [SerializeField] TMP_Text[] scoreText = new TMP_Text[PLAYER_CNT]; //プレイヤースコアText
     [SerializeField] TMP_Text[] escapeMashText = new TMP_Text[PLAYER_CNT]; // Bボタン連打テキスト
     private string text;
+   
 
     protected override Type SetPlayerScript()
     {
@@ -113,6 +114,7 @@ public class Ooo_SceneManager : InGameManeger
         //---------------インゲーム処理---------------
         if (status == GameStatus.play)
         {
+            
             timer -= Time.deltaTime;
             text_Timer.text = "Time: " + timer.ToString("F0");
 

@@ -16,7 +16,7 @@ public class Ooo_waterbombNew : MonoBehaviour
         rend = GetComponentsInChildren<Renderer>();
         audioSource = gameObject.AddComponent<AudioSource>();
         
-        explodeSound = Resources.Load<AudioClip>("Ooo/explode");
+        explodeSound = Resources.Load<AudioClip>("Ooo/Audio/explode");
         StartCoroutine(ExplodeRoutine());
     }
 
