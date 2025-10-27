@@ -10,6 +10,7 @@ public class Onishi_TestPlayer : PlayerParent
     int bombCnt = 0; //手榴弾
     private GameObject AtkBomb_Prefab; //爆弾のプレファブ
     private GameObject SetBomb; //実体化した爆弾 自発的に爆発させる
+    private AudioClip SE_PutBomb; //爆弾設置時の効果音
     
     IOnishi_SceneInterface sceneManager; //シーンマネージャー
 
@@ -21,6 +22,7 @@ public class Onishi_TestPlayer : PlayerParent
     {
         //リソースの設定
         AtkBomb_Prefab = Resources.Load<GameObject>("Onishi/AtkBombPrefab");
+        SE_PutBomb = Resources.Load<AudioClip>("Sound/SE/Lighter05-01(Open)");
 
         //自分の名前を設定
         this.gameObject.name = "player" + (playerInput.playerIndex + 1).ToString();
