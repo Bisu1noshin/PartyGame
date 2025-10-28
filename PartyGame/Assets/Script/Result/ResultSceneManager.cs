@@ -248,13 +248,13 @@ public class ResultSceneManager : InGameManeger
             if (index < 4)
             {
                 SetPlayer(index);
-                audioSource.PlayOneShot(SE_don);
+                AudioSource.PlayClipAtPoint(SE_don, Camera.main.transform.position);
                 index++;
             }
             else if (index == 4)
             {
                 Txt_ty.SetText("Thank You for Playing!!!");
-                audioSource.PlayOneShot(SE_clap);
+                AudioSource.PlayClipAtPoint(SE_clap, Camera.main.transform.position);
                 index++;
             }
         }
