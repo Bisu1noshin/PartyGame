@@ -21,7 +21,7 @@ public class Onishi_BombShoot : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         Ef_Bomb = Resources.Load<GameObject>("Onishi/Ef_Bomb");
-        audioSource.PlayOneShot(SE_Put);
+        AudioSource.PlayClipAtPoint(SE_Put, Camera.main.transform.position, 1.0f);
     }
 
     void Update()
@@ -39,13 +39,13 @@ public class Onishi_BombShoot : MonoBehaviour
     public async void Explosion()
     {
         collider.enabled = true;
-        audioSource.PlayOneShot(SE_Bomb);
+        AudioSource.PlayClipAtPoint(SE_Bomb, Camera.main.transform.position, 1.0f);
         await Task.Delay(25); //当たり判定を取るため一瞬待つ
         //爆発エフェクト
         GameObject go = Ef_Bomb;
         Vector3 pos = this.transform.position;
         Instantiate(go, pos, Quaternion.identity);
-
+        
         Destroy(gameObject);
     }
 
