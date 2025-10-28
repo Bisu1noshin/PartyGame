@@ -10,7 +10,7 @@ public class ReadyState : IState
     public void Start()
     {
         GameObject go = Kameda_UIManager.Create(Resources.Load("Font/CountDown") as GameObject, "TimeCount");
-        go.transform.localPosition = new(0, 220, 0);
+        go.transform.localPosition = new(0, 510, 0);
         go.transform.localScale = new(1, 1.5f, 1);
         Kameda_UIManager.Create(Resources.Load("Font/Text_Start") as GameObject);
         m_Phase = StatePhase.Update;
